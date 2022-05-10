@@ -48,7 +48,7 @@ with coluna_inicial_1:
 #
 url = 'http://sia:3000/backend/busca_generica/buscaGenerica?view=MGCLI.AGDTI_VW_DX_BALANCEAMENTO_PH'
         #st.session_state.url = url
-url =  st.session_state.url   
+#url =  st.session_state.url   
 variaveis_df = pd.read_json(url) 
 
 #variaveis_df
