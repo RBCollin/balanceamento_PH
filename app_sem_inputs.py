@@ -347,7 +347,7 @@ if pagina_selecionada == 'Balanceamento e produtividade':
     ritmo_embaladeira = ((b['Horas_4kg'].sum()  / embaladeira) * (1/24))*100
     diferenca_aceitavel = abs(round((ritmo_embaladeira - ritmo_talo),3))
 
-    corte_talo2 = corte_talo-1
+    corte_talo2 = corte_talo
     ritmo_talo_2 = ((((caixotes * avg_frutos_caixotes) / corte_talo2) / (4200 * produtividade_talo)) * (1/24))
         
         
@@ -355,11 +355,11 @@ if pagina_selecionada == 'Balanceamento e produtividade':
 
                 if (ritmo_talo) < (ritmo_embaladeira):
                     caixotes_hora = round((caixotes*0.0416667)/(ritmo_talo_2))
-                    #caixotes_hora
+                    #ritmo_talo_2
                     Limpeza_selecao = round((caixotes_hora * avg_frutos_caixotes * 0.6) / (3230 * produtividade_limpeza))
                     ton_horas = round(((b['Caixas_total'].sum()*4.05)/1000)/(b['Horas_4kg'].sum()/embaladeira),2)
 
-                    st.write('#### Quantidade ideal de pessoas no talo:', round(corte_talo-1))
+                    st.write('#### Quantidade ideal de pessoas no talo:', corte_talo2)
                     st.write('#### Quantidade de pessoas na limpeza e seleção:', Limpeza_selecao)
                     st.write('#### Capacidade de Caixotes/Hora:', caixotes_hora)
                     st.write('#### Capacidade de Toneladas/Hora:', ton_horas)
@@ -378,7 +378,7 @@ if pagina_selecionada == 'Balanceamento e produtividade':
                     st.write('#### Quantidade de pessoas na limpeza e seleção:', Limpeza_selecao2)
                     st.write('#### Capacidade de Caixotes/Hora:', caixotes_hora2)
                     st.write('#### Capacidade de Toneladas/Hora:', ton_horas)
-                    st.session_state.caixotes_hora2 = caixotes_hora2
+                    st.session_state.caixotes_hora = caixotes_hora2
                     st.session_state.ton_horas = ton_horas
                     #Limpeza_selecao2 = round((caixotes_hora2 * avg_frutos_caixotes * 0.6) / (3230 * produtividade_limpeza))
                     #st.write('Quantidade de pessoas na limpeza e seleção tem que ser de:', Limpeza_selecao2)
@@ -424,7 +424,7 @@ elif pagina_selecionada == 'Linhas de embalagem':
     caixotes_hora = st.session_state.caixotes_hora
     controle2 = st.session_state.controle
     ton_horas = st.session_state.ton_horas
-    
+    #caixotes_hora2 = st.session_state.caixotes_hora2 = caixotes_hora2
     col1, col2, col3, col4 = st.columns([0.5,1,1,1])
     col1.write("")
     col2.metric(label="Controle", value= controle2, delta= VARIEDADE)
@@ -561,7 +561,7 @@ elif pagina_selecionada == 'Linhas de embalagem':
     ritmo_embaladeira = ((b['Horas_4kg'].sum()  / embaladeira) * (1/24))*100
     diferenca_aceitavel = abs(round((ritmo_embaladeira - ritmo_talo),3))
     
-    corte_talo2 = corte_talo-1
+    corte_talo2 = corte_talo
     ritmo_talo_2 = ((((caixotes * avg_frutos_caixotes) / corte_talo2) / (4200 * produtividade_talo)) * (1/24))
 
     def equilibrio(corte_talo, embaladeira):
@@ -570,7 +570,7 @@ elif pagina_selecionada == 'Linhas de embalagem':
 
             caixotes_hora = round((caixotes*0.0416667)/(ritmo_talo_2))
                 #caixotes_hora
-            st.write("A quantidade ideal de pessoas no talo tem que ser:", round(corte_talo-1))
+            st.write("A quantidade ideal de pessoas no talo tem que ser:", corte_talo2)
             st.write('Capacidade de caixotes/hora no corte de talo é de:', caixotes_hora)
             st.write('Capacidade de Toneladas/Horas é de:', round(((b['Caixas_total'].sum()*4.05)/1000)/(b['Horas_4kg'].sum()/embaladeira),2))
             Limpeza_selecao = round((caixotes_hora * avg_frutos_caixotes * 0.6) / (3230 * produtividade_limpeza))
