@@ -1,10 +1,8 @@
 
-#from distutils.log import error
 from math import ceil
 import streamlit as st
 import pandas as pd
 import numpy as np
-#from tblib import Traceback
 
 
 
@@ -46,13 +44,15 @@ with coluna_inicial_2:
     st.write('')
     if st.button('Atualizar Controle'):
         url = 'http://177.52.21.58:3000/backend/busca_generica/buscaGenerica?view=MGCLI.AGDTI_VW_DX_BALANCEAMENTO_PH'
-          # http://177.52.21.58:3000/backend/busca_generica/buscaGenerica?view=MGCLI.AGDTI_VW_DX_BALANCEAMENTO_PH
         url_embaladeiras_ativas = 'http://177.52.21.58:3000/backend/busca_generica/buscaGenerica?view=MGCLI.AGDTI_VW_DX_EMB_ATIVAS'
         st.session_state.url = url
         st.session_state.url_embala = url_embaladeiras_ativas
 
 url =  st.session_state.url 
 variaveis_df = pd.read_json(url)
+
+
+#variaveis_df = pd.read_json("http://sia:3000/backend/busca_generica/buscaGenerica?view=MGCLI.AGDTI_VW_DX_BALANCEAMENTO_PH") 
 
 #variaveis_df
 
@@ -166,7 +166,9 @@ variedade = VARIEDADE
 
 
 padrao_embaldeiras_total = pd.read_excel('padrao_embaladeiras_TUDO_cenarios.xlsx')
-url_embaladeiras_ativas = 'http://sia:3000/backend/busca_generica/buscaGenerica?view=MGCLI.AGDTI_VW_DX_EMB_ATIVAS'
+
+url_embaladeiras_ativas = st.session_state.url_embala 
+
 df_embaladeiras_ativas = pd.read_json(url_embaladeiras_ativas)
 df_embaladeiras_ativas.rename(columns = {'CPF':'MATRICULA'}, inplace = True)
     
