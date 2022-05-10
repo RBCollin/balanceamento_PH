@@ -41,12 +41,13 @@ coluna_inicial_1, coluna_inicial_2 = st.columns([0.8,1])
 with coluna_inicial_1:
     st.title('Packing House - Linhas de Embalagem')
 
-with coluna_inicial_2:
-    st.write('')
-    st.write('')
-    if st.button('Atualizar Controle'):
-        url = 'http://sia:3000/backend/busca_generica/buscaGenerica?view=MGCLI.AGDTI_VW_DX_BALANCEAMENTO_PH'
-        st.session_state.url = url
+#with coluna_inicial_2:
+   # st.write('')
+    #st.write('')
+  #  if st.button('Atualizar Controle'):
+#
+url = 'http://sia:3000/backend/busca_generica/buscaGenerica?view=MGCLI.AGDTI_VW_DX_BALANCEAMENTO_PH'
+        #st.session_state.url = url
 url =  st.session_state.url   
 variaveis_df = pd.read_json(url) 
 
