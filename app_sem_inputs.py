@@ -50,7 +50,7 @@ with coluna_inicial_2:
 
 url =  st.session_state.url 
 variaveis_df = pd.read_json(url)
-
+#variaveis_df
 
 #variaveis_df = pd.read_json("http://sia:3000/backend/busca_generica/buscaGenerica?view=MGCLI.AGDTI_VW_DX_BALANCEAMENTO_PH") 
 
@@ -144,6 +144,20 @@ quality = quality.reset_index()
 quality.columns = ['Qualidade','Percent']
 
 
+qualidade_calibres = dataset.groupby('Calibre')['Qualidade'].value_counts() / dataset.groupby('Calibre')['Qualidade'].count()
+#qualidade_calibres
+
+
+qualidade_calibres2 = pd.pivot_table(dataset, index = ['Calibre','Qualidade'])
+qualidade_calibres3 = qualidade_calibres2.reset_index()
+#qualidade_calibres3
+
+
+qualidade_calibres4 = qualidade_calibres3.groupby('Calibre')['Qualidade'].value_counts() / qualidade_calibres3.groupby('Calibre')['Qualidade'].count()
+#qualidade_calibres4
+
+
+
 primeira_percent = quality[quality.Qualidade==1].Percent.item()
 segunda_percent = quality[quality.Qualidade==2].Percent.item()
 terceira_percent = quality[quality.Qualidade==3].Percent.item()
@@ -159,10 +173,6 @@ produtividade_limpeza = 0.75
 caixotes = Caixotes
 variedade = VARIEDADE 
 #b['Calibre'] == 5
-
-
-
-
 
 
 padrao_embaldeiras_total = pd.read_excel('padrao_embaladeiras_TUDO_cenarios.xlsx')
@@ -420,12 +430,13 @@ if pagina_selecionada == 'Balanceamento e produtividade':
 
 
 elif pagina_selecionada == 'Linhas de embalagem':
-
+    
     caixotes_hora = st.session_state.caixotes_hora
     controle2 = st.session_state.controle
     ton_horas = st.session_state.ton_horas
     #caixotes_hora2 = st.session_state.caixotes_hora2 = caixotes_hora2
-    col1, col2, col3, col4 = st.columns([0.5,1,1,1])
+    col1, col2, col3, col4 = st.columns([1,1,1,1])
+
     col1.write("")
     col2.metric(label="Controle", value= controle2, delta= VARIEDADE)
     col3.metric(label="Caixotes/Hora", value= caixotes_hora, delta= None)
@@ -433,7 +444,7 @@ elif pagina_selecionada == 'Linhas de embalagem':
     
     
 
-    col11,col22, col33 = st.columns([0.015,0.5,0.5])
+    col11,col22, col33 = st.columns([0.4,0.4,0.4])
     coluna1, coluna2 = st.columns(2)
 
     col1, col2 = st.columns([0.01,1])
@@ -1479,10 +1490,24 @@ elif pagina_selecionada == 'Linhas de embalagem':
     Layout_linha_7['Setores'] = Layout_linha_7['Setores'].astype(str)
     
     #coluna_1, coluna_2 = st.columns([1,1])
+    import plotly.express as px
+    import plotly.graph_objects as go
+    
+    with col11:
+        st.write("")
+        st.info('##### Percentuais de qualidade:')
+        fig = go.Figure(data=[go.Pie(labels = quality['Qualidade'], values = quality['Percent'], marker_colors = px.colors.sequential.Tealgrn ,hole = .35, pull=0.025)])
+        #fig = px.pie(b, names = 'Calibre Name', values = 'Percentual', hole = .35)
+        fig.update_traces(textinfo='label+percent', textfont_size=15, textposition="inside")
+        fig.update_layout(height = 450, width = 450, font = dict(size = 15))
+        #fig.update_traces(textinfo='label+percent', textfont_size=20, textposition="inside")
+        st.plotly_chart(fig) 
+
+
     with col22:
         st.write(" ")
         st.info('##### Quantidade de embaladeiras por setor:')
-        import plotly.express as px
+        #import plotly.express as px
         df_setores = round(Layout_linha_7.groupby('Setores')['Embaladeiras'].sum(),2)
 
         df_setores = df_setores.reset_index()
@@ -1640,6 +1665,7 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     st.session_state.media_a = media_a
                     aa = px.bar(a,y = 'Caixas/Hora', color = 'ID_PESSOA', title = 'Palmer - Calibre 5',hover_name = 'PESSOA',color_discrete_sequence= px.colors.sequential.Aggrnyl )
                     aa.update_yaxes(range = [a['Caixas/Hora'].min()-10,a['Caixas/Hora'].max()])
+                    aa.add_hline(229)
                     aa.update_layout(height = 350, width = 350)
                     
 
@@ -1677,6 +1703,7 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     st.session_state.media_b = media_b
                     bb = px.bar(b,y = 'Caixas/Hora', color = 'ID_PESSOA', title = 'Palmer - Calibre 6',hover_name = 'PESSOA',color_discrete_sequence= px.colors.sequential.Aggrnyl )
                     bb.update_yaxes(range = [b['Caixas/Hora'].min()-10,b['Caixas/Hora'].max()])
+                    bb.add_hline(169)
                     bb.update_layout(height = 350, width = 350)
 
                 elif elem == 7.0:
@@ -1718,6 +1745,9 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     st.session_state.media_c = media_c
                     cc = px.bar(c,y = 'Caixas/Hora', color = 'ID_PESSOA', title = 'Palmer - Calibre 7',hover_name = 'PESSOA',color_discrete_sequence= px.colors.sequential.Aggrnyl )
                     cc.update_yaxes(range = [c['Caixas/Hora'].min()-10,c['Caixas/Hora'].max()])
+
+                    cc.add_hline(174)
+
                     cc.update_layout(height = 350, width = 350)
 
                 elif elem == 8.0:
@@ -1760,6 +1790,7 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     st.session_state.media_d = media_d
                     dd = px.bar(d,y = 'Caixas/Hora', color = 'ID_PESSOA', title = 'Palmer - Calibre 8',hover_name = 'PESSOA',color_discrete_sequence= px.colors.sequential.Aggrnyl )
                     dd.update_yaxes(range = [d['Caixas/Hora'].min()-10,d['Caixas/Hora'].max()])
+                    dd.add_hline(189)
                     dd.update_layout(height = 350, width = 350)
                     
 
@@ -1808,6 +1839,7 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     st.session_state.media_e = media_e
                     ee = px.bar(e,y = 'Caixas/Hora', color = 'ID_PESSOA', title = 'Palmer - Calibre 9',hover_name = 'PESSOA',color_discrete_sequence= px.colors.sequential.Aggrnyl )
                     ee.update_yaxes(range = [e['Caixas/Hora'].min()-10,e['Caixas/Hora'].max()])
+                    ee.add_hline(157)
                     ee.update_layout(height = 350, width = 350)
 
                 elif elem == 10.0:
@@ -1857,6 +1889,7 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     st.session_state.media_f = media_f
                     ff = px.bar(f,y = 'Caixas/Hora', color = 'ID_PESSOA', title = 'Palmer - Calibre 10', hover_name = 'PESSOA',color_discrete_sequence= px.colors.sequential.Aggrnyl )
                     ff.update_yaxes(range = [f['Caixas/Hora'].min()-10,f['Caixas/Hora'].max()])
+                    ff.add_hline(139)
                     ff.update_layout(height = 350, width = 350)
                     
                     
@@ -1908,6 +1941,7 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     st.session_state.media_g = media_g
                     gg = px.bar(g,y = 'Caixas/Hora', color = 'ID_PESSOA', title = 'Palmer - Calibre 12',hover_name = 'PESSOA',color_discrete_sequence= px.colors.sequential.Aggrnyl )
                     gg.update_yaxes(range = [g['Caixas/Hora'].min()-10,g['Caixas/Hora'].max()])
+                    gg.add_hline(149)
                     gg.update_layout(height = 350, width = 350)
                 
                 elif elem == 14.0:
@@ -1980,6 +2014,7 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     a['ID_PESSOA'] = a['ID_PESSOA'].astype(str)
                     aa = px.bar(a,y = 'Caixas/Hora', color = 'ID_PESSOA', title = 'Kent - Calibre 5',hover_name = 'PESSOA', color_discrete_sequence= px.colors.sequential.Aggrnyl )
                     aa.update_yaxes(range = [a['Caixas/Hora'].min()-10,a['Caixas/Hora'].max()])
+                    
                     aa.update_layout(height = 350, width = 350)
 
                 elif elem == 6.0:
@@ -2252,6 +2287,7 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     a['ID_PESSOA'] = a['ID_PESSOA'].astype(str)
                     aa = px.bar(a,y = 'Caixas/Hora', color = 'ID_PESSOA', title = 'Keitt - Calibre 5',hover_name = 'PESSOA',color_discrete_sequence= px.colors.sequential.Aggrnyl )
                     aa.update_yaxes(range = [a['Caixas/Hora'].min()-10,a['Caixas/Hora'].max()])
+                    aa.add_hline(517)
                     aa.update_layout(height = 350, width = 350)
 
                 elif elem == 6.0:
@@ -2282,6 +2318,7 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     b['ID_PESSOA'] = b['ID_PESSOA'].astype(str)
                     bb = px.bar(b,y = 'Caixas/Hora', color = 'ID_PESSOA', title = 'Keitt - Calibre 6',hover_name = 'PESSOA',color_discrete_sequence= px.colors.sequential.Aggrnyl )
                     bb.update_yaxes(range = [b['Caixas/Hora'].min()-10,b['Caixas/Hora'].max()])
+                    bb.add_hline(412)
                     bb.update_layout(height = 350, width = 350)
 
                 elif elem == 7.0:
@@ -2314,6 +2351,7 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     c['ID_PESSOA'] = c['ID_PESSOA'].astype(str)
                     cc = px.bar(c,y = 'Caixas/Hora', color = 'ID_PESSOA', title = 'Keitt - Calibre 7',hover_name = 'PESSOA',color_discrete_sequence= px.colors.sequential.Aggrnyl )
                     cc.update_yaxes(range = [c['Caixas/Hora'].min()-10,c['Caixas/Hora'].max()])
+                    cc.add_hline(321)
                     cc.update_layout(height = 350, width = 350)
 
                 elif elem == 8.0:
@@ -2351,6 +2389,7 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     d['ID_PESSOA'] = d['ID_PESSOA'].astype(str)
                     dd = px.bar(d,y = 'Caixas/Hora', color = 'ID_PESSOA',title = 'Keitt - Calibre 8',hover_name = 'PESSOA',color_discrete_sequence= px.colors.sequential.Aggrnyl )
                     dd.update_yaxes(range = [d['Caixas/Hora'].min()-10,d['Caixas/Hora'].max()])
+                    dd.add_hline(301)
                     dd.update_layout(height = 350, width = 350)
 
                 elif elem == 9.0:
@@ -2388,6 +2427,7 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     e['ID_PESSOA'] = e['ID_PESSOA'].astype(str)
                     ee = px.bar(e,y = 'Caixas/Hora', color = 'ID_PESSOA', title = 'Keitt - Calibre 9' ,hover_name = 'PESSOA',color_discrete_sequence= px.colors.sequential.Aggrnyl)
                     ee.update_yaxes(range = [e['Caixas/Hora'].min()-10,e['Caixas/Hora'].max()])
+                    ee.add_hline(257)
                     ee.update_layout(height = 350, width = 350)
                 elif elem == 10.0:
 
@@ -2426,6 +2466,7 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     f['ID_PESSOA'] = f['ID_PESSOA'].astype(str)
                     ff = px.bar(f,y = 'Caixas/Hora', color = 'ID_PESSOA', title = 'Keitt - Calibre 10',hover_name = 'PESSOA',color_discrete_sequence= px.colors.sequential.Aggrnyl )
                     ff.update_yaxes(range = [f['Caixas/Hora'].min()-10,f['Caixas/Hora'].max()])
+                    ff.add_hline(261)
                     ff.update_layout(height = 350, width = 350)
                 elif elem == 12.0:
 
@@ -2466,6 +2507,7 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     g['ID_PESSOA'] = g['ID_PESSOA'].astype(str)
                     gg = px.bar(g,y = 'Caixas/Hora', color = 'ID_PESSOA', title = 'Keitt - Calibre 12' ,hover_name = 'PESSOA',color_discrete_sequence= px.colors.sequential.Aggrnyl)
                     gg.update_yaxes(range = [g['Caixas/Hora'].min()-10,g['Caixas/Hora'].max()])
+                    gg.add_hline(253)
                     gg.update_layout(height = 350, width = 350)
                 elif elem == 14.0:
                     kl = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
@@ -2530,6 +2572,7 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     a['ID_PESSOA'] = a['ID_PESSOA'].astype(str)
                     aa = px.bar(a,y = 'Caixas/Hora', color = 'ID_PESSOA', title = 'Tommy Atkins - Calibre 5',hover_name = 'PESSOA', color_discrete_sequence= px.colors.sequential.Aggrnyl)
                     aa.update_yaxes(range = [a['Caixas/Hora'].min()-10,a['Caixas/Hora'].max()])
+                    aa.add_hline(235)
                     aa.update_layout(height = 350, width = 350)
 
                 elif elem == 6.0:
@@ -2558,6 +2601,7 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     b['ID_PESSOA'] = b['ID_PESSOA'].astype(str)
                     bb = px.bar(b,y = 'Caixas/Hora', color = 'ID_PESSOA', title = 'Tommy Atkins - Calibre 6',hover_name = 'PESSOA',color_discrete_sequence= px.colors.sequential.Aggrnyl)
                     bb.update_yaxes(range = [b['Caixas/Hora'].min()-10,b['Caixas/Hora'].max()])
+                    bb.add_hline(178)
                     bb.update_layout(height = 350, width = 350)
 
                 elif elem == 7.0:
@@ -2592,6 +2636,7 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     c['ID_PESSOA'] = c['ID_PESSOA'].astype(str)
                     cc = px.bar(c,y = 'Caixas/Hora', color = 'ID_PESSOA', title = 'Tommy Atkins - Calibre 7', hover_name = 'PESSOA',color_discrete_sequence= px.colors.sequential.Aggrnyl)
                     cc.update_yaxes(range = [c['Caixas/Hora'].min()-10,c['Caixas/Hora'].max()])
+                    cc.add_hline(185)
                     cc.update_layout(height = 350, width = 350)
 
                 elif elem == 8.0:
@@ -2625,6 +2670,7 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     d['ID_PESSOA'] = d['ID_PESSOA'].astype(str)
                     dd = px.bar(d,y = 'Caixas/Hora', color = 'ID_PESSOA', title = 'Tommy Atkins - Calibre 8',hover_name = 'PESSOA',color_discrete_sequence= px.colors.sequential.Aggrnyl)
                     dd.update_yaxes(range = [d['Caixas/Hora'].min()-10,d['Caixas/Hora'].max()])
+                    dd.add_hline(195)
                     dd.update_layout(height = 350, width = 350)
 
                 elif elem == 9.0:
@@ -2661,6 +2707,7 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     e['ID_PESSOA'] = e['ID_PESSOA'].astype(str)
                     ee = px.bar(e,y = 'Caixas/Hora', color = 'ID_PESSOA', title = 'Tommy Atkins - Calibre 9',hover_name = 'PESSOA',color_discrete_sequence= px.colors.sequential.Aggrnyl)
                     ee.update_yaxes(range = [e['Caixas/Hora'].min()-10,e['Caixas/Hora'].max()])
+                    ee.add_hline(154)
                     ee.update_layout(height = 350, width = 350)
 
                 elif elem == 10.0:
@@ -2698,6 +2745,7 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     f['ID_PESSOA'] = f['ID_PESSOA'].astype(str)
                     ff = px.bar(f,y = 'Caixas/Hora', color = 'ID_PESSOA', title = 'Tommy Atkins - Calibre 10',hover_name = 'PESSOA',color_discrete_sequence= px.colors.sequential.Aggrnyl)
                     ff.update_yaxes(range = [f['Caixas/Hora'].min()-10,f['Caixas/Hora'].max()])
+                    ff.add_hline(144)
                     ff.update_layout(height = 350, width = 350)
 
                 elif elem == 12.0:
@@ -2738,6 +2786,7 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     g['ID_PESSOA'] = g['ID_PESSOA'].astype(str)
                     gg = px.bar(g,y = 'Caixas/Hora', color = 'ID_PESSOA', title = 'Tommy Atkins  - Calibre 12',hover_name = 'PESSOA',color_discrete_sequence= px.colors.sequential.Aggrnyl)
                     gg.update_yaxes(range = [g['Caixas/Hora'].min()-10,g['Caixas/Hora'].max()])
+                    gg.add_hline(158)
                     gg.update_layout(height = 350, width = 350)
 
                 elif elem == 14.0:
@@ -2778,6 +2827,7 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     h['ID_PESSOA'] = h['ID_PESSOA'].astype(str)
                     hh = px.bar(h,y = 'Caixas/Hora', color = 'ID_PESSOA', title = 'Tommy Atkins - Calibre 14',hover_name = 'PESSOA',color_discrete_sequence= px.colors.sequential.Aggrnyl)
                     hh.update_yaxes(range = [h['Caixas/Hora'].min()-10,h['Caixas/Hora'].max()])
+                    hh.add_hline(90)
                     hh.update_layout(height = 350, width = 350)
 
 
