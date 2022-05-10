@@ -41,21 +41,18 @@ coluna_inicial_1, coluna_inicial_2 = st.columns([0.8,1])
 with coluna_inicial_1:
     st.title('Packing House - Linhas de Embalagem')
 
-#with coluna_inicial_2:
-    #st.write('')
-    #st.write('')
-    #if st.button('Atualizar Controle'):
-#url = 'http://sia:3000/backend/busca_generica/buscaGenerica?view=MGCLI.AGDTI_VW_DX_BALANCEAMENTO_PH'
-        #st.session_state.url = url
-#url =  st.session_state.url   
-def load_data():
-    url = "http://sia:3000/backend/busca_generica/buscaGenerica?view=MGCLI.AGDTI_VW_DX_BALANCEAMENTO_PH"
-    html = pd.read_json(url)
-    df = html
-    return df
+with coluna_inicial_2:
+    st.write('')
+    st.write('')
+    if st.button('Atualizar Controle'):
+        url = 'http://sia:3000/backend/busca_generica/buscaGenerica?view=MGCLI.AGDTI_VW_DX_BALANCEAMENTO_PH'
+     # http://177.52.21.58:3000/backend/busca_generica/buscaGenerica?view=MGCLI.AGDTI_VW_DX_BALANCEAMENTO_PH
+        url_embaladeiras_ativas = 'http://177.52.21.58:3000/backend/busca_generica/buscaGenerica?view=MGCLI.AGDTI_VW_DX_EMB_ATIVAS'
+        st.session_state.url = url
+        st.session_state.url_embala = url_embaladeiras_ativas
 
-df = load_data()
-variaveis_df = df
+url =  st.session_state.url 
+variaveis_df = pd.read_json(url)
 
 #variaveis_df
 
