@@ -5,3 +5,5 @@ Pillow==9.1.0
 plotly==5.4.0
 streamlit==1.7.0
 openpyxl
+lxml
+base58
