@@ -1496,7 +1496,7 @@ elif pagina_selecionada == 'Linhas de embalagem':
     with col11:
         st.write("")
         st.info('##### Percentuais de qualidade:')
-        fig = go.Figure(data=[go.Pie(labels = quality['Qualidade'], values = quality['Percent'], marker_colors = px.colors.sequential.Tealgrn ,hole = .35, pull=0.025)])
+        fig = go.Figure(data=[go.Pie(labels = quality['Qualidade'], values = quality['Percent'], marker_colors = px.colors.sequential.Emrld ,hole = .35, pull=0.025)])
         #fig = px.pie(b, names = 'Calibre Name', values = 'Percentual', hole = .35)
         fig.update_traces(textinfo='label+percent', textfont_size=15, textposition="inside")
         fig.update_layout(height = 450, width = 450, font = dict(size = 15))
