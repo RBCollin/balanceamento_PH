@@ -444,7 +444,7 @@ elif pagina_selecionada == 'Linhas de embalagem':
     
     
 
-    col11,col22, col33 = st.columns([0.4,0.4,0.4])
+    col11,col22, col33 = st.columns([0.3,0.4,0.4])
     coluna1, coluna2 = st.columns(2)
 
     col1, col2 = st.columns([0.01,1])
