@@ -2885,7 +2885,7 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
 
         fig4 = px.bar(Layout_linha_9, x = 'Linha', y = 'Embaladeiras', color = 'Calibre - Qualidade', text = 'Embaladeiras',color_discrete_sequence= px.colors.sequential.Oranges ,
         category_orders={"Calibre":['5.0','6.0','7.0','8.0','9.0','10.0','12.0','14.0']}, hover_name = 'Linha')
-        fig4.update_layout(height = 450, width = 550, uniformtext_minsize=8, uniformtext_mode='show', font = dict(size = 15))
+        fig4.update_layout(height = 450, width = 550, uniformtext_minsize=10, uniformtext_mode='show', font = dict(size = 15))
         fig4.update_traces(textfont_size=14, textangle=0, textposition="outside", cliponaxis=False)
         
         st.plotly_chart(fig4)
