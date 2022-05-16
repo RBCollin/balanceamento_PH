@@ -1,4 +1,5 @@
 
+from genericpath import exists
 from math import ceil
 import streamlit as st
 import pandas as pd
@@ -69,35 +70,108 @@ def correcao_(variaveis_df):
         return 'NADA'
 
 variaveis_df['VARIEDADE'] = variaveis_df.apply(correcao_, axis = 1)
-#variaveis_df
+variaveis_df.to_excel('teste_denilton.xlsx')
 
 
 def calibre(variaveis_df):
-    if variaveis_df['PESO'] > 886:
+    if variaveis_df['VARIEDADE'] == 'Palmer' and (variaveis_df['PESO'] <= 1130 and variaveis_df['PESO'] > 980):
         return '4'
-    elif variaveis_df['PESO'] < 885 and variaveis_df['PESO'] >= 751:
+    elif (variaveis_df['VARIEDADE'] == 'Palmer') and (variaveis_df['PESO'] <= 980 and variaveis_df['PESO'] > 777):
         return '5'
-    elif variaveis_df['PESO'] < 751 and variaveis_df['PESO'] >= 631:
+    elif (variaveis_df['VARIEDADE'] == 'Palmer') and (variaveis_df['PESO'] <= 777 and variaveis_df['PESO'] > 630):
         return '6'
-    elif variaveis_df['PESO'] < 631 and variaveis_df['PESO'] >= 561:
+    elif (variaveis_df['VARIEDADE'] == 'Palmer') and (variaveis_df['PESO'] <= 630 and variaveis_df['PESO'] > 557):
         return '7'
-    elif variaveis_df['PESO'] < 561 and variaveis_df['PESO'] >= 471:
+    elif (variaveis_df['VARIEDADE'] == 'Palmer') and (variaveis_df['PESO'] <= 557 and variaveis_df['PESO'] > 478):
         return '8'
-    elif variaveis_df['PESO'] < 471 and variaveis_df['PESO'] >= 430:
+    elif (variaveis_df['VARIEDADE'] == 'Palmer') and (variaveis_df['PESO'] <= 478 and variaveis_df['PESO'] > 438):
         return '9'
-    elif variaveis_df['PESO'] < 430 and variaveis_df['PESO'] >= 375:
+    elif (variaveis_df['VARIEDADE'] == 'Palmer') and (variaveis_df['PESO'] <= 438 and variaveis_df['PESO'] > 376):
         return '10'
-    elif variaveis_df['PESO'] < 375 and variaveis_df['PESO'] >= 294:
+    elif (variaveis_df['VARIEDADE'] == 'Palmer') and (variaveis_df['PESO'] <= 376 and variaveis_df['PESO'] > 295):
         return '12'
-    elif variaveis_df['PESO'] < 294 and variaveis_df['PESO'] >= 278:
+    elif (variaveis_df['VARIEDADE'] == 'Palmer') and (variaveis_df['PESO'] <= 295 and variaveis_df['PESO'] > 280):
         return '14'
-    elif variaveis_df['PESO'] <= 278:
-        return '16'
-    else:
-        'Refugo'
+    elif (variaveis_df['VARIEDADE'] == 'Palmer') and (variaveis_df['PESO'] <= 280):
+        return '0'
+    elif (variaveis_df['VARIEDADE'] == 'Palmer') and (variaveis_df['PESO'] > 1130):
+        return '100'
+    #################################################### TOMMY ATKINS #####################################################
+    elif variaveis_df['VARIEDADE'] == 'Tommy Atkins' and (variaveis_df['PESO'] <= 1200 and variaveis_df['PESO'] > 1000):
+        return '4'
+    elif (variaveis_df['VARIEDADE'] == 'Tommy Atkins') and (variaveis_df['PESO'] <= 1000 and variaveis_df['PESO'] > 880):
+        return '5'
+    elif (variaveis_df['VARIEDADE'] == 'Tommy Atkins') and (variaveis_df['PESO'] <= 880 and variaveis_df['PESO'] > 640):
+        return '6'
+    elif (variaveis_df['VARIEDADE'] == 'Tommy Atkins') and (variaveis_df['PESO'] <= 640 and variaveis_df['PESO'] > 557):
+        return '7'
+    elif (variaveis_df['VARIEDADE'] == 'Tommy Atkins') and (variaveis_df['PESO'] <= 557 and variaveis_df['PESO'] > 480):
+        return '8'
+    elif (variaveis_df['VARIEDADE'] == 'Tommy Atkins') and (variaveis_df['PESO'] <= 480 and variaveis_df['PESO'] > 442):
+        return '9'
+    elif (variaveis_df['VARIEDADE'] == 'Tommy Atkins') and (variaveis_df['PESO'] <= 442 and variaveis_df['PESO'] > 371):
+        return '10'
+    elif (variaveis_df['VARIEDADE'] == 'Tommy Atkins') and (variaveis_df['PESO'] <= 371 and variaveis_df['PESO'] > 296):
+        return '12'
+    elif (variaveis_df['VARIEDADE'] == 'Tommy Atkins') and (variaveis_df['PESO'] <= 296 and variaveis_df['PESO'] > 279):
+        return '14'
+    elif (variaveis_df['VARIEDADE'] == 'Tommy Atkins') and (variaveis_df['PESO'] <= 279):
+        return '0'
+    elif (variaveis_df['VARIEDADE'] == 'Tommy Atkins') and (variaveis_df['PESO'] > 1200):
+        return '100'
+        
+    #################################################### KEITT #####################################################
+
+    elif variaveis_df['VARIEDADE'] == 'Keitt' and (variaveis_df['PESO'] <= 1500 and variaveis_df['PESO'] > 880):
+        return '4'
+    elif (variaveis_df['VARIEDADE'] == 'Keitt') and (variaveis_df['PESO'] <= 880 and variaveis_df['PESO'] > 770):
+        return '5'
+    elif (variaveis_df['VARIEDADE'] == 'Keitt') and (variaveis_df['PESO'] <= 770 and variaveis_df['PESO'] > 622):
+        return '6'
+    elif (variaveis_df['VARIEDADE'] == 'Keitt') and (variaveis_df['PESO'] <= 622 and variaveis_df['PESO'] > 553):
+        return '7'
+    elif (variaveis_df['VARIEDADE'] == 'Keitt') and (variaveis_df['PESO'] <= 553 and variaveis_df['PESO'] > 476):
+        return '8'
+    elif (variaveis_df['VARIEDADE'] == 'Keitt') and (variaveis_df['PESO'] <= 476 and variaveis_df['PESO'] > 439):
+        return '9'
+    elif (variaveis_df['VARIEDADE'] == 'Keitt') and (variaveis_df['PESO'] <= 439 and variaveis_df['PESO'] > 385):
+        return '10'
+    elif (variaveis_df['VARIEDADE'] == 'Keitt') and (variaveis_df['PESO'] <= 385 and variaveis_df['PESO'] > 305):
+        return '12'
+    elif (variaveis_df['VARIEDADE'] == 'Keitt') and (variaveis_df['PESO'] <= 305 and variaveis_df['PESO'] > 279):
+        return '14'
+    elif (variaveis_df['VARIEDADE'] == 'Keitt') and (variaveis_df['PESO'] <= 279):
+        return '0'
+    elif (variaveis_df['VARIEDADE'] == 'Keitt') and (variaveis_df['PESO'] > 1500):
+        return '100'
+
+    #################################################### KENT #####################################################
+    elif variaveis_df['VARIEDADE'] == 'Kent' and (variaveis_df['PESO'] <= 1300 and variaveis_df['PESO'] > 930):
+        return '4'
+    elif (variaveis_df['VARIEDADE'] == 'Kent') and (variaveis_df['PESO'] <= 930 and variaveis_df['PESO'] > 760):
+        return '5'
+    elif (variaveis_df['VARIEDADE'] == 'Kent') and (variaveis_df['PESO'] <= 760 and variaveis_df['PESO'] > 626):
+        return '6'
+    elif (variaveis_df['VARIEDADE'] == 'Kent') and (variaveis_df['PESO'] <= 626 and variaveis_df['PESO'] > 545):
+        return '7'
+    elif (variaveis_df['VARIEDADE'] == 'Kent') and (variaveis_df['PESO'] <= 545 and variaveis_df['PESO'] > 476):
+        return '8'
+    elif (variaveis_df['VARIEDADE'] == 'Kent') and (variaveis_df['PESO'] <= 476 and variaveis_df['PESO'] > 444):
+        return '9'
+    elif (variaveis_df['VARIEDADE'] == 'Kent') and (variaveis_df['PESO'] <= 444 and variaveis_df['PESO'] > 375):
+        return '10'
+    elif (variaveis_df['VARIEDADE'] == 'Kent') and (variaveis_df['PESO'] <= 375 and variaveis_df['PESO'] > 303):
+        return '12'
+    elif (variaveis_df['VARIEDADE'] == 'Kent') and (variaveis_df['PESO'] <= 303 and variaveis_df['PESO'] > 269):
+        return '14'
+    elif (variaveis_df['VARIEDADE'] == 'Kent') and (variaveis_df['PESO'] <= 269):
+        return '0'
+    elif (variaveis_df['VARIEDADE'] == 'Kent') and (variaveis_df['PESO'] > 1300):
+        return '100'
+
 
 variaveis_df['CALIBRE'] = variaveis_df.apply(calibre, axis =1)
-#variaveis_df
+#variaveis_df.to_excel('teste_denilton.xlsx')
 
 ## melhor mudar s colunas do  df atual para opadrao do codgigo, e nao ao cnotratio
 
@@ -106,7 +180,8 @@ dataset = variaveis_df
 dataset.rename(columns = {"PESO":"Peso","CALIBRE":"Calibre","NUMERO_FRUTO":"Fruto","QUALIDADE":"Qualidade","VARIEDADE":"Variedade"}, inplace = True)
 
 
-avg_frutos_caixotes = dataset['N_CAIXOTE'].value_counts().sum() / len(dataset['N_CAIXOTE'].value_counts())
+avg_frutos_caixotes = round(dataset['N_CAIXOTE'].value_counts().sum() / len(dataset['N_CAIXOTE'].value_counts()))
+
 #avg_frutos_caixotes
 
 
@@ -114,10 +189,14 @@ Caixotes = dataset['CONTENTORES'][0].item()
 VARIEDADE = dataset['Variedade'][0]
 
 ######################################################## PLANILHA QUE SUBSTITUI OS INPUTS ########################################################
+#st.session_state_base_crua = dataset
+
+#dataset = dataset['Calibre'] != '4'
+#dataset
+#filtro = dataset['Qualidade'] != 4
+dataset = dataset #[filtro]
 
 #dataset
-filtro = dataset['Qualidade'] != 4
-dataset = dataset[filtro]
 
 dataset['Calibre'] = dataset['Calibre'].astype(int)
 a = dataset['Calibre'].value_counts() / dataset['Calibre'].count()
@@ -127,9 +206,11 @@ b.columns = ['Calibre', 'Percentual']
 b['Percentual'] = b['Percentual']*100
 b = b.sort_values('Calibre')
 
+st.session_state_base_crua = b
 
-filtro2 = dataset['Qualidade'] != 4
-dataset_2 = dataset[filtro2]
+
+#filtro2 = dataset['Qualidade'] != 4
+dataset_2 = dataset #[filtro2]
 aa = pd.DataFrame(dataset_2['Calibre'].value_counts())
 aa = aa.reset_index()
 aa.columns = ['Calibre','Qtde_mangas']
@@ -142,6 +223,18 @@ quality = dataset['Qualidade'].value_counts() / dataset['Qualidade'].count()
 quality = pd.DataFrame(quality)
 quality = quality.reset_index()
 quality.columns = ['Qualidade','Percent']
+#quality
+
+
+##################################################### 3 not in quality.Qualidade.values ###########################################################################
+
+result = quality.Qualidade.isin([3]).any().any()
+#result
+if result:
+    print(' ')
+else:
+    quality = quality.append({'Qualidade':3, 'Percent':0}, ignore_index=True)
+#quality
 
 
 qualidade_calibres = dataset.groupby('Calibre')['Qualidade'].value_counts() / dataset.groupby('Calibre')['Qualidade'].count()
@@ -149,18 +242,12 @@ qualidade_calibres = dataset.groupby('Calibre')['Qualidade'].value_counts() / da
 
 
 qualidade_calibres2 = pd.pivot_table(dataset, index = ['Calibre','Qualidade'])
-qualidade_calibres3 = qualidade_calibres2.reset_index()
-#qualidade_calibres3
-
-
-qualidade_calibres4 = qualidade_calibres3.groupby('Calibre')['Qualidade'].value_counts() / qualidade_calibres3.groupby('Calibre')['Qualidade'].count()
-#qualidade_calibres4
-
 
 
 primeira_percent = quality[quality.Qualidade==1].Percent.item()
 segunda_percent = quality[quality.Qualidade==2].Percent.item()
 terceira_percent = quality[quality.Qualidade==3].Percent.item()
+refugo_percent = quality[quality.Qualidade==4].Percent.item()
 
 #st.title('Packing House - Linhas de Embalagem')
 #st.markdown('___________________')
@@ -170,9 +257,11 @@ terceira_percent = quality[quality.Qualidade==3].Percent.item()
 produtividade_embaladeira = 0.75
 produtividade_talo = 0.80
 produtividade_limpeza = 0.75
+produtividade_limpeza2 = 0.75
 caixotes = Caixotes
 variedade = VARIEDADE 
 #b['Calibre'] == 5
+
 
 
 padrao_embaldeiras_total = pd.read_excel('padrao_embaladeiras_TUDO_cenarios.xlsx')
@@ -189,13 +278,7 @@ embaladeira = len(padrao_embaldeiras.groupby('PESSOA'))
 Programa_input = 'Entre Safra'
 st.session_state.emba_aviso = embaladeira
 
-
-
 coluna1, coluna2 = st.columns(2)
-
-#if controle not in st.session_state:   
-    #st.session_state.controle = 0
-#st.write(st.session_state.controle)
 
 with coluna1:
     from PIL import Image
@@ -213,38 +296,46 @@ pagina_selecionada = st.sidebar.radio('', ['Balanceamento e produtividade','Linh
 
 if pagina_selecionada == 'Balanceamento e produtividade':
 
-    #if st.button('Novo controle'):
-        #dataset['Controle'] = np.random.randint(5,109)                  ######################################################## CONTORLE
+    ############## CONTROLE ########################################################
+
     controle = variaveis_df['CONTROLE'][0]
     st.session_state.controle = controle
-
-    #st.session_state.controle = controle
+    
     controle2 = st.session_state.controle
     st.metric(label="Controle", value= controle2, delta= VARIEDADE)  
-    #st.write('A variedade é', VARIEDADE,'e controle:',controle2)
+    
 
     col2, col3 = st.columns([0.30,1])
-    #col1.subheader('Selecione a variedade de manga:')
-    #variedade = col1.selectbox('',['Keitt','Kent','Palmer','Tommy Atkins'])
+    
     emba_aviso = st.session_state.emba_aviso
-    #st.write('Balanceamento feito com a quantidade total de embaladeiras ativas:',emba_aviso)
+    
 
     with st.form(key='planilha'):
-        ## armazendnado em uma variavdl
-        coluna1_1, coluna2_2,coluna3_3 = st.columns([0.35,1,1])
-    #    coluna1_1.subheader("""Quantidade de embaladeiras disponíveis:""")
+        
+        coluna1_1, coluna2_2,coluna3_3, coluna4_4 = st.columns([0.4,0.05,0.8,1])
+        
         embaladeira_input = coluna1_1.number_input(label = 'Ajuste a quantidade de embaladeiras:', value = emba_aviso  , format = "%d", step = 1)
-        #fazenda = st.selectbox('Selecione a sua fazenda:', ['Bom Jesus','Brandões'
-        #coluna1_1.subheader(' Selecione o período:')
         Programa_input_2 = coluna1_1.selectbox('Selecione o período:', ['Entre Safra','Safra'])
+
+        produtividade_embaladeira_input = coluna1_1.slider('Produtividade Embaladeiras', min_value = 0.1, max_value = 0.99, value = 0.75, step = 0.01)
+        produtividade_talo_input = coluna1_1.slider('Produtividade Corte de Talo', min_value = 0.1, max_value = 0.99, value = 0.80, step = 0.01)
+        produtividade_limpeza_input = coluna1_1.slider('Produtividade da Limpeza', min_value = 0.1, max_value = 0.99, value = 0.75, step = 0.01)
+        produtividade_limpeza2_input = coluna1_1.slider('Produtividade da Seleção', min_value = 0.1, max_value = 0.99, value = 0.75, step = 0.01) 
+        
         button_submit = coluna1_1.form_submit_button('Calcular')
 
     if button_submit:
         embaladeira =  embaladeira_input
         Programa_input = Programa_input_2
+        produtividade_embaladeira = produtividade_embaladeira_input
+        produtividade_talo= produtividade_talo_input 
+        produtividade_limpeza = produtividade_limpeza_input
+        produtividade_limpeza2 = produtividade_limpeza2_input
 
     def ritmo(b):
             if b['Calibre'] == 5 and variedade == 'Palmer':
+                return 229
+            elif b['Calibre'] == 4 and variedade == 'Palmer':
                 return 229
             elif b['Calibre'] == 6 and variedade == 'Palmer':
                 return 169
@@ -329,7 +420,9 @@ if pagina_selecionada == 'Balanceamento e produtividade':
         ############################################## INPUTS #######################################################################
     col1, col2,col3,col4 = st.columns([0.1,0.01,1,1.2])
     
-    corte_talo = round(embaladeira / 3.33333)
+
+
+    corte_talo = round(((embaladeira * produtividade_embaladeira) / (3.5 * produtividade_talo))) + 1
 
     ##################################################################################################################################################
     
@@ -339,10 +432,10 @@ if pagina_selecionada == 'Balanceamento e produtividade':
     b['Caixas_2'] = ((caixotes * avg_frutos_caixotes * (b['Percentual']/100) * segunda_percent)  / b['Calibre']) 
     b['Caixas_3'] = ((caixotes * avg_frutos_caixotes * (b['Percentual']/100) * terceira_percent) / b['Calibre']) 
     #b['Caixas_Aereo'] = ((caixotes * avg_frutos_caixotes * (b['Percentual']/100) * aereo_percent) / b['Calibre'])
-
+    #
     b['Horas_4kg'] = (b['Caixas_total'] / b['Ritmo']) / produtividade_embaladeira    
     #b['Horas_aereo'] = (b['Caixas_Aereo'] / b['Ritmo_aereo']) / produtividade_embaladeira 
-
+    
 
     #b['Horas_4kg'] = (b['Horas_4kg'] + b['Horas_aereo'].fillna(0))
     
@@ -352,14 +445,20 @@ if pagina_selecionada == 'Balanceamento e produtividade':
     st.session_state.embaladeira = embaladeira
     st.session_state.variedade = variedade
     st.session_state.periodo_safra = Programa_input 
+    st.session_state.produtividade_embaladeira = produtividade_embaladeira
+    st.session_state.produtividade_talo = produtividade_talo
+    st.session_state.produtividade_limpeza = produtividade_limpeza
+    st.session_state.produtividade_selecao = produtividade_limpeza2
+    
+    ritmo_embaladeira = ((b['Horas_4kg'].sum()  / embaladeira) * (1/24))*100
 
     ritmo_talo = ((((caixotes * avg_frutos_caixotes) / corte_talo) / (4200 * produtividade_talo)) * (1/24))
-    ritmo_embaladeira = ((b['Horas_4kg'].sum()  / embaladeira) * (1/24))*100
+
     diferenca_aceitavel = abs(round((ritmo_embaladeira - ritmo_talo),3))
 
     corte_talo2 = corte_talo
     ritmo_talo_2 = ((((caixotes * avg_frutos_caixotes) / corte_talo2) / (4200 * produtividade_talo)) * (1/24))
-        
+    
         
     def equilibrio(corte_talo, embaladeira):
 
@@ -368,11 +467,14 @@ if pagina_selecionada == 'Balanceamento e produtividade':
                     #ritmo_talo_2
                     Limpeza_selecao = round((caixotes_hora * avg_frutos_caixotes * 0.6) / (3230 * produtividade_limpeza))
                     ton_horas = round(((b['Caixas_total'].sum()*4.05)/1000)/(b['Horas_4kg'].sum()/embaladeira),2)
-
+                    soma = segunda_percent + terceira_percent + refugo_percent                
+                    selecao_ = round((caixotes_hora * avg_frutos_caixotes * soma / (3501 * produtividade_limpeza2)) + (caixotes_hora * avg_frutos_caixotes * primeira_percent / (6480 * produtividade_limpeza2)))
                     st.write('#### Quantidade ideal de pessoas no talo:', corte_talo2)
-                    st.write('#### Quantidade de pessoas na limpeza e seleção:', Limpeza_selecao)
+                    st.write('#### Quantidade de pessoas na seleção:',selecao_ )
+                    st.write('#### Quantidade de pessoas na limpeza:', Limpeza_selecao)
                     st.write('#### Capacidade de Caixotes/Hora:', caixotes_hora)
                     st.write('#### Capacidade de Toneladas/Hora:', ton_horas)
+                    
                     st.session_state.caixotes_hora = caixotes_hora
                     st.session_state.ton_horas = ton_horas
                     #Limpeza_selecao = round((caixotes_hora * avg_frutos_caixotes * 0.6) / (3230 * produtividade_limpeza))
@@ -383,9 +485,11 @@ if pagina_selecionada == 'Balanceamento e produtividade':
                 else :
                     caixotes_hora2 = round((caixotes*0.0416667)/(ritmo_talo))
                     Limpeza_selecao2 = round((caixotes_hora2 * avg_frutos_caixotes * 0.6) / (3230 * produtividade_limpeza))
+                    selecao_2 = selecao_
                     #caixotes_hora2 = round((caixotes*0.0416667)/(ritmo_talo))
                     st.write('#### Quantidade ideal de pessoas no talo:', round(corte_talo))
-                    st.write('#### Quantidade de pessoas na limpeza e seleção:', Limpeza_selecao2)
+                    st.write('#### Quantidade de pessoas na seleção:',selecao_2 )
+                    st.write('#### Quantidade de pessoas na limpeza:', Limpeza_selecao2)
                     st.write('#### Capacidade de Caixotes/Hora:', caixotes_hora2)
                     st.write('#### Capacidade de Toneladas/Hora:', ton_horas)
                     st.session_state.caixotes_hora = caixotes_hora2
@@ -397,7 +501,7 @@ if pagina_selecionada == 'Balanceamento e produtividade':
             #st.write('A variedade selecionada foi:', variedade)
         #with col3:
         #        st.write('')
-    with coluna2_2:
+    with coluna3_3:
                 #st.markdown('       ')
                 #st.markdown("""__________________________________________""")
                 st.success('#### Recomendação para balanceamento:')
@@ -414,20 +518,39 @@ if pagina_selecionada == 'Balanceamento e produtividade':
         #b
 ########################################### grafico plotly ################################################################
         #st.write('A variedade selecionada foi:', variedade)
-    with coluna3_3:
+    with coluna4_4:
                 #st.markdown('       ')
                 st.success('#### Distribuição de calibres:')
                 #st.markdown('_____')
                 import plotly.express as px
-                b['Calibre Name'] = b['Calibre'].astype(str)
-                c = round(b['Percentual'],2)
-                fig = px.bar(b, x = 'Calibre Name',y = 'Percentual', color = 'Calibre Name', text = c, color_discrete_sequence= px.colors.sequential.Aggrnyl)
+
+                dataset_33 = st.session_state_base_crua 
+                #dataset_33
+
+                dataset_33['Calibre Name'] = dataset_33['Calibre'].astype(str)
+                c = round(dataset_33['Percentual'],2)
+                
+
+                def rename(dataset_33):
+                    if dataset_33['Calibre Name'] == '0':
+                        return 'Pequeno'
+                    elif dataset_33['Calibre Name'] == '100':
+                        return 'Grande'
+                    else:
+                        return dataset_33['Calibre Name']
+
+                dataset_33['Calibre Name'] = dataset_33.apply(rename, axis = 1) 
+                
+
+                fig = px.bar(dataset_33, x = 'Calibre Name',y = 'Percentual', color = 'Calibre Name', text = c, color_discrete_sequence= px.colors.sequential.Aggrnyl)
                 fig.update_layout(height = 440, width = 750,
                 uniformtext_minsize=8, uniformtext_mode='show',
                 xaxis_title = "Calibre", font = dict(size = 16))
                 fig.update_traces(textfont_size=14, textangle=0, textposition="outside", cliponaxis=False)
                 st.plotly_chart(fig) 
-
+    with coluna2_2:
+        st.write(" ")
+        st.session_state.b = b
 
 elif pagina_selecionada == 'Linhas de embalagem':
     
@@ -457,7 +580,16 @@ elif pagina_selecionada == 'Linhas de embalagem':
     caixotes = st.session_state.caixotes 
     embaladeira = st.session_state.embaladeira 
     variedade = st.session_state.variedade
-    corte_talo = round(embaladeira / 3.33333)
+
+    produtividade_embaladeira = st.session_state.produtividade_embaladeira
+    produtividade_talo = st.session_state.produtividade_talo
+    produtividade_limpeza = st.session_state.produtividade_limpeza 
+    produtividade_limpeza2 = st.session_state.produtividade_selecao 
+
+    corte_talo = round(((embaladeira * produtividade_embaladeira) / (3.5 * produtividade_talo))) + 1
+    corte_talo
+
+
     def ritmo(b):
         if b['Calibre'] == 5 and variedade == 'Palmer':
             return 229
@@ -574,27 +706,32 @@ elif pagina_selecionada == 'Linhas de embalagem':
     
     corte_talo2 = corte_talo
     ritmo_talo_2 = ((((caixotes * avg_frutos_caixotes) / corte_talo2) / (4200 * produtividade_talo)) * (1/24))
+    #selecao_ =(caixotes_hora * avg_frutos_caixotes) * (segunda_percent + terceira_percent + refugo_percent) / (3501 * produtividade_limpeza2) + caixotes_hora * avg_frutos_caixotes * primeira_percent / (6480 * produtividade_limpeza2)
 
     def equilibrio(corte_talo, embaladeira):
 
         if (ritmo_talo) < (ritmo_embaladeira):
 
             caixotes_hora = round((caixotes*0.0416667)/(ritmo_talo_2))
-                #caixotes_hora
+            soma = segunda_percent + terceira_percent + refugo_percent
+            selecao_ = round((caixotes_hora * avg_frutos_caixotes * soma / (3501 * produtividade_limpeza2)) + (caixotes_hora * avg_frutos_caixotes * primeira_percent / (6480 * produtividade_limpeza2)))
             st.write("A quantidade ideal de pessoas no talo tem que ser:", corte_talo2)
             st.write('Capacidade de caixotes/hora no corte de talo é de:', caixotes_hora)
             st.write('Capacidade de Toneladas/Horas é de:', round(((b['Caixas_total'].sum()*4.05)/1000)/(b['Horas_4kg'].sum()/embaladeira),2))
             Limpeza_selecao = round((caixotes_hora * avg_frutos_caixotes * 0.6) / (3230 * produtividade_limpeza))
                 #Limpeza_selecao
-            st.write('Quantidade de pessoas na limpeza e seleção tem que ser de:', Limpeza_selecao)
+            st.write('Quantidade de pessoas na limpeza:', Limpeza_selecao)
+            st.write('Quantidade de pessoas na selelao:', selecao_)
             
         else :
             caixotes_hora2 = round((caixotes*0.0416667)/(ritmo_talo))
+            selecao_2 = selecao_
             st.write("A quantidade ideal de pessoas no talo tem que ser:", round(corte_talo))
             st.write('Capacidade de caixotes/hora no corte de talo é de:', caixotes_hora2)
             st.write('Capacidade de Toneladas/Horas é de:', round(((b['Caixas_total'].sum()*4.05)/1000)/(b['Horas_4kg'].sum()/embaladeira),2))
             Limpeza_selecao2 = round((caixotes_hora2 * avg_frutos_caixotes * 0.6) / (3230 * produtividade_limpeza))
-            st.write('Quantidade de pessoas na limpeza e seleção tem que ser de:', Limpeza_selecao2)
+            st.write('Quantidade de pessoas na limpeza:', Limpeza_selecao2)
+            st.write('Quantidade de pessoas na selelao:', selecao_2)
     
     ########################################### SAIDA DA ABA DE LINHAS ###########################################
     Layout_linha = pd.DataFrame({"Linha":['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22'],
@@ -1547,11 +1684,13 @@ elif pagina_selecionada == 'Linhas de embalagem':
         st.write('_______')
         Layout_linha_8.to_excel('Layout_final.xlsx')
         Layout_linha_8
-        st.session_state.b = b
 
         
 elif pagina_selecionada == 'Distribuição embaladeiras':
     embaladeira = st.session_state.embaladeira 
+
+    produtividade_embaladeira = st.session_state.produtividade_embaladeira
+    produtividade_talo = st.session_state.produtividade_talo
 
     b = st.session_state.b
     caixotes_hora = st.session_state.caixotes_hora
@@ -1586,9 +1725,6 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
 
     Layout_linha_9['Embaladeiras_2'] = Layout_linha_9['Embaladeiras_2'].replace(' ','0')
     Layout_linha_9['Embaladeiras_2'] = Layout_linha_9['Embaladeiras_2'].astype(float)
-
-
-
 
 ##################################### DATASET EMBALADEIRAS #######################################################################
 
@@ -1703,6 +1839,8 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     st.session_state.media_b = media_b
                     bb = px.bar(b,y = 'Caixas/Hora', color = 'ID_PESSOA', title = 'Palmer - Calibre 6',hover_name = 'PESSOA',color_discrete_sequence= px.colors.sequential.Aggrnyl )
                     bb.update_yaxes(range = [b['Caixas/Hora'].min()-10,b['Caixas/Hora'].max()])
+                    bb.add_hline(media_b, line_color="green")
+                    #bb.add_vrect(x0=0.9, x1=2)
                     bb.add_hline(169)
                     bb.update_layout(height = 350, width = 350)
 
@@ -2570,6 +2708,10 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     a['Calibre'] = 5.0
                     a['Calibre'] = a['Calibre'].astype(str)
                     a['ID_PESSOA'] = a['ID_PESSOA'].astype(str)
+
+                    media_a = a['Caixas/Hora'].mean()
+                    st.session_state.media_a = media_a
+
                     aa = px.bar(a,y = 'Caixas/Hora', color = 'ID_PESSOA', title = 'Tommy Atkins - Calibre 5',hover_name = 'PESSOA', color_discrete_sequence= px.colors.sequential.Aggrnyl)
                     aa.update_yaxes(range = [a['Caixas/Hora'].min()-10,a['Caixas/Hora'].max()])
                     aa.add_hline(235)
@@ -2599,6 +2741,10 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     b['Calibre'] = 6.0
                     b['Calibre'] = b['Calibre'].astype(str)
                     b['ID_PESSOA'] = b['ID_PESSOA'].astype(str)
+                    media_b = b['Caixas/Hora'].mean()
+                    st.session_state.media_b = media_b
+
+
                     bb = px.bar(b,y = 'Caixas/Hora', color = 'ID_PESSOA', title = 'Tommy Atkins - Calibre 6',hover_name = 'PESSOA',color_discrete_sequence= px.colors.sequential.Aggrnyl)
                     bb.update_yaxes(range = [b['Caixas/Hora'].min()-10,b['Caixas/Hora'].max()])
                     bb.add_hline(178)
@@ -2634,6 +2780,9 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     c['Calibre'] = 7.0
                     c['Calibre'] = c['Calibre'].astype(str)
                     c['ID_PESSOA'] = c['ID_PESSOA'].astype(str)
+                    media_c = c['Caixas/Hora'].mean()
+                    st.session_state.media_c = media_c
+
                     cc = px.bar(c,y = 'Caixas/Hora', color = 'ID_PESSOA', title = 'Tommy Atkins - Calibre 7', hover_name = 'PESSOA',color_discrete_sequence= px.colors.sequential.Aggrnyl)
                     cc.update_yaxes(range = [c['Caixas/Hora'].min()-10,c['Caixas/Hora'].max()])
                     cc.add_hline(185)
@@ -2668,6 +2817,11 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     d['Calibre'] = 8.0
                     d['Calibre'] = d['Calibre'].astype(str)
                     d['ID_PESSOA'] = d['ID_PESSOA'].astype(str)
+
+                    media_d = d['Caixas/Hora'].mean()
+                    st.session_state.media_d = media_d
+
+                    
                     dd = px.bar(d,y = 'Caixas/Hora', color = 'ID_PESSOA', title = 'Tommy Atkins - Calibre 8',hover_name = 'PESSOA',color_discrete_sequence= px.colors.sequential.Aggrnyl)
                     dd.update_yaxes(range = [d['Caixas/Hora'].min()-10,d['Caixas/Hora'].max()])
                     dd.add_hline(195)
@@ -2705,6 +2859,10 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     e['Calibre'] = 9.0
                     e['Calibre'] = e['Calibre'].astype(str)
                     e['ID_PESSOA'] = e['ID_PESSOA'].astype(str)
+
+                    media_e = e['Caixas/Hora'].mean()
+                    st.session_state.media_e = media_e
+
                     ee = px.bar(e,y = 'Caixas/Hora', color = 'ID_PESSOA', title = 'Tommy Atkins - Calibre 9',hover_name = 'PESSOA',color_discrete_sequence= px.colors.sequential.Aggrnyl)
                     ee.update_yaxes(range = [e['Caixas/Hora'].min()-10,e['Caixas/Hora'].max()])
                     ee.add_hline(154)
@@ -2743,6 +2901,10 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     f['Calibre'] = 10.0
                     f['Calibre'] = f['Calibre'].astype(str)
                     f['ID_PESSOA'] = f['ID_PESSOA'].astype(str)
+
+                    media_f = f['Caixas/Hora'].mean()
+                    st.session_state.media_f = media_f
+
                     ff = px.bar(f,y = 'Caixas/Hora', color = 'ID_PESSOA', title = 'Tommy Atkins - Calibre 10',hover_name = 'PESSOA',color_discrete_sequence= px.colors.sequential.Aggrnyl)
                     ff.update_yaxes(range = [f['Caixas/Hora'].min()-10,f['Caixas/Hora'].max()])
                     ff.add_hline(144)
@@ -2784,6 +2946,10 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     g['Calibre'] = 12.0
                     g['Calibre'] = g['Calibre'].astype(str)
                     g['ID_PESSOA'] = g['ID_PESSOA'].astype(str)
+
+                    media_g = g['Caixas/Hora'].mean()
+                    st.session_state.media_g = media_g
+
                     gg = px.bar(g,y = 'Caixas/Hora', color = 'ID_PESSOA', title = 'Tommy Atkins  - Calibre 12',hover_name = 'PESSOA',color_discrete_sequence= px.colors.sequential.Aggrnyl)
                     gg.update_yaxes(range = [g['Caixas/Hora'].min()-10,g['Caixas/Hora'].max()])
                     gg.add_hline(158)
@@ -2818,13 +2984,17 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     padrao_embaldeiras_palmer_7 = padrao_embaldeiras_palmer_6[~padrao_embaldeiras_palmer_6.ID_PESSOA.isin(f['ID_PESSOA'])]
                     padrao_embaldeiras_palmer_8 = padrao_embaldeiras_palmer_7[~padrao_embaldeiras_palmer_7.ID_PESSOA.isin(g['ID_PESSOA'])]
 
-                    h = padrao_embaldeiras_palmer_8.groupby(['ID_PESSOA','PESSOA'])['mean'].max().sort_values(ascending=False).head(kl)
+                    h = padrao_embaldeiras_palmer.groupby(['ID_PESSOA','PESSOA'])['mean'].max().sort_values(ascending=False).head(kl)
                     h = h.reset_index()
                     h['mean'] = round(h['mean'],0)
                     h = h.rename(columns = {'mean':'Caixas/Hora'})
                     h['Calibre'] = 14.0
                     h['Calibre'] = h['Calibre'].astype(str)
                     h['ID_PESSOA'] = h['ID_PESSOA'].astype(str)
+
+                    media_h = h['Caixas/Hora'].mean()
+                    st.session_state.media_h = media_h
+
                     hh = px.bar(h,y = 'Caixas/Hora', color = 'ID_PESSOA', title = 'Tommy Atkins - Calibre 14',hover_name = 'PESSOA',color_discrete_sequence= px.colors.sequential.Aggrnyl)
                     hh.update_yaxes(range = [h['Caixas/Hora'].min()-10,h['Caixas/Hora'].max()])
                     hh.add_hline(90)
@@ -2867,12 +3037,14 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
         else:
             return 'NADA'
 
-    b['Ritmo_embaladeira'] = b.apply(ritmo, axis = 1)    
+    b['Ritmo_embaladeira'] = b.apply(ritmo, axis = 1) 
+    filtro = b['Ritmo_embaladeira'] != 'NADA'
+    b = b[filtro]
+
     b['Horas_4kg_embaladeiras'] = (b['Caixas_total'] / b['Ritmo_embaladeira']) / produtividade_embaladeira 
     ton_horas_embaladeiras = round(((b['Caixas_total'].sum()*4.05)/1000)/(b['Horas_4kg_embaladeiras'].sum()/embaladeira),2)
-    #ton_horas_embaladeiras
-    #Layout_linha_9
-    #st.title('Em construção')
+
+
     with col3:
         Layout_linha_9 = Layout_linha_9.fillna(' ')
         Layout_linha_9['Qualidade'] = Layout_linha_9['Qualidade'].astype(str)
@@ -2890,8 +3062,6 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
         
         st.plotly_chart(fig4)
 
-
-
     with col1:
         import plotly.graph_objects as go
 
@@ -2908,7 +3078,9 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
         fig.update_traces(textinfo='label+percent', textfont_size=15, textposition="inside")
         fig.update_layout(height = 450, width = 450, font = dict(size = 15))
         #fig.update_traces(textinfo='label+percent', textfont_size=20, textposition="inside")
-        st.plotly_chart(fig) 
+        st.plotly_chart(fig)
+        
+
 
     with col2:
         aaa = Layout_linha_9.groupby(['Calibre'])['Embaladeiras_1'].sum()
@@ -2919,10 +3091,8 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
         bbb = bbb.reset_index()
         bbb = bbb.rename(columns={'Calibre2':'Calibre', 'Embaladeiras_2':'Embaladeiras_1'})
         #bbb
-
         ccc = pd.concat((aaa,bbb))
         #ccc
-
         ccc['Calibre'] = ccc['Calibre'].replace(' ',0)
         drop_2 = ccc[ccc['Calibre'] == 0 ].index
         ccc2 = ccc.drop(drop_2, inplace = True)
@@ -2930,7 +3100,6 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
         #ccc.drop(drop_3, inplace = True)
         ccc['Embaladeiras_1'] = round(ccc['Embaladeiras_1'],1)
         #ccc
-
         st.error('##### Quantidade de embaladeiras por calibre:')
 
         fig = px.bar(ccc, y = 'Calibre', x = 'Embaladeiras_1', color = 'Calibre',
@@ -2943,3 +3112,14 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
     conta_delta = round(((100 * ton_horas_embaladeiras) / ton_horas) - 100,1)
 
     col4x.metric(label="Nova capacidade de Toneladas/Hora", value= ton_horas_embaladeiras, delta= conta_delta)
+    st.info('### ER atual vs ER embaladeiras selecionadas')
+    #b
+    dataframe = b[['Calibre','Percentual','Caixas_total','Ritmo','Horas_4kg','Ritmo_embaladeira','Horas_4kg_embaladeiras']]
+
+    dataframe.rename(columns = {'Ritmo':'Ritmo Atual','Ritmo_embaladeira':'Ritmo Embaladeiras',
+                                'Horas_4kg_embaladeiras':'Horas Embaladeiras','Caixas_total':'Total de caixas',
+                                'Horas_4kg':'Horas Atual'}, inplace = True)
+    dataframe['Controle'] = controle2
+    dataframe
+
+    st.download_button( label = 'Baixar Planilha',data = dataframe.to_csv(), mime = 'text/csv')
