@@ -2130,10 +2130,14 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                 ccc = ccc.reset_index()
 
                 if elem == 5.0:
-                    kl = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
-                    kl = round(kl,0)
-                    kl = kl.astype(int)
-                    kl = kl 
+                    kl1 = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
+                    kl1 = round(kl1,0)
+
+                    if kl1 == 0:
+                        kl = ceil(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0])
+                    elif kl1 > 0: 
+                        kl = round(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0],0)
+                        kl = kl.astype(int)
                     #kl
                     #ccc
 
@@ -2157,10 +2161,14 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
 
                 elif elem == 6.0:
                     
-                    kl = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
-                    kl = round(kl,0)
-                    kl = kl.astype(int)
-                    kl = kl 
+                    kl1 = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
+                    kl1 = round(kl1,0)
+
+                    if kl1 == 0:
+                        kl = ceil(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0])
+                    elif kl1 > 0: 
+                        kl = round(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0],0)
+                        kl = kl.astype(int)
                     #kl
 
                     filtro_variedade = padrao_embaldeiras['VARIEDADE'] == 'Kent'
@@ -2188,10 +2196,14 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
 
                 elif elem == 7.0:
 
-                    kl = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
-                    kl = round(kl,0)
-                    kl = kl.astype(int)
-                    kl = kl 
+                    kl1 = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
+                    kl1 = round(kl1,0)
+
+                    if kl1 == 0:
+                        kl = ceil(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0])
+                    elif kl1 > 0: 
+                        kl = round(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0],0)
+                        kl = kl.astype(int)
                     #kl
 
                     filtro_variedade = padrao_embaldeiras['VARIEDADE'] == 'Kent'
@@ -2219,10 +2231,14 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     cc.update_layout(height = 350, width = 350)
                 
                 elif elem == 8.0:
-                    kl = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
-                    kl = round(kl,0)
-                    kl = kl.astype(int)
-                    kl = kl 
+                    kl1 = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
+                    kl1 = round(kl1,0)
+
+                    if kl1 == 0:
+                        kl = ceil(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0])
+                    elif kl1 > 0: 
+                        kl = round(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0],0)
+                        kl = kl.astype(int) 
                     #kl
 
                     filtro_variedade = padrao_embaldeiras['VARIEDADE'] == 'Kent'
@@ -2254,10 +2270,14 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                 elif elem == 9.0:
 
 
-                    kl = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
-                    kl = round(kl,0)
-                    kl = kl.astype(int)
-                    kl = kl 
+                    kl1 = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
+                    kl1 = round(kl1,0)
+
+                    if kl1 == 0:
+                        kl = ceil(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0])
+                    elif kl1 > 0: 
+                        kl = round(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0],0)
+                        kl = kl.astype(int)
                     #kl
 
                     filtro_variedade = padrao_embaldeiras['VARIEDADE'] == 'Kent'
@@ -2289,10 +2309,14 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     ee.update_layout(height = 350, width = 350)
                 
                 elif elem == 10.0:
-                    kl = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
-                    kl = round(kl,0)
-                    kl = kl.astype(int)
-                    kl = kl 
+                    kl1 = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
+                    kl1 = round(kl1,0)
+
+                    if kl1 == 0:
+                        kl = ceil(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0])
+                    elif kl1 > 0: 
+                        kl = round(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0],0)
+                        kl = kl.astype(int)
                     #kl
 
                     filtro_variedade = padrao_embaldeiras['VARIEDADE'] == 'Kent'
@@ -2328,10 +2352,14 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     ff.update_layout(height = 350, width = 350)
                 
                 elif elem == 12.0:
-                    kl = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
-                    kl = round(kl,0)
-                    kl = kl.astype(int)
-                    kl = kl 
+                    kl1 = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
+                    kl1 = round(kl1,0)
+
+                    if kl1 == 0:
+                        kl = ceil(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0])
+                    elif kl1 > 0: 
+                        kl = round(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0],0)
+                        kl = kl.astype(int)
                     #kl
 
                     filtro_variedade = padrao_embaldeiras['VARIEDADE'] == 'Kent'
@@ -2403,10 +2431,14 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                 #ccc
 
                 if elem == 5.0:
-                    kl = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
-                    kl = round(kl,0)
-                    kl = kl.astype(int)
-                    kl = kl 
+                    kl1 = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
+                    kl1 = round(kl1,0)
+
+                    if kl1 == 0:
+                        kl = ceil(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0])
+                    elif kl1 > 0: 
+                        kl = round(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0],0)
+                        kl = kl.astype(int)
                     #kl
                     #ccc
 
@@ -2433,11 +2465,14 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     aa.update_layout(height = 350, width = 350)
 
                 elif elem == 6.0:
-                    #ccc
-                    kl = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
-                    kl = round(kl,0)
-                    kl = kl.astype(int)
-                    kl = kl 
+                    kl1 = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
+                    kl1 = round(kl1,0)
+
+                    if kl1 == 0:
+                        kl = ceil(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0])
+                    elif kl1 > 0: 
+                        kl = round(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0],0)
+                        kl = kl.astype(int)
                     #kl
 
                     filtro_variedade = padrao_embaldeiras['VARIEDADE'] == 'Keitt'
@@ -2467,10 +2502,14 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
 
                 elif elem == 7.0:
 
-                    kl = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
-                    kl = round(kl,0)
-                    kl = kl.astype(int)
-                    kl = kl 
+                    kl1 = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
+                    kl1 = round(kl1,0)
+
+                    if kl1 == 0:
+                        kl = ceil(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0])
+                    elif kl1 > 0: 
+                        kl = round(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0],0)
+                        kl = kl.astype(int)
                     #kl
 
                     filtro_variedade = padrao_embaldeiras['VARIEDADE'] == 'Keitt'
@@ -2501,10 +2540,14 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     cc.update_layout(height = 350, width = 350)
 
                 elif elem == 8.0:
-                    kl = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
-                    kl = round(kl,0)
-                    kl = kl.astype(int)
-                    kl = kl
+                    kl1 = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
+                    kl1 = round(kl1,0)
+
+                    if kl1 == 0:
+                        kl = ceil(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0])
+                    elif kl1 > 0: 
+                        kl = round(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0],0)
+                        kl = kl.astype(int)
                     #kl
 
                     filtro_variedade = padrao_embaldeiras['VARIEDADE'] == 'Keitt'
@@ -2541,10 +2584,14 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     dd.update_layout(height = 350, width = 350)
 
                 elif elem == 9.0:
-                    kl = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
-                    kl = round(kl,0)
-                    kl = kl.astype(int)
-                    kl = kl 
+                    kl1 = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
+                    kl1 = round(kl1,0)
+
+                    if kl1 == 0:
+                        kl = ceil(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0])
+                    elif kl1 > 0: 
+                        kl = round(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0],0)
+                        kl = kl.astype(int)
                     #kl
 
                     filtro_variedade = padrao_embaldeiras['VARIEDADE'] == 'Keitt'
@@ -2581,10 +2628,14 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     ee.update_layout(height = 350, width = 350)
                 elif elem == 10.0:
 
-                    kl = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
-                    kl = round(kl,0)
-                    kl = kl.astype(int)
-                    kl = kl
+                    kl1 = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
+                    kl1 = round(kl1,0)
+
+                    if kl1 == 0:
+                        kl = ceil(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0])
+                    elif kl1 > 0: 
+                        kl = round(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0],0)
+                        kl = kl.astype(int)
                     #kl
 
                     filtro_variedade = padrao_embaldeiras['VARIEDADE'] == 'Keitt'
@@ -2622,10 +2673,14 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     ff.update_layout(height = 350, width = 350)
                 elif elem == 12.0:
 
-                    kl = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
-                    kl = round(kl,0)
-                    kl = kl.astype(int)
-                    kl = kl
+                    kl1 = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
+                    kl1 = round(kl1,0)
+
+                    if kl1 == 0:
+                        kl = ceil(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0])
+                    elif kl1 > 0: 
+                        kl = round(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0],0)
+                        kl = kl.astype(int)
                     #kl
 
                     filtro_variedade = padrao_embaldeiras['VARIEDADE'] == 'Keitt'
@@ -2706,10 +2761,14 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
 
                 if elem == 5.0:
 
-                    kl = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
-                    kl = round(kl,0)
-                    kl = kl.astype(int)
-                    kl = kl 
+                    kl1 = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
+                    kl1 = round(kl1,0)
+
+                    if kl1 == 0:
+                        kl = ceil(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0])
+                    elif kl1 > 0: 
+                        kl = round(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0],0)
+                        kl = kl.astype(int)
                     #kl
                     #ccc
 
@@ -2737,10 +2796,14 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
 
                 elif elem == 6.0:
 
-                    kl = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
-                    kl = round(kl,0)
-                    kl = kl.astype(int)
-                    kl = kl 
+                    kl1 = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
+                    kl1 = round(kl1,0)
+
+                    if kl1 == 0:
+                        kl = ceil(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0])
+                    elif kl1 > 0: 
+                        kl = round(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0],0)
+                        kl = kl.astype(int)
                     #kl
 
                     filtro_variedade = padrao_embaldeiras['VARIEDADE'] == 'Tommy Atkins'
@@ -2770,10 +2833,14 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
 
                 elif elem == 7.0:
 
-                    kl = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
-                    kl = round(kl,0)
-                    kl = kl.astype(int)
-                    kl = kl
+                    kl1 = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
+                    kl1 = round(kl1,0)
+
+                    if kl1 == 0:
+                        kl = ceil(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0])
+                    elif kl1 > 0: 
+                        kl = round(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0],0)
+                        kl = kl.astype(int)
                     #kl
 
                     filtro_variedade = padrao_embaldeiras['VARIEDADE'] == 'Tommy Atkins'
@@ -2808,10 +2875,14 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
 
                 elif elem == 8.0:
 
-                    kl = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
-                    kl = round(kl,0)
-                    kl = kl.astype(int)
-                    kl = kl
+                    kl1 = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
+                    kl1 = round(kl1,0)
+
+                    if kl1 == 0:
+                        kl = ceil(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0])
+                    elif kl1 > 0: 
+                        kl = round(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0],0)
+                        kl = kl.astype(int)
                     #kl
 
                     filtro_variedade = padrao_embaldeiras['VARIEDADE'] == 'Tommy Atkins'
@@ -2847,10 +2918,14 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
 
                 elif elem == 9.0:
 
-                    kl = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
-                    kl = round(kl,0)
-                    kl = kl.astype(int)
-                    kl = kl
+                    kl1 = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
+                    kl1 = round(kl1,0)
+
+                    if kl1 == 0:
+                        kl = ceil(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0])
+                    elif kl1 > 0: 
+                        kl = round(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0],0)
+                        kl = kl.astype(int)
                     #kl
 
                     filtro_variedade = padrao_embaldeiras['VARIEDADE'] == 'Tommy Atkins'
@@ -2887,10 +2962,14 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     ee.update_layout(height = 350, width = 350)
 
                 elif elem == 10.0:
-                    kl = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
-                    kl = round(kl,0)
-                    kl = kl.astype(int)
-                    kl = kl 
+                    kl1 = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
+                    kl1 = round(kl1,0)
+
+                    if kl1 == 0:
+                        kl = ceil(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0])
+                    elif kl1 > 0: 
+                        kl = round(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0],0)
+                        kl = kl.astype(int)
                     #kl
 
                     filtro_variedade = padrao_embaldeiras['VARIEDADE'] == 'Tommy Atkins'
@@ -2930,10 +3009,14 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
 
                 elif elem == 12.0:
 
-                    kl = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
-                    kl = round(kl,0)
-                    kl = kl.astype(int)
-                    kl = kl
+                    kl1 = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
+                    kl1 = round(kl1,0)
+
+                    if kl1 == 0:
+                        kl = ceil(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0])
+                    elif kl1 > 0: 
+                        kl = round(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0],0)
+                        kl = kl.astype(int)
                     #kl
 
                     filtro_variedade = padrao_embaldeiras['VARIEDADE'] == 'Tommy Atkins'
