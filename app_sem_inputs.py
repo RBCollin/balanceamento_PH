@@ -4,7 +4,8 @@ from math import ceil
 import streamlit as st
 import pandas as pd
 import numpy as np
-
+import requests
+import json
 
 
 st.set_page_config(layout="wide")
@@ -27,137 +28,135 @@ with coluna_inicial_2:
     if st.button('Atualizar Controle'):
         url = 'http://177.52.21.58:3000/backend/busca_generica/buscaGenerica?view=MGCLI.AGDTI_VW_DX_BALANCEAMENTO_PH'
         url_embaladeiras_ativas = 'http://177.52.21.58:3000/backend/busca_generica/buscaGenerica?view=MGCLI.AGDTI_VW_DX_EMB_ATIVAS'
-        st.session_state.url = url
-        st.session_state.url_embala = url_embaladeiras_ativas
 
-url =  st.session_state.url 
-variaveis_df = pd.read_json(url)
-#variaveis_df
+        variaveis_df = pd.read_json(url)
 
-#variaveis_df = pd.read_json("http://sia:3000/backend/busca_generica/buscaGenerica?view=MGCLI.AGDTI_VW_DX_BALANCEAMENTO_PH") 
+        def correcao_(variaveis_df):
+            if variaveis_df['VARIEDADE'] == 'TOMMY ATKINS':
+                return 'Tommy Atkins'
+            elif variaveis_df['VARIEDADE'] == 'PALMER':
+                return 'Palmer'
+            elif variaveis_df['VARIEDADE'] == 'KEITT':
+                return 'Keitt'
+            elif variaveis_df['VARIEDADE'] == 'KENT':
+                return 'Kent'
+            else:
+                return 'NADA'
 
-#variaveis_df
-
-def correcao_(variaveis_df):
-    if variaveis_df['VARIEDADE'] == 'TOMMY ATKINS':
-        return 'Tommy Atkins'
-    elif variaveis_df['VARIEDADE'] == 'PALMER':
-        return 'Palmer'
-    elif variaveis_df['VARIEDADE'] == 'KEITT':
-        return 'Keitt'
-    elif variaveis_df['VARIEDADE'] == 'KENT':
-        return 'Kent'
-    else:
-        return 'NADA'
-
-variaveis_df['VARIEDADE'] = variaveis_df.apply(correcao_, axis = 1)
-#variaveis_df.to_excel('teste_keitt__.xlsx')
+        variaveis_df['VARIEDADE'] = variaveis_df.apply(correcao_, axis = 1)
+    #variaveis_df.to_excel('teste_keitt__389.xlsx')
 
 
-def calibre(variaveis_df):
-    if variaveis_df['VARIEDADE'] == 'Palmer' and (variaveis_df['PESO'] <= 1130 and variaveis_df['PESO'] > 980):
-        return '4'
-    elif (variaveis_df['VARIEDADE'] == 'Palmer') and (variaveis_df['PESO'] <= 980 and variaveis_df['PESO'] > 777):
-        return '5'
-    elif (variaveis_df['VARIEDADE'] == 'Palmer') and (variaveis_df['PESO'] <= 777 and variaveis_df['PESO'] > 630):
-        return '6'
-    elif (variaveis_df['VARIEDADE'] == 'Palmer') and (variaveis_df['PESO'] <= 630 and variaveis_df['PESO'] > 557):
-        return '7'
-    elif (variaveis_df['VARIEDADE'] == 'Palmer') and (variaveis_df['PESO'] <= 557 and variaveis_df['PESO'] > 478):
-        return '8'
-    elif (variaveis_df['VARIEDADE'] == 'Palmer') and (variaveis_df['PESO'] <= 478 and variaveis_df['PESO'] > 438):
-        return '9'
-    elif (variaveis_df['VARIEDADE'] == 'Palmer') and (variaveis_df['PESO'] <= 438 and variaveis_df['PESO'] > 376):
-        return '10'
-    elif (variaveis_df['VARIEDADE'] == 'Palmer') and (variaveis_df['PESO'] <= 376 and variaveis_df['PESO'] > 295):
-        return '12'
-    elif (variaveis_df['VARIEDADE'] == 'Palmer') and (variaveis_df['PESO'] <= 295 and variaveis_df['PESO'] > 280):
-        return '14'
-    elif (variaveis_df['VARIEDADE'] == 'Palmer') and (variaveis_df['PESO'] <= 280):
-        return '0'
-    elif (variaveis_df['VARIEDADE'] == 'Palmer') and (variaveis_df['PESO'] > 1130):
-        return '100'
-    #################################################### TOMMY ATKINS #####################################################
-    elif variaveis_df['VARIEDADE'] == 'Tommy Atkins' and (variaveis_df['PESO'] <= 1200 and variaveis_df['PESO'] > 1000):
-        return '4'
-    elif (variaveis_df['VARIEDADE'] == 'Tommy Atkins') and (variaveis_df['PESO'] <= 1000 and variaveis_df['PESO'] > 880):
-        return '5'
-    elif (variaveis_df['VARIEDADE'] == 'Tommy Atkins') and (variaveis_df['PESO'] <= 880 and variaveis_df['PESO'] > 640):
-        return '6'
-    elif (variaveis_df['VARIEDADE'] == 'Tommy Atkins') and (variaveis_df['PESO'] <= 640 and variaveis_df['PESO'] > 557):
-        return '7'
-    elif (variaveis_df['VARIEDADE'] == 'Tommy Atkins') and (variaveis_df['PESO'] <= 557 and variaveis_df['PESO'] > 480):
-        return '8'
-    elif (variaveis_df['VARIEDADE'] == 'Tommy Atkins') and (variaveis_df['PESO'] <= 480 and variaveis_df['PESO'] > 442):
-        return '9'
-    elif (variaveis_df['VARIEDADE'] == 'Tommy Atkins') and (variaveis_df['PESO'] <= 442 and variaveis_df['PESO'] > 371):
-        return '10'
-    elif (variaveis_df['VARIEDADE'] == 'Tommy Atkins') and (variaveis_df['PESO'] <= 371 and variaveis_df['PESO'] > 296):
-        return '12'
-    elif (variaveis_df['VARIEDADE'] == 'Tommy Atkins') and (variaveis_df['PESO'] <= 296 and variaveis_df['PESO'] > 279):
-        return '14'
-    elif (variaveis_df['VARIEDADE'] == 'Tommy Atkins') and (variaveis_df['PESO'] <= 279):
-        return '0'
-    elif (variaveis_df['VARIEDADE'] == 'Tommy Atkins') and (variaveis_df['PESO'] > 1200):
-        return '100'
-        
-    #################################################### KEITT #####################################################
+        def calibre(variaveis_df):
+            if variaveis_df['VARIEDADE'] == 'Palmer' and (variaveis_df['PESO'] <= 1130 and variaveis_df['PESO'] > 980):
+                return '4'
+            elif (variaveis_df['VARIEDADE'] == 'Palmer') and (variaveis_df['PESO'] <= 980 and variaveis_df['PESO'] > 777):
+                return '5'
+            elif (variaveis_df['VARIEDADE'] == 'Palmer') and (variaveis_df['PESO'] <= 777 and variaveis_df['PESO'] > 630):
+                return '6'
+            elif (variaveis_df['VARIEDADE'] == 'Palmer') and (variaveis_df['PESO'] <= 630 and variaveis_df['PESO'] > 557):
+                return '7'
+            elif (variaveis_df['VARIEDADE'] == 'Palmer') and (variaveis_df['PESO'] <= 557 and variaveis_df['PESO'] > 478):
+                return '8'
+            elif (variaveis_df['VARIEDADE'] == 'Palmer') and (variaveis_df['PESO'] <= 478 and variaveis_df['PESO'] > 438):
+                return '9'
+            elif (variaveis_df['VARIEDADE'] == 'Palmer') and (variaveis_df['PESO'] <= 438 and variaveis_df['PESO'] > 376):
+                return '10'
+            elif (variaveis_df['VARIEDADE'] == 'Palmer') and (variaveis_df['PESO'] <= 376 and variaveis_df['PESO'] > 295):
+                return '12'
+            elif (variaveis_df['VARIEDADE'] == 'Palmer') and (variaveis_df['PESO'] <= 295 and variaveis_df['PESO'] > 280):
+                return '14'
+            elif (variaveis_df['VARIEDADE'] == 'Palmer') and (variaveis_df['PESO'] <= 280):
+                return '0'
+            elif (variaveis_df['VARIEDADE'] == 'Palmer') and (variaveis_df['PESO'] > 1130):
+                return '100'
+            #################################################### TOMMY ATKINS #####################################################
+            elif variaveis_df['VARIEDADE'] == 'Tommy Atkins' and (variaveis_df['PESO'] <= 1200 and variaveis_df['PESO'] > 1000):
+                return '4'
+            elif (variaveis_df['VARIEDADE'] == 'Tommy Atkins') and (variaveis_df['PESO'] <= 1000 and variaveis_df['PESO'] > 880):
+                return '5'
+            elif (variaveis_df['VARIEDADE'] == 'Tommy Atkins') and (variaveis_df['PESO'] <= 880 and variaveis_df['PESO'] > 640):
+                return '6'
+            elif (variaveis_df['VARIEDADE'] == 'Tommy Atkins') and (variaveis_df['PESO'] <= 640 and variaveis_df['PESO'] > 557):
+                return '7'
+            elif (variaveis_df['VARIEDADE'] == 'Tommy Atkins') and (variaveis_df['PESO'] <= 557 and variaveis_df['PESO'] > 480):
+                return '8'
+            elif (variaveis_df['VARIEDADE'] == 'Tommy Atkins') and (variaveis_df['PESO'] <= 480 and variaveis_df['PESO'] > 442):
+                return '9'
+            elif (variaveis_df['VARIEDADE'] == 'Tommy Atkins') and (variaveis_df['PESO'] <= 442 and variaveis_df['PESO'] > 371):
+                return '10'
+            elif (variaveis_df['VARIEDADE'] == 'Tommy Atkins') and (variaveis_df['PESO'] <= 371 and variaveis_df['PESO'] > 296):
+                return '12'
+            elif (variaveis_df['VARIEDADE'] == 'Tommy Atkins') and (variaveis_df['PESO'] <= 296 and variaveis_df['PESO'] > 279):
+                return '14'
+            elif (variaveis_df['VARIEDADE'] == 'Tommy Atkins') and (variaveis_df['PESO'] <= 279):
+                return '0'
+            elif (variaveis_df['VARIEDADE'] == 'Tommy Atkins') and (variaveis_df['PESO'] > 1200):
+                return '100'
+                
+            #################################################### KEITT #####################################################
 
-    elif variaveis_df['VARIEDADE'] == 'Keitt' and (variaveis_df['PESO'] <= 1500 and variaveis_df['PESO'] > 880):
-        return '4'
-    elif (variaveis_df['VARIEDADE'] == 'Keitt') and (variaveis_df['PESO'] <= 880 and variaveis_df['PESO'] > 770):
-        return '5'
-    elif (variaveis_df['VARIEDADE'] == 'Keitt') and (variaveis_df['PESO'] <= 770 and variaveis_df['PESO'] > 622):
-        return '6'
-    elif (variaveis_df['VARIEDADE'] == 'Keitt') and (variaveis_df['PESO'] <= 622 and variaveis_df['PESO'] > 553):
-        return '7'
-    elif (variaveis_df['VARIEDADE'] == 'Keitt') and (variaveis_df['PESO'] <= 553 and variaveis_df['PESO'] > 476):
-        return '8'
-    elif (variaveis_df['VARIEDADE'] == 'Keitt') and (variaveis_df['PESO'] <= 476 and variaveis_df['PESO'] > 439):
-        return '9'
-    elif (variaveis_df['VARIEDADE'] == 'Keitt') and (variaveis_df['PESO'] <= 439 and variaveis_df['PESO'] > 385):
-        return '10'
-    elif (variaveis_df['VARIEDADE'] == 'Keitt') and (variaveis_df['PESO'] <= 385 and variaveis_df['PESO'] > 305):
-        return '12'
-    elif (variaveis_df['VARIEDADE'] == 'Keitt') and (variaveis_df['PESO'] <= 305 and variaveis_df['PESO'] > 279):
-        return '14'
-    elif (variaveis_df['VARIEDADE'] == 'Keitt') and (variaveis_df['PESO'] <= 279):
-        return '0'
-    elif (variaveis_df['VARIEDADE'] == 'Keitt') and (variaveis_df['PESO'] > 1500):
-        return '100'
+            elif variaveis_df['VARIEDADE'] == 'Keitt' and (variaveis_df['PESO'] <= 1500 and variaveis_df['PESO'] > 880):
+                return '4'
+            elif (variaveis_df['VARIEDADE'] == 'Keitt') and (variaveis_df['PESO'] <= 880 and variaveis_df['PESO'] > 770):
+                return '5'
+            elif (variaveis_df['VARIEDADE'] == 'Keitt') and (variaveis_df['PESO'] <= 770 and variaveis_df['PESO'] > 622):
+                return '6'
+            elif (variaveis_df['VARIEDADE'] == 'Keitt') and (variaveis_df['PESO'] <= 622 and variaveis_df['PESO'] > 553):
+                return '7'
+            elif (variaveis_df['VARIEDADE'] == 'Keitt') and (variaveis_df['PESO'] <= 553 and variaveis_df['PESO'] > 476):
+                return '8'
+            elif (variaveis_df['VARIEDADE'] == 'Keitt') and (variaveis_df['PESO'] <= 476 and variaveis_df['PESO'] > 439):
+                return '9'
+            elif (variaveis_df['VARIEDADE'] == 'Keitt') and (variaveis_df['PESO'] <= 439 and variaveis_df['PESO'] > 385):
+                return '10'
+            elif (variaveis_df['VARIEDADE'] == 'Keitt') and (variaveis_df['PESO'] <= 385 and variaveis_df['PESO'] > 305):
+                return '12'
+            elif (variaveis_df['VARIEDADE'] == 'Keitt') and (variaveis_df['PESO'] <= 305 and variaveis_df['PESO'] > 279):
+                return '14'
+            elif (variaveis_df['VARIEDADE'] == 'Keitt') and (variaveis_df['PESO'] <= 279):
+                return '0'
+            elif (variaveis_df['VARIEDADE'] == 'Keitt') and (variaveis_df['PESO'] > 1500):
+                return '100'
 
-    #################################################### KENT #####################################################
-    elif variaveis_df['VARIEDADE'] == 'Kent' and (variaveis_df['PESO'] <= 1300 and variaveis_df['PESO'] > 930):
-        return '4'
-    elif (variaveis_df['VARIEDADE'] == 'Kent') and (variaveis_df['PESO'] <= 930 and variaveis_df['PESO'] > 760):
-        return '5'
-    elif (variaveis_df['VARIEDADE'] == 'Kent') and (variaveis_df['PESO'] <= 760 and variaveis_df['PESO'] > 626):
-        return '6'
-    elif (variaveis_df['VARIEDADE'] == 'Kent') and (variaveis_df['PESO'] <= 626 and variaveis_df['PESO'] > 545):
-        return '7'
-    elif (variaveis_df['VARIEDADE'] == 'Kent') and (variaveis_df['PESO'] <= 545 and variaveis_df['PESO'] > 476):
-        return '8'
-    elif (variaveis_df['VARIEDADE'] == 'Kent') and (variaveis_df['PESO'] <= 476 and variaveis_df['PESO'] > 444):
-        return '9'
-    elif (variaveis_df['VARIEDADE'] == 'Kent') and (variaveis_df['PESO'] <= 444 and variaveis_df['PESO'] > 375):
-        return '10'
-    elif (variaveis_df['VARIEDADE'] == 'Kent') and (variaveis_df['PESO'] <= 375 and variaveis_df['PESO'] > 303):
-        return '12'
-    elif (variaveis_df['VARIEDADE'] == 'Kent') and (variaveis_df['PESO'] <= 303 and variaveis_df['PESO'] > 269):
-        return '14'
-    elif (variaveis_df['VARIEDADE'] == 'Kent') and (variaveis_df['PESO'] <= 269):
-        return '0'
-    elif (variaveis_df['VARIEDADE'] == 'Kent') and (variaveis_df['PESO'] > 1300):
-        return '100'
+            #################################################### KENT #####################################################
+            elif variaveis_df['VARIEDADE'] == 'Kent' and (variaveis_df['PESO'] <= 1300 and variaveis_df['PESO'] > 930):
+                return '4'
+            elif (variaveis_df['VARIEDADE'] == 'Kent') and (variaveis_df['PESO'] <= 930 and variaveis_df['PESO'] > 760):
+                return '5'
+            elif (variaveis_df['VARIEDADE'] == 'Kent') and (variaveis_df['PESO'] <= 760 and variaveis_df['PESO'] > 626):
+                return '6'
+            elif (variaveis_df['VARIEDADE'] == 'Kent') and (variaveis_df['PESO'] <= 626 and variaveis_df['PESO'] > 545):
+                return '7'
+            elif (variaveis_df['VARIEDADE'] == 'Kent') and (variaveis_df['PESO'] <= 545 and variaveis_df['PESO'] > 476):
+                return '8'
+            elif (variaveis_df['VARIEDADE'] == 'Kent') and (variaveis_df['PESO'] <= 476 and variaveis_df['PESO'] > 444):
+                return '9'
+            elif (variaveis_df['VARIEDADE'] == 'Kent') and (variaveis_df['PESO'] <= 444 and variaveis_df['PESO'] > 375):
+                return '10'
+            elif (variaveis_df['VARIEDADE'] == 'Kent') and (variaveis_df['PESO'] <= 375 and variaveis_df['PESO'] > 303):
+                return '12'
+            elif (variaveis_df['VARIEDADE'] == 'Kent') and (variaveis_df['PESO'] <= 303 and variaveis_df['PESO'] > 269):
+                return '14'
+            elif (variaveis_df['VARIEDADE'] == 'Kent') and (variaveis_df['PESO'] <= 269):
+                return '0'
+            elif (variaveis_df['VARIEDADE'] == 'Kent') and (variaveis_df['PESO'] > 1300):
+                return '100'
 
 
-variaveis_df['CALIBRE'] = variaveis_df.apply(calibre, axis =1)
-#variaveis_df.to_excel('teste_denilton.xlsx')
+        variaveis_df['CALIBRE'] = variaveis_df.apply(calibre, axis =1)
 
+        st.session_state.anterior = variaveis_df
+
+        df_embaladeiras_ativas = pd.read_json(url_embaladeiras_ativas)
+        df_embaladeiras_ativas.rename(columns = {'CPF':'MATRICULA'}, inplace = True)
+
+        st.session_state.url_embala = df_embaladeiras_ativas
 
 
 ######################################################## PLANILHA QUE SUBSTITUI OS INPUTS ########################################################
-dataset = variaveis_df
+dataset = st.session_state.anterior
+#dataset
 dataset.rename(columns = {"PESO":"Peso","CALIBRE":"Calibre","NUMERO_FRUTO":"Fruto","QUALIDADE":"Qualidade","VARIEDADE":"Variedade"}, inplace = True)
 
 
@@ -242,18 +241,22 @@ produtividade_limpeza2 = 0.75
 caixotes = Caixotes
 variedade = VARIEDADE 
 #b['Calibre'] == 5
-
-
-
 padrao_embaldeiras_total = pd.read_excel('padrao_embaladeiras_TUDO_cenarios.xlsx')
 
-url_embaladeiras_ativas = st.session_state.url_embala 
 
-df_embaladeiras_ativas = pd.read_json(url_embaladeiras_ativas)
-df_embaladeiras_ativas.rename(columns = {'CPF':'MATRICULA'}, inplace = True)
+
+
+
+
+df_embaladeiras_ativas = st.session_state.url_embala
+
     
 df_222 = df_embaladeiras_ativas.merge(padrao_embaldeiras_total)
 padrao_embaldeiras = df_222
+
+
+
+
 
 embaladeira = len(padrao_embaldeiras.groupby('PESSOA'))
 Programa_input = 'Entre Safra'
@@ -279,7 +282,7 @@ if pagina_selecionada == 'Balanceamento e produtividade':
 
     ############## CONTROLE ########################################################
 
-    controle = variaveis_df['CONTROLE'][0]
+    controle = dataset['CONTROLE'][0]
     st.session_state.controle = controle
     
     controle2 = st.session_state.controle
