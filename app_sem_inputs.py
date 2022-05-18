@@ -8,31 +8,12 @@ import numpy as np
 
 
 st.set_page_config(layout="wide")
-#dataset = pd.read_excel('Planilha Denilton.xlsx')
-#st.write('Recarregue para um novo controle')
+
+
 #if st.button('Recarregar'):
  #   st.experimental_rerun()
-######################################################## PLANILHA QUE SUBSTITUI OS INPUTS ########################################################
 
 
-
-#random_qualidade = np.random.randint(1, 4, size=150)
-#planilha_inputs = pd.DataFrame(random_qualidade, columns = ['Qualidade'])
-#planilha_inputs = planilha_inputs.reset_index()
-#planilha_inputs = planilha_inputs.rename(columns = {'index':'Fruto'})
-#random_peso = np.random.randint(289,870,size = 150)
-#planilha_inputs['Peso'] = random_peso
-        
-#planilha_inputs['Calibre'] = planilha_inputs.apply(calibre, axis = 1)
-#dataset = planilha_inputs 
-#dataset['Embaladeiras'] = 52
-#dataset['Caixotes'] = 504
-
-#dataset['Variedade'] = np.random.randint(5,109) 
-#dataset['Variedade'] = 'Palmer'
-
-#dataset.to_excel('Planilha_teste.xlsx')
-#dataset
 
 #################### VOU DEIXAR COMO INPUT O PERIODO DE SAFRA E O NUMERO DE EMBALADEIRAS  ####################
 
@@ -70,7 +51,7 @@ def correcao_(variaveis_df):
         return 'NADA'
 
 variaveis_df['VARIEDADE'] = variaveis_df.apply(correcao_, axis = 1)
-variaveis_df.to_excel('teste_denilton.xlsx')
+#variaveis_df.to_excel('teste_keitt__.xlsx')
 
 
 def calibre(variaveis_df):
@@ -173,7 +154,7 @@ def calibre(variaveis_df):
 variaveis_df['CALIBRE'] = variaveis_df.apply(calibre, axis =1)
 #variaveis_df.to_excel('teste_denilton.xlsx')
 
-## melhor mudar s colunas do  df atual para opadrao do codgigo, e nao ao cnotratio
+
 
 ######################################################## PLANILHA QUE SUBSTITUI OS INPUTS ########################################################
 dataset = variaveis_df
@@ -182,7 +163,7 @@ dataset.rename(columns = {"PESO":"Peso","CALIBRE":"Calibre","NUMERO_FRUTO":"Frut
 
 avg_frutos_caixotes = round(dataset['N_CAIXOTE'].value_counts().sum() / len(dataset['N_CAIXOTE'].value_counts()))
 
-#avg_frutos_caixotes
+
 
 
 Caixotes = dataset['CONTENTORES'][0].item()
@@ -422,7 +403,7 @@ if pagina_selecionada == 'Balanceamento e produtividade':
     
 
 
-    corte_talo = round(((embaladeira * produtividade_embaladeira) / (3.5 * produtividade_talo))) + 1
+    #corte_talo = round(((embaladeira * produtividade_embaladeira) / (3.5 * produtividade_talo))) + 1
 
     ##################################################################################################################################################
     
@@ -450,8 +431,17 @@ if pagina_selecionada == 'Balanceamento e produtividade':
     st.session_state.produtividade_limpeza = produtividade_limpeza
     st.session_state.produtividade_selecao = produtividade_limpeza2
     
-    ritmo_embaladeira = ((b['Horas_4kg'].sum()  / embaladeira) * (1/24))*100
+    ritmo_embaladeira = ((b['Horas_4kg'].sum()  / embaladeira) * (1/24))
+    #corte_talo = round(((embaladeira * produtividade_embaladeira) / (3.5 * produtividade_talo))) + 1
 
+    #avg_frutos_caixotes = 30
+    #caixotes = 828
+    #produtividade_talo = 0.80
+    #ritmo_embaladeira = 0.061099691
+
+
+    corte_talo = round((caixotes * avg_frutos_caixotes) / (101303.19 * produtividade_talo * ritmo_embaladeira))
+    
     ritmo_talo = ((((caixotes * avg_frutos_caixotes) / corte_talo) / (4200 * produtividade_talo)) * (1/24))
 
     diferenca_aceitavel = abs(round((ritmo_embaladeira - ritmo_talo),3))
@@ -461,46 +451,23 @@ if pagina_selecionada == 'Balanceamento e produtividade':
     
         
     def equilibrio(corte_talo, embaladeira):
-
-                if (ritmo_talo) < (ritmo_embaladeira):
-                    caixotes_hora = round((caixotes*0.0416667)/(ritmo_talo_2))
-                    #ritmo_talo_2
-                    Limpeza_selecao = round((caixotes_hora * avg_frutos_caixotes * 0.6) / (3230 * produtividade_limpeza))
-                    ton_horas = round(((b['Caixas_total'].sum()*4.05)/1000)/(b['Horas_4kg'].sum()/embaladeira),2)
-                    soma = segunda_percent + terceira_percent + refugo_percent                
-                    selecao_ = round((caixotes_hora * avg_frutos_caixotes * soma / (3501 * produtividade_limpeza2)) + (caixotes_hora * avg_frutos_caixotes * primeira_percent / (6480 * produtividade_limpeza2)))
-                    st.write('#### Quantidade ideal de pessoas no talo:', corte_talo2)
-                    st.write('#### Quantidade de pessoas na seleção:',selecao_ )
-                    st.write('#### Quantidade de pessoas na limpeza:', Limpeza_selecao)
-                    st.write('#### Capacidade de Caixotes/Hora:', caixotes_hora)
-                    st.write('#### Capacidade de Toneladas/Hora:', ton_horas)
+    
+            caixotes_hora = round((caixotes*0.0416667)/(ritmo_talo_2))
+            #ritmo_talo_2
+            Limpeza_selecao = round((caixotes_hora * avg_frutos_caixotes * 0.6) / (3230 * produtividade_limpeza))
+            ton_horas = round(((b['Caixas_total'].sum()*4.05)/1000)/(b['Horas_4kg'].sum()/embaladeira),2)
+            soma = segunda_percent + terceira_percent + refugo_percent                
+            selecao_ = round((caixotes_hora * avg_frutos_caixotes * soma / (3501 * produtividade_limpeza2)) + (caixotes_hora * avg_frutos_caixotes * primeira_percent / (6480 * produtividade_limpeza2)))
+            st.write('#### Quantidade ideal de pessoas no talo:', corte_talo2)
+            st.write('#### Quantidade de pessoas na seleção:',selecao_ )
+            st.write('#### Quantidade de pessoas na limpeza:', Limpeza_selecao)
+            st.write('#### Capacidade de Caixotes/Hora:', caixotes_hora)
+            st.write('#### Capacidade de Toneladas/Hora:', ton_horas)
                     
-                    st.session_state.caixotes_hora = caixotes_hora
-                    st.session_state.ton_horas = ton_horas
-                    #Limpeza_selecao = round((caixotes_hora * avg_frutos_caixotes * 0.6) / (3230 * produtividade_limpeza))
-                    #Limpeza_selecao
-                    #st.write('Quantidade de pessoas na limpeza e seleção tem que ser de:', Limpeza_selecao)
-                
-            
-                else :
-                    caixotes_hora2 = round((caixotes*0.0416667)/(ritmo_talo))
-                    Limpeza_selecao2 = round((caixotes_hora2 * avg_frutos_caixotes * 0.6) / (3230 * produtividade_limpeza))
-                    selecao_2 = selecao_
-                    #caixotes_hora2 = round((caixotes*0.0416667)/(ritmo_talo))
-                    st.write('#### Quantidade ideal de pessoas no talo:', round(corte_talo))
-                    st.write('#### Quantidade de pessoas na seleção:',selecao_2 )
-                    st.write('#### Quantidade de pessoas na limpeza:', Limpeza_selecao2)
-                    st.write('#### Capacidade de Caixotes/Hora:', caixotes_hora2)
-                    st.write('#### Capacidade de Toneladas/Hora:', ton_horas)
-                    st.session_state.caixotes_hora = caixotes_hora2
-                    st.session_state.ton_horas = ton_horas
-                    #Limpeza_selecao2 = round((caixotes_hora2 * avg_frutos_caixotes * 0.6) / (3230 * produtividade_limpeza))
-                    #st.write('Quantidade de pessoas na limpeza e seleção tem que ser de:', Limpeza_selecao2)
+            st.session_state.caixotes_hora = caixotes_hora
+            st.session_state.ton_horas = ton_horas
 
-            #col1, col2 = st.columns(2)
-            #st.write('A variedade selecionada foi:', variedade)
-        #with col3:
-        #        st.write('')
+
     with coluna3_3:
                 #st.markdown('       ')
                 #st.markdown("""__________________________________________""")
@@ -586,8 +553,7 @@ elif pagina_selecionada == 'Linhas de embalagem':
     produtividade_limpeza = st.session_state.produtividade_limpeza 
     produtividade_limpeza2 = st.session_state.produtividade_selecao 
 
-    corte_talo = round(((embaladeira * produtividade_embaladeira) / (3.5 * produtividade_talo))) + 1
-    corte_talo
+    
 
 
     def ritmo(b):
@@ -687,51 +653,36 @@ elif pagina_selecionada == 'Linhas de embalagem':
 
     b['Horas_4kg'] = (b['Caixas_total'] / b['Ritmo']) / produtividade_embaladeira   
 
-    #b['Horas_4kg'] = (b['Caixas_total'] / b['Ritmo']) / produtividade_embaladeira    
-    #b['Horas_aereo'] = (b['Caixas_Aereo'] / b['Ritmo_aereo']) / produtividade_embaladeira
-    #b['Horas_4kg'] = (b['Horas_4kg'] + b['Horas_aereo'].fillna(0))
-    #b['Horas_aereo'] = b['Horas_aereo'].fillna(0)
 
-    #b['Horas_aereo'] = (b['Caixas_Aereo'] / b['Ritmo_aereo']) / produtividade_embaladeira 
-    #b['Horas_4kg'] = (b['Horas_4kg'] + b['Horas_aereo'])
+    ritmo_embaladeira = ((b['Horas_4kg'].sum()  / embaladeira) * (1/24))
 
-    #b['Ritmo_aereo'] = b['Ritmo_aereo'] .fillna(1)
-    #############################################################################################################
-
-
-    #if#:
-    ritmo_talo = ((((caixotes * avg_frutos_caixotes) / corte_talo) / (4200 * produtividade_talo)) * (1/24))
-    ritmo_embaladeira = ((b['Horas_4kg'].sum()  / embaladeira) * (1/24))*100
-    diferenca_aceitavel = abs(round((ritmo_embaladeira - ritmo_talo),3))
+    corte_talo = round((caixotes * avg_frutos_caixotes) / (101303.19 * produtividade_talo * ritmo_embaladeira))
     
+    ritmo_talo = ((((caixotes * avg_frutos_caixotes) / corte_talo) / (4200 * produtividade_talo)) * (1/24))
+
+    diferenca_aceitavel = abs(round((ritmo_embaladeira - ritmo_talo),3))
+
     corte_talo2 = corte_talo
     ritmo_talo_2 = ((((caixotes * avg_frutos_caixotes) / corte_talo2) / (4200 * produtividade_talo)) * (1/24))
+    
+
     #selecao_ =(caixotes_hora * avg_frutos_caixotes) * (segunda_percent + terceira_percent + refugo_percent) / (3501 * produtividade_limpeza2) + caixotes_hora * avg_frutos_caixotes * primeira_percent / (6480 * produtividade_limpeza2)
 
     def equilibrio(corte_talo, embaladeira):
 
-        if (ritmo_talo) < (ritmo_embaladeira):
 
-            caixotes_hora = round((caixotes*0.0416667)/(ritmo_talo_2))
-            soma = segunda_percent + terceira_percent + refugo_percent
-            selecao_ = round((caixotes_hora * avg_frutos_caixotes * soma / (3501 * produtividade_limpeza2)) + (caixotes_hora * avg_frutos_caixotes * primeira_percent / (6480 * produtividade_limpeza2)))
-            st.write("A quantidade ideal de pessoas no talo tem que ser:", corte_talo2)
-            st.write('Capacidade de caixotes/hora no corte de talo é de:', caixotes_hora)
-            st.write('Capacidade de Toneladas/Horas é de:', round(((b['Caixas_total'].sum()*4.05)/1000)/(b['Horas_4kg'].sum()/embaladeira),2))
-            Limpeza_selecao = round((caixotes_hora * avg_frutos_caixotes * 0.6) / (3230 * produtividade_limpeza))
-                #Limpeza_selecao
-            st.write('Quantidade de pessoas na limpeza:', Limpeza_selecao)
-            st.write('Quantidade de pessoas na selelao:', selecao_)
+        caixotes_hora = round((caixotes*0.0416667)/(ritmo_talo_2))
+        soma = segunda_percent + terceira_percent + refugo_percent
+        selecao_ = round((caixotes_hora * avg_frutos_caixotes * soma / (3501 * produtividade_limpeza2)) + (caixotes_hora * avg_frutos_caixotes * primeira_percent / (6480 * produtividade_limpeza2)))
+        st.write("A quantidade ideal de pessoas no talo tem que ser:", corte_talo2)
+        st.write('Capacidade de caixotes/hora no corte de talo é de:', caixotes_hora)
+        st.write('Capacidade de Toneladas/Horas é de:', round(((b['Caixas_total'].sum()*4.05)/1000)/(b['Horas_4kg'].sum()/embaladeira),2))
+        Limpeza_selecao = round((caixotes_hora * avg_frutos_caixotes * 0.6) / (3230 * produtividade_limpeza))
+            #Limpeza_selecao
+        st.write('Quantidade de pessoas na limpeza:', Limpeza_selecao)
+        st.write('Quantidade de pessoas na selelao:', selecao_)
             
-        else :
-            caixotes_hora2 = round((caixotes*0.0416667)/(ritmo_talo))
-            selecao_2 = selecao_
-            st.write("A quantidade ideal de pessoas no talo tem que ser:", round(corte_talo))
-            st.write('Capacidade de caixotes/hora no corte de talo é de:', caixotes_hora2)
-            st.write('Capacidade de Toneladas/Horas é de:', round(((b['Caixas_total'].sum()*4.05)/1000)/(b['Horas_4kg'].sum()/embaladeira),2))
-            Limpeza_selecao2 = round((caixotes_hora2 * avg_frutos_caixotes * 0.6) / (3230 * produtividade_limpeza))
-            st.write('Quantidade de pessoas na limpeza:', Limpeza_selecao2)
-            st.write('Quantidade de pessoas na selelao:', selecao_2)
+        
     
     ########################################### SAIDA DA ABA DE LINHAS ###########################################
     Layout_linha = pd.DataFrame({"Linha":['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22'],
@@ -753,50 +704,100 @@ elif pagina_selecionada == 'Linhas de embalagem':
 
 
     def preenchendo_calibre(Layout_linha):
-        if (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '1') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        if (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '1') and (variedade == 'Palmer'):
             return 'Refugo'
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '2') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '2') and (variedade == 'Palmer'):
             return 'Refugo'
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '3') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '3') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '4') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '4') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '5') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '5') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '6') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '6') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '7') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '7') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '8') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '8') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '9') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '9') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '10') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '10') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '11') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
-            return '9'
-        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '12') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
-            return '9'
-        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '13') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
-            return '10'
-        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '14') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
-            return '10'
-        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '15') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
-            return ''
-        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '16') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '11') and (variedade == 'Palmer'):
+            return '6'
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '12') and (variedade == 'Palmer'):
             return '12'
-        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '17') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
-            return '12'
-        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '18') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '13') and (variedade == 'Palmer'):
+            return '6'
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '14') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '19') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '15') and (variedade == 'Palmer'):
             return '8'
-        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '20') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '16') and (variedade == 'Palmer'):
             return '8'
-        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '21') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '17') and (variedade == 'Palmer'):
+            return '10'
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '18') and (variedade == 'Palmer'):
+            return ''
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '19') and (variedade == 'Palmer'):
+            return '7'
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '20') and (variedade == 'Palmer'):
+            return '7'
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '21') and (variedade == 'Palmer'):
             return '5'
-        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '22') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '22') and (variedade == 'Palmer'):
             return '5'
+
+########################################################## TOMMY ############################################################################
+
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '1') and (variedade == 'Tommy Atkins'):
+            return 'Refugo'
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '2') and (variedade == 'Tommy Atkins'):
+            return 'Refugo'
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '3') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '4') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '5') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '6') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '7') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '8') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '9') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '10') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '11') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '12') and (variedade == 'Tommy Atkins'):
+            return '10'
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '13') and (variedade == 'Tommy Atkins'):
+            return '10'
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '14') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '15') and (variedade == 'Tommy Atkins'):
+            return '9'
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '16') and (variedade == 'Tommy Atkins'):
+            return '9'
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '17') and (variedade == 'Tommy Atkins'):
+            return '12'
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '18') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '19') and (variedade == 'Tommy Atkins'):
+            return '8'
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '20') and (variedade == 'Tommy Atkins'):
+            return '8'
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '21') and (variedade == 'Tommy Atkins'):
+            return '7'
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '22') and (variedade == 'Tommy Atkins'):
+            return '7'
+
+
+
 ############################################################### KENT E KEITT ###############################################################
         elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '1') and (variedade == 'Kent' or variedade == 'Keitt'):
             return 'Refugo'
@@ -823,30 +824,31 @@ elif pagina_selecionada == 'Linhas de embalagem':
         elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '12') and (variedade == 'Kent' or variedade == 'Keitt'):
             return '6'
         elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '13') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return '8'
+            return '6'
         elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '14') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return '8'
+            return ''
         elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '15') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return '10'
+            return '8'
         elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '16') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return '10'
+            return '8'
         elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '17') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return '7'
+            return ''
         elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '18') and (variedade == 'Kent' or variedade == 'Keitt'):
             return '7'
         elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '19') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return ''
+            return '7'
         elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '20') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return '9'
+            return ''
         elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '21') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return '12'
+            return '9'
         elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '22') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return '12'
+            return '9'
 ################################################### PERIODO DE SAFRA ##################################################################################################
+
         elif (Programa_input == 'Safra'and Layout_linha['Linha'] == '1') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
             return 'Refugo'
         elif (Programa_input == 'Safra'and Layout_linha['Linha'] == '2') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
-            return ''
+            return 'Refugo'
         elif (Programa_input == 'Safra'and Layout_linha['Linha'] == '3') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
             return '14'
         elif (Programa_input == 'Safra' and Layout_linha['Linha'] == '4') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
@@ -856,13 +858,13 @@ elif pagina_selecionada == 'Linhas de embalagem':
         elif (Programa_input == 'Safra' and Layout_linha['Linha'] == '6') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
             return '6'
         elif (Programa_input == 'Safra'and Layout_linha['Linha'] == '7') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
-            return '9'
+            return ''
         elif (Programa_input == 'Safra'and Layout_linha['Linha'] == '8') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
-            return '9'
+            return ''
         elif (Programa_input == 'Safra' and Layout_linha['Linha'] == '9') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
-            return ''
+            return '9'
         elif (Programa_input == 'Safra' and Layout_linha['Linha'] == '10') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
-            return ''
+            return '9'
         elif (Programa_input == 'Safra' and Layout_linha['Linha'] == '11') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
             return '7'
         elif (Programa_input == 'Safra' and Layout_linha['Linha'] == '12') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
@@ -887,29 +889,30 @@ elif pagina_selecionada == 'Linhas de embalagem':
             return '8'
         elif (Programa_input == 'Safra' and Layout_linha['Linha'] == '22') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
             return '8'
+
 ############################################################### KENT E KEITT ###############################################################
         elif (Programa_input == 'Safra'and Layout_linha['Linha'] == '1') and (variedade == 'Kent' or variedade == 'Keitt'):
             return 'Refugo'
         elif (Programa_input == 'Safra'and Layout_linha['Linha'] == '2') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return ''
+            return 'Refugo'
         elif (Programa_input == 'Safra'and Layout_linha['Linha'] == '3') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return ''
+            return '14'
         elif (Programa_input == 'Safra' and Layout_linha['Linha'] == '4') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return ''
+            return '14'
         elif (Programa_input == 'Safra'and Layout_linha['Linha'] == '5') and (variedade == 'Kent' or variedade == 'Keitt'):
             return '10'
         elif (Programa_input == 'Safra' and Layout_linha['Linha'] == '6') and (variedade == 'Kent' or variedade == 'Keitt'):
             return '10'
         elif (Programa_input == 'Safra'and Layout_linha['Linha'] == '7') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return '9'
+            return ''
         elif (Programa_input == 'Safra'and Layout_linha['Linha'] == '8') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return '9'
+            return ''
         elif (Programa_input == 'Safra' and Layout_linha['Linha'] == '9') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return 'Aéreo'
+            return '9'
         elif (Programa_input == 'Safra' and Layout_linha['Linha'] == '10') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return 'Aéreo'
+            return '9'
         elif (Programa_input == 'Safra' and Layout_linha['Linha'] == '11') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return '6'
+            return ''
         elif (Programa_input == 'Safra' and Layout_linha['Linha'] == '12') and (variedade == 'Kent' or variedade == 'Keitt'):
             return '6'
         elif (Programa_input == 'Safra' and Layout_linha['Linha'] == '13') and (variedade == 'Kent' or variedade == 'Keitt'):
@@ -939,49 +942,95 @@ elif pagina_selecionada == 'Linhas de embalagem':
     Layout_linha['Calibre'] = Layout_linha.apply(preenchendo_calibre, axis = 1)
 
     def preenchendo_qualidade(Layout_linha):
-        if (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '1') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        if (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '1') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '2') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '2') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '3') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '3') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '4') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '4') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '5') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '5') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '6') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '6') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '7') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '7') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '8') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '8') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '9') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '9') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '10') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '10') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '11') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '11') and (variedade == 'Palmer'):
+            return '1'
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '12') and (variedade == 'Palmer'):
+            return '1'
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '13') and (variedade == 'Palmer'):
             return '2'
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '12') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
-            return '1'
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '13') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
-            return '2'
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '14') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
-            return '1'
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '15') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '14') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '16') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
-            return '2'
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '17') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '15') and (variedade == 'Palmer'):
             return '1'
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '18') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '16') and (variedade == 'Palmer'):
+            return '2'
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '17') and (variedade == 'Palmer'):
+            return '1'
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '18') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '19') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '19') and (variedade == 'Palmer'):
             return '2'
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '20') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '20') and (variedade == 'Palmer'):
             return '1'
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '21') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '21') and (variedade == 'Palmer'):
             return '1'
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '22') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '22') and (variedade == 'Palmer'):
+            return '2'
+        ####################################################### TOMMY ATKINS #############################################################
+
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '1') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '2') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '3') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '4') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '5') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '6') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '7') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '8') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '9') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '10') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '11') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '12') and (variedade == 'Tommy Atkins'):
+            return '1'
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '13') and (variedade == 'Tommy Atkins'):
+            return '2'
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '14') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '15') and (variedade == 'Tommy Atkins'):
+            return '1'
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '16') and (variedade == 'Tommy Atkins'):
+            return '2'
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '17') and (variedade == 'Tommy Atkins'):
+            return '1'
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '18') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '19') and (variedade == 'Tommy Atkins'):
+            return '2'
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '20') and (variedade == 'Tommy Atkins'):
+            return '1'
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '21') and (variedade == 'Tommy Atkins'):
+            return '1'
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '22') and (variedade == 'Tommy Atkins'):
             return '2'
 
 ############################################################### KENT E KEITT ###############################################################
@@ -1012,19 +1061,19 @@ elif pagina_selecionada == 'Linhas de embalagem':
         elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '13') and (variedade == 'Kent' or variedade == 'Keitt'):
             return '2'
         elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '14') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return '1'
+            return ''
         elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '15') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return '2'
-        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '16') and (variedade == 'Kent' or variedade == 'Keitt'):
             return '1'
-        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '17') and (variedade == 'Kent' or variedade == 'Keitt'):
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '16') and (variedade == 'Kent' or variedade == 'Keitt'):
             return '2'
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '17') and (variedade == 'Kent' or variedade == 'Keitt'):
+            return ''
         elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '18') and (variedade == 'Kent' or variedade == 'Keitt'):
             return '1'
         elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '19') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return ''
+            return '2'
         elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '20') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return '1'
+            return ''
         elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '21') and (variedade == 'Kent' or variedade == 'Keitt'):
             return '1'
         elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '22') and (variedade == 'Kent' or variedade == 'Keitt'):
@@ -1034,7 +1083,7 @@ elif pagina_selecionada == 'Linhas de embalagem':
         elif (Programa_input == 'Safra'and Layout_linha['Linha'] == '1') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
             return 'Refugo'
         elif (Programa_input == 'Safra'and Layout_linha['Linha'] == '2') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
-            return ''
+            return 'Refugo'
         elif (Programa_input == 'Safra'and Layout_linha['Linha'] == '3') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
             return '2'
         elif (Programa_input == 'Safra' and Layout_linha['Linha'] == '4') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
@@ -1044,13 +1093,13 @@ elif pagina_selecionada == 'Linhas de embalagem':
         elif (Programa_input == 'Safra' and Layout_linha['Linha'] == '6') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
             return '1'
         elif (Programa_input == 'Safra'and Layout_linha['Linha'] == '7') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
-            return '2'
+            return ''
         elif (Programa_input == 'Safra'and Layout_linha['Linha'] == '8') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
-            return '1'
+            return ''
         elif (Programa_input == 'Safra' and Layout_linha['Linha'] == '9') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
-            return ''
+            return '1'
         elif (Programa_input == 'Safra' and Layout_linha['Linha'] == '10') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
-            return ''
+            return '2'
         elif (Programa_input == 'Safra' and Layout_linha['Linha'] == '11') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
             return '2'
         elif (Programa_input == 'Safra' and Layout_linha['Linha'] == '12') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
@@ -1077,27 +1126,27 @@ elif pagina_selecionada == 'Linhas de embalagem':
             return '2'
 ############################################################### KENT E KEITT ###############################################################
         elif (Programa_input == 'Safra'and Layout_linha['Linha'] == '1') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return 'Refugo'
+            return ''
         elif (Programa_input == 'Safra'and Layout_linha['Linha'] == '2') and (variedade == 'Kent' or variedade == 'Keitt'):
             return ''
         elif (Programa_input == 'Safra'and Layout_linha['Linha'] == '3') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return ''
+            return '2'
         elif (Programa_input == 'Safra' and Layout_linha['Linha'] == '4') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return ''
+            return '1'
         elif (Programa_input == 'Safra'and Layout_linha['Linha'] == '5') and (variedade == 'Kent' or variedade == 'Keitt'):
             return '2'
         elif (Programa_input == 'Safra' and Layout_linha['Linha'] == '6') and (variedade == 'Kent' or variedade == 'Keitt'):
             return '1'
         elif (Programa_input == 'Safra'and Layout_linha['Linha'] == '7') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return '1'
+            return ''
         elif (Programa_input == 'Safra'and Layout_linha['Linha'] == '8') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return '2'
+            return ''
         elif (Programa_input == 'Safra' and Layout_linha['Linha'] == '9') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return 'Aéreo'
+            return '1'
         elif (Programa_input == 'Safra' and Layout_linha['Linha'] == '10') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return 'Aéreo'
-        elif (Programa_input == 'Safra' and Layout_linha['Linha'] == '11') and (variedade == 'Kent' or variedade == 'Keitt'):
             return '2'
+        elif (Programa_input == 'Safra' and Layout_linha['Linha'] == '11') and (variedade == 'Kent' or variedade == 'Keitt'):
+            return ''
         elif (Programa_input == 'Safra' and Layout_linha['Linha'] == '12') and (variedade == 'Kent' or variedade == 'Keitt'):
             return '1'
         elif (Programa_input == 'Safra' and Layout_linha['Linha'] == '13') and (variedade == 'Kent' or variedade == 'Keitt'):
@@ -1127,50 +1176,97 @@ elif pagina_selecionada == 'Linhas de embalagem':
     Layout_linha['Qualidade'] = Layout_linha.apply(preenchendo_qualidade, axis = 1)
 
     def preenchendo_calibre2(Layout_linha):
-        if (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '1') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        if (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '1') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '2') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '2') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '3') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '3') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '4') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '4') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '5') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '5') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '6') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '6') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '7') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '7') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '8') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '8') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '9') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '9') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '10') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '10') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '11') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '11') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '12') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '12') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '13') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '13') and (variedade == 'Palmer'):
+            return '12'
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '14') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '14') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '15') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '15') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '16') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '16') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '17') and (variedade == 'Palmer'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '18') and (variedade == 'Palmer'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '19') and (variedade == 'Palmer'):
+            return '10'
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '20') and (variedade == 'Palmer'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '21') and (variedade == 'Palmer'):
+            return '9'
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '22') and (variedade == 'Palmer'):
+            return '9'
+
+################################################ TOMMY ATKINS ################################################
+
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '1') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '2') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '3') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '4') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '5') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '6') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '7') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '8') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '9') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '10') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '11') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '12') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '13') and (variedade == 'Tommy Atkins'):
             return '6'
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '17') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
-            return '6'
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '18') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '14') and (variedade == 'Tommy Atkins'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '19') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '15') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '16') and (variedade == 'Tommy Atkins'):
+            return '12'
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '17') and (variedade == 'Tommy Atkins'):
+            return '6'
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '18') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '19') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '20') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '21') and (variedade == 'Tommy Atkins'):
             return '14'
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '20') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '22') and (variedade == 'Tommy Atkins'):
             return '14'
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '21') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
-            return '7'
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '22') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
-            return '7'
 
 ############################################################### KENT E KEITT ###############################################################
 
@@ -1199,19 +1295,19 @@ elif pagina_selecionada == 'Linhas de embalagem':
         elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '12') and (variedade == 'Kent' or variedade == 'Keitt'):
             return '16'
         elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '13') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return '6'
+            return ''
         elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '14') and (variedade == 'Kent' or variedade == 'Keitt'):
             return ''
         elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '15') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return ''
+            return '12'
         elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '16') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return ''
+            return '12'
         elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '17') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return '14'
-        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '18') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return '14'
-        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '19') and (variedade == 'Kent' or variedade == 'Keitt'):
             return ''
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '18') and (variedade == 'Kent' or variedade == 'Keitt'):
+            return '10'
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '19') and (variedade == 'Kent' or variedade == 'Keitt'):
+            return '10'
         elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '20') and (variedade == 'Kent' or variedade == 'Keitt'):
             return ''
         elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '21') and (variedade == 'Kent' or variedade == 'Keitt'):
@@ -1287,19 +1383,19 @@ elif pagina_selecionada == 'Linhas de embalagem':
         elif (Programa_input == 'Safra' and Layout_linha['Linha'] == '11') and (variedade == 'Kent' or variedade == 'Keitt'):
             return ''
         elif (Programa_input == 'Safra' and Layout_linha['Linha'] == '12') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return ''
+            return '16'
         elif (Programa_input == 'Safra' and Layout_linha['Linha'] == '13') and (variedade == 'Kent' or variedade == 'Keitt'):
             return ''
         elif (Programa_input == 'Safra' and Layout_linha['Linha'] == '14') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return ''
+            return '6'
         elif (Programa_input == 'Safra' and Layout_linha['Linha'] == '15') and (variedade == 'Kent' or variedade == 'Keitt'):
             return ''
         elif (Programa_input == 'Safra' and Layout_linha['Linha'] == '16') and (variedade == 'Kent' or variedade == 'Keitt'):
             return ''
         elif (Programa_input == 'Safra' and Layout_linha['Linha'] == '17') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return '14'
+            return ''
         elif (Programa_input == 'Safra' and Layout_linha['Linha'] == '18') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return '14'
+            return ''
         elif (Programa_input == 'Safra' and Layout_linha['Linha'] == '19') and (variedade == 'Kent' or variedade == 'Keitt'):
             return ''
         elif (Programa_input == 'Safra' and Layout_linha['Linha'] == '20') and (variedade == 'Kent' or variedade == 'Keitt'):
@@ -1316,49 +1412,95 @@ elif pagina_selecionada == 'Linhas de embalagem':
     Layout_linha['Calibre2'] = Layout_linha.apply(preenchendo_calibre2, axis = 1)
 
     def preenchendo_qualidade2(Layout_linha):
-        if (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '1') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        if (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '1') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '2') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '2') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '3') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '3') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '4') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '4') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '5') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '5') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '6') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '6') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '7') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '7') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '8') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '8') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '9') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '9') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '10') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '10') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '11') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '11') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '12') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '12') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '13') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
-            return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '14') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
-            return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '15') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
-            return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '16') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '13') and (variedade == 'Palmer'):
             return '2'
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '17') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
-            return '1'
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '18') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '14') and (variedade == 'Palmer'):
             return ''
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '19') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '15') and (variedade == 'Palmer'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '16') and (variedade == 'Palmer'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '17') and (variedade == 'Palmer'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '18') and (variedade == 'Palmer'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '19') and (variedade == 'Palmer'):
             return '2'
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '20') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '20') and (variedade == 'Palmer'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '21') and (variedade == 'Palmer'):
             return '1'
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '21') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '22') and (variedade == 'Palmer'):
+            return '2'
+#################################################### TOMMY ATKINS ########################################3
+
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '1') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '2') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '3') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '4') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '5') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '6') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '7') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '8') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '9') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '10') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '11') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '12') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '13') and (variedade == 'Tommy Atkins'):
+            return '2'
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '14') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '15') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '16') and (variedade == 'Tommy Atkins'):
+            return '2'
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '17') and (variedade == 'Tommy Atkins'):
             return '1'
-        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '22') and (variedade == 'Palmer' or variedade == 'Tommy Atkins'):
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '18') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '19') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '20') and (variedade == 'Tommy Atkins'):
+            return ''
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '21') and (variedade == 'Tommy Atkins'):
+            return '1'
+        elif (Programa_input == 'Entre Safra'and Layout_linha['Linha'] == '22') and (variedade == 'Tommy Atkins'):
             return '2'
 
 ############################################################### KENT E KEITT ###############################################################
@@ -1388,19 +1530,19 @@ elif pagina_selecionada == 'Linhas de embalagem':
         elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '12') and (variedade == 'Kent' or variedade == 'Keitt'):
             return '1'
         elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '13') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return '2'
+            return ''
         elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '14') and (variedade == 'Kent' or variedade == 'Keitt'):
             return ''
         elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '15') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return ''
+            return '1'
         elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '16') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return ''
-        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '17') and (variedade == 'Kent' or variedade == 'Keitt'):
             return '2'
+        elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '17') and (variedade == 'Kent' or variedade == 'Keitt'):
+            return ''
         elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '18') and (variedade == 'Kent' or variedade == 'Keitt'):
             return '1'
         elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '19') and (variedade == 'Kent' or variedade == 'Keitt'):
-            return ''
+            return '2'
         elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '20') and (variedade == 'Kent' or variedade == 'Keitt'):
             return ''
         elif (Programa_input == 'Entre Safra' and Layout_linha['Linha'] == '21') and (variedade == 'Kent' or variedade == 'Keitt'):
@@ -2719,18 +2861,18 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     gg.add_hline(253)
                     gg.update_layout(height = 350, width = 350)
                 elif elem == 14.0:
-                    kl = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
-                    kl = round(kl,0)
-                    kl = kl.astype(int)
-                    kl = kl 
-                    kl
+                    #kl = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
+                    #kl = round(kl,0)
+                    #kl = kl.astype(int)
+                    #kl = kl 
+                    #kl
                     filtro_variedade = padrao_embaldeiras['VARIEDADE'] == 'Keitt'
                     padrao_embaldeiras_palmer = padrao_embaldeiras[filtro_variedade]
 
                     filtro_calibre = padrao_embaldeiras['CALIBRE'] == 14
                     padrao_embaldeiras_palmer = padrao_embaldeiras_palmer[filtro_calibre]
                     #padrao_embaldeiras_palmer.groupby(['CALIBRE','PESSOA'])['mean']
-                    h = padrao_embaldeiras_palmer.groupby(['ID_PESSOA','PESSOA'])['mean'].max().sort_values(ascending=False).head(kl)
+                    h = padrao_embaldeiras_palmer.groupby(['ID_PESSOA','PESSOA'])['mean'].max().sort_values(ascending=False).head(20)
                     h = h.reset_index()
                     h['mean'] = round(h['mean'],0)
                     h = h.rename(columns = {'mean':'Caixas/Hora'})
@@ -3058,10 +3200,10 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
 
                 elif elem == 14.0:
 
-                    kl = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
-                    kl = round(kl,0)
-                    kl = kl.astype(int)
-                    kl = kl 
+                    #kl = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
+                    #kl = round(kl,0)
+                    #kl = kl.astype(int)
+                    #kl = kl 
                     #kl
 
                     filtro_variedade = padrao_embaldeiras['VARIEDADE'] == 'Tommy Atkins'
@@ -3085,7 +3227,7 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     padrao_embaldeiras_palmer_7 = padrao_embaldeiras_palmer_6[~padrao_embaldeiras_palmer_6.ID_PESSOA.isin(f['ID_PESSOA'])]
                     padrao_embaldeiras_palmer_8 = padrao_embaldeiras_palmer_7[~padrao_embaldeiras_palmer_7.ID_PESSOA.isin(g['ID_PESSOA'])]
 
-                    h = padrao_embaldeiras_palmer.groupby(['ID_PESSOA','PESSOA'])['mean'].max().sort_values(ascending=False).head(kl)
+                    h = padrao_embaldeiras_palmer.groupby(['ID_PESSOA','PESSOA'])['mean'].max().sort_values(ascending=False).head(20)
                     h = h.reset_index()
                     h['mean'] = round(h['mean'],0)
                     h = h.rename(columns = {'mean':'Caixas/Hora'})
