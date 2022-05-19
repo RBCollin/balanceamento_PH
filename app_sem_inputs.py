@@ -146,6 +146,8 @@ with coluna_inicial_2:
 
         variaveis_df['CALIBRE'] = variaveis_df.apply(calibre, axis =1)
 
+        #variaveis_df.to_excel('keitt_395.xlsx')
+
         st.session_state.anterior = variaveis_df
 
         df_embaladeiras_ativas = pd.read_json(url_embaladeiras_ativas)
@@ -216,6 +218,13 @@ else:
     quality = quality.append({'Qualidade':3, 'Percent':0}, ignore_index=True)
 #quality
 
+result2 = quality.Qualidade.isin([4]).any().any()
+#result
+if result2:
+    print(' ')
+else:
+    quality = quality.append({'Qualidade':4, 'Percent':0}, ignore_index=True)
+
 
 qualidade_calibres = dataset.groupby('Calibre')['Qualidade'].value_counts() / dataset.groupby('Calibre')['Qualidade'].count()
 #qualidade_calibres
@@ -227,6 +236,7 @@ qualidade_calibres2 = pd.pivot_table(dataset, index = ['Calibre','Qualidade'])
 primeira_percent = quality[quality.Qualidade==1].Percent.item()
 segunda_percent = quality[quality.Qualidade==2].Percent.item()
 terceira_percent = quality[quality.Qualidade==3].Percent.item()
+
 refugo_percent = quality[quality.Qualidade==4].Percent.item()
 
 #st.title('Packing House - Linhas de Embalagem')
