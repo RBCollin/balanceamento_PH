@@ -218,12 +218,25 @@ else:
     quality = quality.append({'Qualidade':3, 'Percent':0}, ignore_index=True)
 #quality
 
+
 result2 = quality.Qualidade.isin([4]).any().any()
 #result
 if result2:
     print(' ')
 else:
     quality = quality.append({'Qualidade':4, 'Percent':0}, ignore_index=True)
+
+
+
+result3 = quality.Qualidade.isin([2]).any().any()
+#result
+if result3:
+    print(' ')
+else:
+    quality = quality.append({'Qualidade':2, 'Percent':0}, ignore_index=True)
+
+
+
 
 
 qualidade_calibres = dataset.groupby('Calibre')['Qualidade'].value_counts() / dataset.groupby('Calibre')['Qualidade'].count()
@@ -255,16 +268,11 @@ padrao_embaldeiras_total = pd.read_excel('padrao_embaladeiras_TUDO_cenarios.xlsx
 
 
 
-
-
-
 df_embaladeiras_ativas = st.session_state.url_embala
 
     
 df_222 = df_embaladeiras_ativas.merge(padrao_embaldeiras_total)
 padrao_embaldeiras = df_222
-
-
 
 
 
