@@ -2906,14 +2906,14 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
 
                 if elem == 5.0:
 
-                    kl1 = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
-                    kl1 = round(kl1,0)
+                    #kl1 = ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0]
+                    #kl1 = round(kl1,0)
 
-                    if kl1 == 0:
-                        kl = ceil(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0])
-                    elif kl1 > 0: 
-                        kl = round(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0],0)
-                        kl = kl.astype(int)
+                    #if kl1 == 0:
+                    #    kl = ceil(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0])
+                    #elif kl1 > 0: 
+                    #    kl = round(ccc.loc[ccc.Calibre== elem,'Embaladeiras_1'].values[0],0)
+                    #    kl = kl.astype(int)
                     #kl
                     #ccc
 
@@ -2923,7 +2923,7 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
                     filtro_calibre = padrao_embaldeiras['CALIBRE'] == 5
                     padrao_embaldeiras_palmer = padrao_embaldeiras_palmer[filtro_calibre]
                     #padrao_embaldeiras_palmer.groupby(['CALIBRE','PESSOA'])['mean']
-                    a = padrao_embaldeiras_palmer.groupby(['ID_PESSOA','PESSOA'])['mean'].max().sort_values(ascending=False).head(kl)
+                    a = padrao_embaldeiras_palmer.groupby(['ID_PESSOA','PESSOA'])['mean'].max().sort_values(ascending=False).head(20)
                     a = a.reset_index()
                     a['mean'] = round(a['mean'],0)
                     a = a.rename(columns = {'mean':'Caixas/Hora'})
