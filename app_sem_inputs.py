@@ -9,8 +9,6 @@ from dateutil.parser import parse
 
 st.set_page_config(layout="wide")
 
-with open ('style.css') as f:
-    st.markdown(f'<style>{f.read()}<style>', unsafe_allow_html=True)
 
 coluna_inicial_1, coluna_inicial_2 = st.columns([0.8,1])
 with coluna_inicial_1:
