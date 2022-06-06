@@ -24,8 +24,8 @@ with coluna_inicial_2:
     st.write('')
     st.write('')
     if st.button('Atualizar Controle'):
-        url = 'http://sia:3000/backend/busca_generica/buscaGenerica?view=MGCLI.AGDTI_VW_DX_BALANCEAMENTO_PH'
-        url_embaladeiras_ativas = 'http://sia:3000/backend/busca_generica/buscaGenerica?view=MGCLI.AGDTI_VW_DX_EMB_ATIVAS'
+        url = 'http://177.52.21.58:3000/backend/busca_generica/buscaGenerica?view=MGCLI.AGDTI_VW_DX_BALANCEAMENTO_PH'
+        url_embaladeiras_ativas = 'http://177.52.21.58:3000/backend/busca_generica/buscaGenerica?view=MGCLI.AGDTI_VW_DX_EMB_ATIVAS'
         
 
         variaveis_df = pd.read_json(url)
@@ -202,8 +202,8 @@ with coluna_inicial_2:
     st.write('')
     st.write('')
     if st.button('Atualizar MAF'):
-        url = 'http://sia:3000/backend/busca_generica/buscaGenerica?view=MGCLI.AGDTI_VW_DX_BALANCEAMENTO_PH'
-        url_embaladeiras_ativas = 'http://sia:3000/backend/busca_generica/buscaGenerica?view=MGCLI.AGDTI_VW_DX_EMB_ATIVAS'
+        url = 'http://177.52.21.58:3000/backend/busca_generica/buscaGenerica?view=MGCLI.AGDTI_VW_DX_BALANCEAMENTO_PH'
+        url_embaladeiras_ativas = 'http://177.52.21.58:3000/backend/busca_generica/buscaGenerica?view=MGCLI.AGDTI_VW_DX_EMB_ATIVAS'
         
 
         variaveis_df = pd.read_json(url)
@@ -341,7 +341,7 @@ with coluna_inicial_2:
 
     ################ ALTERAR AQUI DENTRO OS PERCENTUAIS DE CALIBRE EM b ################
 
-        url_percentual_MAF = 'http://sia:3000/backend/maf/percentuaisCalibre'
+        url_percentual_MAF = 'http://177.52.21.58:3000/backend/maf/percentuaisCalibre'
 
         dataset_MAF = pd.read_json(url_percentual_MAF)
         dataset_MAF = dataset_MAF.dropna()
