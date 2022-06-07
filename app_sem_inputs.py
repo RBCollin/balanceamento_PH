@@ -12,18 +12,15 @@ st.set_page_config(layout="wide")
 
 coluna_inicial_1, coluna_inicial_2 = st.columns([0.8,1])
 with coluna_inicial_1:
-    st.title('Packing House - Linhas de Embalagem')
-
-
-
+    st.title('Packing House - Packing Lines')
 
 
 with coluna_inicial_2:
     st.write('')
     st.write('')
-    if st.button('Atualizar Controle'):
-        url = 'http://177.52.21.58:3000/backend/busca_generica/buscaGenerica?view=MGCLI.AGDTI_VW_DX_BALANCEAMENTO_PH'
-        url_embaladeiras_ativas = 'http://177.52.21.58:3000/backend/busca_generica/buscaGenerica?view=MGCLI.AGDTI_VW_DX_EMB_ATIVAS'
+    if st.button('Update Control'):
+        url = 'http://sia:3000/backend/busca_generica/buscaGenerica?view=MGCLI.AGDTI_VW_DX_BALANCEAMENTO_PH'
+        url_embaladeiras_ativas = 'http://sia:3000/backend/busca_generica/buscaGenerica?view=MGCLI.AGDTI_VW_DX_EMB_ATIVAS'
         
 
         variaveis_df = pd.read_json(url)
@@ -199,9 +196,9 @@ with coluna_inicial_2:
 with coluna_inicial_2:
     st.write('')
     st.write('')
-    if st.button('Atualizar MAF'):
-        url = 'http://177.52.21.58:3000/backend/busca_generica/buscaGenerica?view=MGCLI.AGDTI_VW_DX_BALANCEAMENTO_PH'
-        url_embaladeiras_ativas = 'http://177.52.21.58:3000/backend/busca_generica/buscaGenerica?view=MGCLI.AGDTI_VW_DX_EMB_ATIVAS'
+    if st.button('Real-Time Update'):
+        url = 'http://sia:3000/backend/busca_generica/buscaGenerica?view=MGCLI.AGDTI_VW_DX_BALANCEAMENTO_PH'
+        url_embaladeiras_ativas = 'http://sia:3000/backend/busca_generica/buscaGenerica?view=MGCLI.AGDTI_VW_DX_EMB_ATIVAS'
         
 
         variaveis_df = pd.read_json(url)
@@ -339,7 +336,7 @@ with coluna_inicial_2:
 
     ################ ALTERAR AQUI DENTRO OS PERCENTUAIS DE CALIBRE EM b ################
 
-        url_percentual_MAF = 'http://177.52.21.58:3000/backend/maf/percentuaisCalibre'
+        url_percentual_MAF = 'http://sia:3000/backend/maf/percentuaisCalibre'
 
         dataset_MAF = pd.read_json(url_percentual_MAF)
         dataset_MAF = dataset_MAF.dropna()
@@ -671,7 +668,6 @@ VARIEDADE = dataset['Variedade'][0]
 ##### Criando base inicial com os percentuais de calibre
 dataset = dataset 
 
-
 #################################################################################   CORRIGINDO PERCENTUAIS FALTANTES    ####################################################################################################
 
 result_b = b.Calibre.isin([4]).any().any()
@@ -857,13 +853,13 @@ with coluna1:
 
     st.sidebar.image(img2, use_column_width=True)
     st.sidebar.title('Menu')
-    st.sidebar.markdown('Escolha a informação para visualizar:')
+    st.sidebar.markdown('Choose information to view:')
     
 
 
-pagina_selecionada = st.sidebar.radio('', ['Balanceamento e produtividade','Linhas de embalagem','Distribuição embaladeiras'])
+pagina_selecionada = st.sidebar.radio('', ['Balance and productivity','Packing Lines','Packers distribution'])
 
-if pagina_selecionada == 'Balanceamento e produtividade':
+if pagina_selecionada == 'Balance and productivity':
     
     ############## DEFININDO CONTROLE ######################
     #tempo_2 = st.session_state_tempo
@@ -875,11 +871,11 @@ if pagina_selecionada == 'Balanceamento e produtividade':
 
     ############## EXIBINDO MÉTRICA DO CONTROLE ######################
     controle2 = st.session_state.controle
-    colunA.metric(label="Controle", value= controle2, delta= VARIEDADE)
-    colunC.metric(label="MAF (t/h)", value= produtividade_atual) 
+    colunA.metric(label="Control", value= controle2, delta= VARIEDADE)
+    colunC.metric(label="Real Time (ton/hour)", value= produtividade_atual) 
 
     tempo_2 = st.session_state_tempo
-    colunB.metric(label="Intervalo de tempo (min)", value= round(tempo_2,2))
+    colunB.metric(label="Time interval (min)", value= round(tempo_2,2))
     #st.metric(label="MAF", value= produtividade_atual, delta= 't/h')  
 
     col2, col3 = st.columns([0.30,1])
@@ -888,29 +884,29 @@ if pagina_selecionada == 'Balanceamento e produtividade':
 
     ######################################### ALTERANDO PERCENTUAIS    ###############################################
 
-    st.success('#### Ajuste dos percentuais de distribuição')
+    st.success('#### Manual Adjustment')
     coluna_0, coluna_11, coluna_22, coluna_33, coluna_44, coluna_55, coluna_66, coluna_77, coluna_88, coluna_99, coluna_00 = st.columns([0.01,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5])
 
     
-    coluna_11.info('###### Calibre 4')
+    coluna_11.info('###### Caliber 4')
     percent_caliber_4 = coluna_11.text_input(label = '', value = round(percentual_de_4,2))
-    coluna_22.info('###### Calibre 5')
+    coluna_22.info('###### Caliber 5')
     percent_caliber_5 = coluna_22.text_input(label = ' ', value = round(percentual_de_5,2))
-    coluna_33.info('###### Calibre 6')
+    coluna_33.info('###### Caliber 6')
     percent_caliber_6 = coluna_33.text_input(label = '  ', value = round(percentual_de_6,2))
-    coluna_44.info('###### Calibre 7')
+    coluna_44.info('###### Caliber 7')
     percent_caliber_7 = coluna_44.text_input(label = '   ', value = round(percentual_de_7,2))
-    coluna_55.info('###### Calibre 8')
+    coluna_55.info('###### Caliber 8')
     percent_caliber_8 = coluna_55.text_input(label = '    ', value = round(percentual_de_8,2))
-    coluna_66.info('###### Calibre 9')
+    coluna_66.info('###### Caliber 9')
     percent_caliber_9 = coluna_66.text_input(label = '     ', value = round(percentual_de_9,2))
-    coluna_77.info('###### Calibre 10')
+    coluna_77.info('###### Caliber 10')
     percent_caliber_10 = coluna_77.text_input(label = '      ', value = round(percentual_de_10,2))
-    coluna_88.info('###### Calibre 12')
+    coluna_88.info('###### Caliber 12')
     percent_caliber_12 = coluna_88.text_input(label = '       ', value = round(percentual_de_12,2))
-    coluna_99.info('###### Calibre 14')
+    coluna_99.info('###### Caliber 14')
     percent_caliber_14 = coluna_99.text_input(label = '         ', value = round(percentual_de_14,2))
-    coluna_00.info('###### Calibre 16')
+    coluna_00.info('###### Caliber 16')
     percent_caliber_16 = coluna_00.text_input(label = '           ', value = round(percentual_de_16,2))
 
 
@@ -968,7 +964,7 @@ if pagina_selecionada == 'Balanceamento e produtividade':
     
 
 ### BALANCEAMENTO
-    st.success('#### Balanceamento')
+    st.success('#### Line Balancing')
 
     ########################## ALTERANDO PRODUTIVIDADE E TIPO DE EMBALAGEM - COM PAPEL VS SEM PAPEL    #################################
 
@@ -976,39 +972,39 @@ if pagina_selecionada == 'Balanceamento e produtividade':
         
         coluna1_1, coluna2_2,coluna3_3, coluna4_4 = st.columns([0.4,0.05,0.8,1])
         
-        embaladeira_input = coluna1_1.number_input(label = 'Ajuste a quantidade de embaladeiras:', value = emba_aviso  , format = "%d", step = 1)
-        Programa_input_2 = coluna1_1.selectbox('Selecione o período:', ['Entre Safra','Safra'])
-        produtividade_embaladeira_input = coluna1_1.slider('Produtividade Embaladeiras', min_value = 0.1, max_value = 0.99, value = 0.75, step = 0.01)
-        produtividade_talo_input = coluna1_1.slider('Produtividade Corte de Talo', min_value = 0.1, max_value = 0.99, value = 0.80, step = 0.01)
-        produtividade_limpeza_input = coluna1_1.slider('Produtividade da Limpeza', min_value = 0.1, max_value = 0.99, value = 0.75, step = 0.01)
-        produtividade_limpeza2_input = coluna1_1.slider('Produtividade da Seleção', min_value = 0.1, max_value = 0.99, value = 0.75, step = 0.01) 
+        embaladeira_input = coluna1_1.number_input(label = 'Adjust the number of packers:', value = emba_aviso  , format = "%d", step = 1)
+        Programa_input_2 = coluna1_1.selectbox('Select period:', ['Entre Safra','Safra'])
+        produtividade_embaladeira_input = coluna1_1.slider('Packers productivity', min_value = 0.1, max_value = 0.99, value = 0.75, step = 0.01)
+        produtividade_talo_input = coluna1_1.slider('Stem cutting productivity', min_value = 0.1, max_value = 0.99, value = 0.80, step = 0.01)
+        produtividade_limpeza_input = coluna1_1.slider('Cleaning productivity', min_value = 0.1, max_value = 0.99, value = 0.75, step = 0.01)
+        produtividade_limpeza2_input = coluna1_1.slider('Selection productivity', min_value = 0.1, max_value = 0.99, value = 0.75, step = 0.01) 
 
-        st.success('#### Embalagem - (Com ou Sem Papel):')
+        st.success('#### Packing - (With paper or Not):')
 
         colun0, colun, colun2, colun3, colun4, colun5,colun6,colun7,colun8,colun9,colun00 = st.columns([1,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,1])
     
         colun0.write('')
         colun00.write('')
-        colun.info('###### Calibre 4')
-        calibre_4_papel = colun.selectbox(label = '', options = ('Sem','Com'))
-        colun2.info('###### Calibre 5')
-        calibre_5_papel = colun2.selectbox(label = ' ', options = ('Sem','Com'))
-        colun3.info('###### Calibre 6')
-        calibre_6_papel = colun3.selectbox(label = '  ', options = ('Sem','Com'))
-        colun4.info('###### Calibre 7')
-        calibre_7_papel = colun4.selectbox(label = '   ', options = ('Sem','Com'))
-        colun5.info('###### Calibre 8')
-        calibre_8_papel = colun5.selectbox(label = '    ', options = ('Sem','Com'))
-        colun6.info('###### Calibre 9')
-        calibre_9_papel = colun6.selectbox(label = '     ', options = ('Sem','Com'))
-        colun7.info('###### Calibre 10')
-        calibre_10_papel = colun7.selectbox(label = '      ', options = ('Sem','Com'))
-        colun8.info('###### Calibre 12')
-        calibre_12_papel = colun8.selectbox(label = '       ', options = ('Sem','Com'))
-        colun9.info('###### Calibre 14')
-        calibre_14_papel = colun9.selectbox(label = '        ', options = ('Sem','Com'))
+        colun.info('###### Caliber 4')
+        calibre_4_papel = colun.selectbox(label = '', options = ('Not','With'))
+        colun2.info('###### Caliber 5')
+        calibre_5_papel = colun2.selectbox(label = ' ', options = ('Not','With'))
+        colun3.info('###### Caliber 6')
+        calibre_6_papel = colun3.selectbox(label = '  ', options = ('Not','With'))
+        colun4.info('###### Caliber 7')
+        calibre_7_papel = colun4.selectbox(label = '   ', options = ('Not','With'))
+        colun5.info('###### Caliber 8')
+        calibre_8_papel = colun5.selectbox(label = '    ', options = ('Not','With'))
+        colun6.info('###### Caliber 9')
+        calibre_9_papel = colun6.selectbox(label = '     ', options = ('Not','With'))
+        colun7.info('###### Caliber 10')
+        calibre_10_papel = colun7.selectbox(label = '      ', options = ('Not','With'))
+        colun8.info('###### Caliber 12')
+        calibre_12_papel = colun8.selectbox(label = '       ', options = ('Not','With'))
+        colun9.info('###### Caliber 14')
+        calibre_14_papel = colun9.selectbox(label = '        ', options = ('Not','With'))
         
-        button_submit = coluna1_1.form_submit_button('Calcular')
+        button_submit = coluna1_1.form_submit_button('Balance')
 
     if button_submit:
         embaladeira =  embaladeira_input
@@ -1021,123 +1017,123 @@ if pagina_selecionada == 'Balanceamento e produtividade':
 ################################ DEFININDO RITMOS DE EMBALAGEM ###############################
 
     def ritmo(b):
-            if (b['Calibre'] == 5 and variedade == 'Palmer') and (calibre_4_papel == 'Com' or calibre_4_papel == 'Sem'):
+            if (b['Calibre'] == 5 and variedade == 'Palmer') and (calibre_4_papel == 'With' or calibre_4_papel == 'Not'):
                 return 229
-            elif (b['Calibre'] == 4 and variedade == 'Palmer') and (calibre_5_papel == 'Com' or calibre_5_papel == 'Sem'):
+            elif (b['Calibre'] == 4 and variedade == 'Palmer') and (calibre_5_papel == 'With' or calibre_5_papel == 'Not'):
                 return 229
-            elif (b['Calibre'] == 6 and variedade == 'Palmer') and (calibre_6_papel == 'Com' or calibre_6_papel == 'Sem'):
+            elif (b['Calibre'] == 6 and variedade == 'Palmer') and (calibre_6_papel == 'With' or calibre_6_papel == 'Not'):
                 return 169
-            elif (b['Calibre'] == 7 and variedade == 'Palmer') and (calibre_7_papel == 'Com' or calibre_7_papel == 'Sem'):
+            elif (b['Calibre'] == 7 and variedade == 'Palmer') and (calibre_7_papel == 'With' or calibre_7_papel == 'Not'):
                 return 174
-            elif (b['Calibre'] == 8 and variedade == 'Palmer') and (calibre_8_papel == 'Com' or calibre_8_papel == 'Sem'):
+            elif (b['Calibre'] == 8 and variedade == 'Palmer') and (calibre_8_papel == 'With' or calibre_8_papel == 'Not'):
                 return 191
-            elif (b['Calibre'] == 9 and variedade == 'Palmer') and (calibre_9_papel == 'Com' or calibre_9_papel == 'Sem'):
+            elif (b['Calibre'] == 9 and variedade == 'Palmer') and (calibre_9_papel == 'With' or calibre_9_papel == 'Not'):
                 return 157
-            elif (b['Calibre'] == 10 and variedade == 'Palmer') and (calibre_10_papel == 'Com' or calibre_10_papel == 'Sem'):
+            elif (b['Calibre'] == 10 and variedade == 'Palmer') and (calibre_10_papel == 'With' or calibre_10_papel == 'Not'):
                 return 139
-            elif (b['Calibre'] == 12 and variedade == 'Palmer') and (calibre_12_papel == 'Com' or calibre_12_papel == 'Sem'):
+            elif (b['Calibre'] == 12 and variedade == 'Palmer') and (calibre_12_papel == 'With' or calibre_12_papel == 'Not'):
                 return 149
-            elif (b['Calibre'] == 14 and variedade == 'Palmer') and (calibre_14_papel == 'Com' or calibre_14_papel == 'Sem'):
+            elif (b['Calibre'] == 14 and variedade == 'Palmer') and (calibre_14_papel == 'With' or calibre_14_papel == 'Not'):
                 return 85
 
     ###################################################################### Keitt #############################################################
 
-            elif (b['Calibre'] == 5 and calibre_5_papel == 'Sem') and (variedade == 'Keitt' or variedade == 'Omer'):
+            elif (b['Calibre'] == 5 and calibre_5_papel == 'Not') and (variedade == 'Keitt' or variedade == 'Omer'):
                 return 517
-            elif (b['Calibre'] == 4  and calibre_4_papel == 'Sem') and (variedade == 'Keitt' or variedade == 'Omer'):
+            elif (b['Calibre'] == 4  and calibre_4_papel == 'Not') and (variedade == 'Keitt' or variedade == 'Omer'):
                 return 517
-            elif (b['Calibre'] == 6 and calibre_6_papel == 'Sem') and (variedade == 'Keitt' or variedade == 'Omer'):
+            elif (b['Calibre'] == 6 and calibre_6_papel == 'Not') and (variedade == 'Keitt' or variedade == 'Omer'):
                 return 412
-            elif (b['Calibre'] == 7 and calibre_7_papel == 'Sem') and (variedade == 'Keitt' or variedade == 'Omer') :
+            elif (b['Calibre'] == 7 and calibre_7_papel == 'Not') and (variedade == 'Keitt' or variedade == 'Omer') :
                 return 321
-            elif (b['Calibre'] == 8  and calibre_8_papel == 'Sem') and (variedade == 'Keitt' or variedade == 'Omer'):
+            elif (b['Calibre'] == 8  and calibre_8_papel == 'Not') and (variedade == 'Keitt' or variedade == 'Omer'):
                 return 301
-            elif (b['Calibre'] == 9 and calibre_9_papel == 'Sem') and (variedade == 'Keitt' or variedade == 'Omer'):
+            elif (b['Calibre'] == 9 and calibre_9_papel == 'Not') and (variedade == 'Keitt' or variedade == 'Omer'):
                 return 257
-            elif (b['Calibre'] == 10  and calibre_10_papel == 'Sem') and (variedade == 'Keitt' or variedade == 'Omer'):
+            elif (b['Calibre'] == 10  and calibre_10_papel == 'Not') and (variedade == 'Keitt' or variedade == 'Omer'):
                 return 261
-            elif (b['Calibre'] == 12 and calibre_12_papel == 'Sem') and  (variedade == 'Keitt' or variedade == 'Omer'):
+            elif (b['Calibre'] == 12 and calibre_12_papel == 'Not') and  (variedade == 'Keitt' or variedade == 'Omer'):
                 return 253
-            elif (b['Calibre'] == 14  and calibre_14_papel == 'Sem') and (variedade == 'Keitt' or variedade == 'Omer'):
+            elif (b['Calibre'] == 14  and calibre_14_papel == 'Not') and (variedade == 'Keitt' or variedade == 'Omer'):
                 return 220
 
-            elif (b['Calibre'] == 5 and calibre_5_papel == 'Com') and (variedade == 'Keitt' or variedade == 'Omer'):
+            elif (b['Calibre'] == 5 and calibre_5_papel == 'With') and (variedade == 'Keitt' or variedade == 'Omer'):
                 return 235
-            elif (b['Calibre'] == 4 and calibre_4_papel == 'Com') and (variedade == 'Keitt' or variedade == 'Omer'):
+            elif (b['Calibre'] == 4 and calibre_4_papel == 'With') and (variedade == 'Keitt' or variedade == 'Omer'):
                 return 235
-            elif (b['Calibre'] == 6  and calibre_6_papel == 'Com') and (variedade == 'Keitt' or variedade == 'Omer'):
+            elif (b['Calibre'] == 6  and calibre_6_papel == 'With') and (variedade == 'Keitt' or variedade == 'Omer'):
                 return 178
-            elif (b['Calibre'] == 7 and calibre_7_papel == 'Com') and (variedade == 'Keitt' or variedade == 'Omer'):
+            elif (b['Calibre'] == 7 and calibre_7_papel == 'With') and (variedade == 'Keitt' or variedade == 'Omer'):
                 return 185
-            elif (b['Calibre'] == 8 and calibre_8_papel == 'Com') and (variedade == 'Keitt' or variedade == 'Omer'):
+            elif (b['Calibre'] == 8 and calibre_8_papel == 'With') and (variedade == 'Keitt' or variedade == 'Omer'):
                 return 195
-            elif (b['Calibre'] == 9  and calibre_9_papel == 'Com') and (variedade == 'Keitt' or variedade == 'Omer'):
+            elif (b['Calibre'] == 9  and calibre_9_papel == 'With') and (variedade == 'Keitt' or variedade == 'Omer'):
                 return 154
-            elif (b['Calibre'] == 10 and calibre_10_papel == 'Com') and (variedade == 'Keitt' or variedade == 'Omer'):
+            elif (b['Calibre'] == 10 and calibre_10_papel == 'With') and (variedade == 'Keitt' or variedade == 'Omer'):
                 return 144
-            elif (b['Calibre'] == 12 and calibre_12_papel == 'Com') and (variedade == 'Keitt' or variedade == 'Omer'):
+            elif (b['Calibre'] == 12 and calibre_12_papel == 'With') and (variedade == 'Keitt' or variedade == 'Omer'):
                 return 158
-            elif (b['Calibre'] == 14 and calibre_14_papel == 'Com') and (variedade == 'Keitt' or variedade == 'Omer'):
+            elif (b['Calibre'] == 14 and calibre_14_papel == 'With') and (variedade == 'Keitt' or variedade == 'Omer'):
                 return 90
 
     ################################################## Kent #############################################################
     #### Valores da Kent na planilha são iguais ao da Keitt
-    #### Encontrei anteriormente no estudo das embaladerias que o ritmo era bem parecido com o da Keitt porém com pequenas diferenças
+    #### Encontrei anteriormente no estudo das embaladerias que o ritmo era bem parecido With o da Keitt porém With pequenas diferenças
     #### por isso vou considerar os ritmos iguais aos do estudo e não iguais aos da Keitt
 
-            elif (b['Calibre'] == 5 and variedade == 'Kent') and (calibre_5_papel == 'Sem'):
+            elif (b['Calibre'] == 5 and variedade == 'Kent') and (calibre_5_papel == 'Not'):
                 return 510
-            elif (b['Calibre'] == 6 and variedade == 'Kent') and (calibre_6_papel == 'Sem'):
+            elif (b['Calibre'] == 6 and variedade == 'Kent') and (calibre_6_papel == 'Not'):
                 return 410
-            elif (b['Calibre'] == 7 and variedade == 'Kent') and (calibre_7_papel == 'Sem'):
+            elif (b['Calibre'] == 7 and variedade == 'Kent') and (calibre_7_papel == 'Not'):
                 return 314
-            elif (b['Calibre'] == 8 and variedade == 'Kent') and (calibre_8_papel == 'Sem'):
+            elif (b['Calibre'] == 8 and variedade == 'Kent') and (calibre_8_papel == 'Not'):
                 return 300
-            elif (b['Calibre'] == 9 and variedade == 'Kent') and (calibre_9_papel == 'Sem'):
+            elif (b['Calibre'] == 9 and variedade == 'Kent') and (calibre_9_papel == 'Not'):
                 return 253
-            elif (b['Calibre'] == 10 and variedade == 'Kent') and (calibre_10_papel == 'Sem'):
+            elif (b['Calibre'] == 10 and variedade == 'Kent') and (calibre_10_papel == 'Not'):
                 return 248
-            elif (b['Calibre'] == 12 and variedade == 'Kent') and (calibre_12_papel == 'Sem'):
+            elif (b['Calibre'] == 12 and variedade == 'Kent') and (calibre_12_papel == 'Not'):
                 return 246
-            elif (b['Calibre'] == 14 and variedade == 'Kent') and (calibre_14_papel == 'Sem'):
+            elif (b['Calibre'] == 14 and variedade == 'Kent') and (calibre_14_papel == 'Not'):
                 return 200
 
 
-            elif (b['Calibre'] == 5 and variedade == 'Kent') and (calibre_5_papel == 'Com'):
+            elif (b['Calibre'] == 5 and variedade == 'Kent') and (calibre_5_papel == 'With'):
                 return 235
-            elif (b['Calibre'] == 6 and variedade == 'Kent') and (calibre_6_papel == 'Com'):
+            elif (b['Calibre'] == 6 and variedade == 'Kent') and (calibre_6_papel == 'With'):
                 return 178
-            elif (b['Calibre'] == 7 and variedade == 'Kent') and (calibre_7_papel == 'Com'):
+            elif (b['Calibre'] == 7 and variedade == 'Kent') and (calibre_7_papel == 'With'):
                 return 185
-            elif (b['Calibre'] == 8 and variedade == 'Kent') and (calibre_8_papel == 'Com'):
+            elif (b['Calibre'] == 8 and variedade == 'Kent') and (calibre_8_papel == 'With'):
                 return 195
-            elif (b['Calibre'] == 9 and variedade == 'Kent') and (calibre_9_papel == 'Com'):
+            elif (b['Calibre'] == 9 and variedade == 'Kent') and (calibre_9_papel == 'With'):
                 return 154
-            elif (b['Calibre'] == 10 and variedade == 'Kent') and (calibre_10_papel == 'Com'):
+            elif (b['Calibre'] == 10 and variedade == 'Kent') and (calibre_10_papel == 'With'):
                 return 144
-            elif (b['Calibre'] == 12 and variedade == 'Kent') and (calibre_12_papel == 'Com'):
+            elif (b['Calibre'] == 12 and variedade == 'Kent') and (calibre_12_papel == 'With'):
                 return 158
-            elif (b['Calibre'] == 14 and variedade == 'Kent') and (calibre_14_papel == 'Com'):
+            elif (b['Calibre'] == 14 and variedade == 'Kent') and (calibre_14_papel == 'With'):
                 return 90
 
 
     ################################################## Tommy #############################################################
 
-            elif (b['Calibre'] == 5 and variedade == 'Tommy Atkins') and (calibre_5_papel == 'Com' or calibre_5_papel == 'Sem'):
+            elif (b['Calibre'] == 5 and variedade == 'Tommy Atkins') and (calibre_5_papel == 'With' or calibre_5_papel == 'Not'):
                 return 235
-            elif (b['Calibre'] == 6 and variedade == 'Tommy Atkins') and (calibre_6_papel == 'Com' or calibre_6_papel == 'Sem'):
+            elif (b['Calibre'] == 6 and variedade == 'Tommy Atkins') and (calibre_6_papel == 'With' or calibre_6_papel == 'Not'):
                 return 178
-            elif (b['Calibre'] == 7 and variedade == 'Tommy Atkins') and (calibre_7_papel == 'Com' or calibre_7_papel == 'Sem'):
+            elif (b['Calibre'] == 7 and variedade == 'Tommy Atkins') and (calibre_7_papel == 'With' or calibre_7_papel == 'Not'):
                 return 185
-            elif (b['Calibre'] == 8 and variedade == 'Tommy Atkins') and (calibre_8_papel == 'Com' or calibre_8_papel == 'Sem'):
+            elif (b['Calibre'] == 8 and variedade == 'Tommy Atkins') and (calibre_8_papel == 'With' or calibre_8_papel == 'Not'):
                 return 195
-            elif (b['Calibre'] == 9 and variedade == 'Tommy Atkins') and (calibre_9_papel == 'Com' or calibre_9_papel == 'Sem'):
+            elif (b['Calibre'] == 9 and variedade == 'Tommy Atkins') and (calibre_9_papel == 'With' or calibre_9_papel == 'Not'):
                 return 154
-            elif (b['Calibre'] == 10 and variedade == 'Tommy Atkins') and (calibre_10_papel == 'Com' or calibre_10_papel == 'Sem'):
+            elif (b['Calibre'] == 10 and variedade == 'Tommy Atkins') and (calibre_10_papel == 'With' or calibre_10_papel == 'Not'):
                 return 144
-            elif (b['Calibre'] == 12 and variedade == 'Tommy Atkins') and (calibre_12_papel == 'Com' or calibre_12_papel == 'Sem'):
+            elif (b['Calibre'] == 12 and variedade == 'Tommy Atkins') and (calibre_12_papel == 'With' or calibre_12_papel == 'Not'):
                 return 158
-            elif (b['Calibre'] == 14 and variedade == 'Tommy Atkins') and (calibre_14_papel == 'Com' or calibre_14_papel == 'Sem'):
+            elif (b['Calibre'] == 14 and variedade == 'Tommy Atkins') and (calibre_14_papel == 'With' or calibre_14_papel == 'Not'):
                 return 90
             else:
                 return 'NADA'
@@ -1201,11 +1197,11 @@ if pagina_selecionada == 'Balanceamento e produtividade':
             soma = segunda_percent + terceira_percent + refugo_percent                
             selecao_ = round((caixotes_hora * avg_frutos_caixotes * soma / (3501 * produtividade_limpeza2)) + (caixotes_hora * avg_frutos_caixotes * primeira_percent / (6480 * produtividade_limpeza2)))
 
-            st.write('#### Quantidade ideal de pessoas no talo:', corte_talo2)
-            st.write('#### Quantidade de pessoas na seleção:',selecao_ )
-            st.write('#### Quantidade de pessoas na limpeza:', Limpeza_selecao)
-            st.write('#### Capacidade de Caixotes/Hora:', caixotes_hora)
-            st.write('#### Capacidade de Toneladas/Hora:', ton_horas)
+            st.write('#### Optimal number of people to cut the peduncle:', corte_talo2)
+            st.write('#### Optimal number of people in the selection:',selecao_ )
+            st.write('#### Optimal number of people to clean:', Limpeza_selecao)
+            st.write('#### Capacity (Packing Case /hour):', caixotes_hora)
+            st.write('#### Capacity (Ton/hour):', ton_horas)
                     
             st.session_state.caixotes_hora = caixotes_hora
             st.session_state.ton_horas = ton_horas
@@ -1213,7 +1209,7 @@ if pagina_selecionada == 'Balanceamento e produtividade':
     ###################### EXIBIÇÃO DO BALANCEAMENTO ######################
     with coluna4_4:
                 
-                st.write('### Distribuição de calibres:')
+                st.write('### Size distribution')
                 import plotly.graph_objects as go
                 import plotly.express as px
                 #b
@@ -1244,7 +1240,7 @@ if pagina_selecionada == 'Balanceamento e produtividade':
 
                 dataset_33['Percentual'] = dataset_33.apply(ajuste, axis = 1)
 
-                
+                dataset_33 = dataset_33.sort_values(['Calibre'])
 
                 dataset_33['Calibre Name'] = dataset_33['Calibre'].astype(str)
                 #dataset_33
@@ -1262,16 +1258,16 @@ if pagina_selecionada == 'Balanceamento e produtividade':
 
                 fig = go.Figure()
 
-                fig.add_trace(go.Bar(x = dataset_33['Calibre Name'],y = dataset_33['Percentual'], text = c, name = 'Processado'))
+                fig.add_trace(go.Bar(x = dataset_33['Calibre Name'],y = dataset_33['Percentual'], text = c, name = 'Processed'))
 
-                fig.add_trace(go.Bar(x = dataset_33['Calibre Name'],y = dataset_33['Percentual_RECENTE'], text = d, name = 'Recente'))
+                fig.add_trace(go.Bar(x = dataset_33['Calibre Name'],y = dataset_33['Percentual_RECENTE'], text = d, name = 'Recent'))
 
-                fig.update_layout(height = 500, width = 800, uniformtext_mode='show', xaxis_title = "Calibre", font = dict(size = 14))
-                fig.update_traces(textfont_size=20, textangle=0, textposition="outside", cliponaxis=False)
+                fig.update_traces(textposition="outside",textfont_size=14, cliponaxis=False,textangle=0)
+                fig.update_layout(height = 550, width = 850,uniformtext_minsize=10)
                 st.plotly_chart(fig) 
     with coluna3_3:      
 
-                st.write('### Recomendação para balanceamento:')
+                st.write('### Line balance recommendation:')
                 st.markdown('       ')
                 st.markdown('       ')
                 st.markdown('       ')
@@ -1279,13 +1275,11 @@ if pagina_selecionada == 'Balanceamento e produtividade':
                 equilibrio(corte_talo, embaladeira)
 
                 ton_horas = st.session_state.ton_horas
-                colunD.metric(label="Embaladeiras (t/h)", value = ton_horas, delta = round(((ton_horas - produtividade_atual)*100) / 38 ,2)) 
+                colunD.metric(label="Packers (ton/hour)", value = ton_horas, delta = round(((ton_horas - produtividade_atual)*100) / 38 ,2)) 
 
                 
                 caixas_total_controle = b['Caixas_total'].sum()
             
-                
-
                 caixas_total_processadas = st.session_state.cxs_process
                 cxs_recente_process = st.session_state.cxs_recentes 
 
@@ -1298,10 +1292,10 @@ if pagina_selecionada == 'Balanceamento e produtividade':
 
                 mins = round(caixas_restantes * tempo_2 / cxs_recente_process )
 
-                st.write('#### Quantidade de caixas processadas:',round(caixas_total_processadas,2) )
-                st.write('#### Quantidade de caixas restantes:',round(caixas_restantes,2) )
+                st.write('#### Number of boxes processed:',round(caixas_total_processadas,2) )
+                st.write('#### Number of boxes remaining:',round(caixas_restantes,2) )
 
-                st.write('#### Tempo restante (min) - Produtividade MAF:',round(mins,2) )
+                st.write('#### Estimated time remaining (min) - Real-Time productivity:',round(mins,2) )
 
 
                 # st.write('#### Quantidade de horas restantes com a capacidade Caixotes/Hora atual:', horas_restantes)
@@ -1318,7 +1312,7 @@ if pagina_selecionada == 'Balanceamento e produtividade':
     ############################ MAF TEMPO ############################
 
 
-elif pagina_selecionada == 'Linhas de embalagem':
+elif pagina_selecionada == 'Packing Lines':
     
     caixotes_hora = st.session_state.caixotes_hora
     controle2 = st.session_state.controle
@@ -1328,17 +1322,17 @@ elif pagina_selecionada == 'Linhas de embalagem':
 
     col1, col2, col3, col4,col5,col6 = st.columns([0.5,1,1,1,1,1])
     col1.write("")
-    col2.metric(label="Controle", value= controle2, delta= VARIEDADE)
-    col6.metric(label="Caixotes/Hora", value= caixotes_hora, delta= None)
+    col2.metric(label="Control", value= controle2, delta= VARIEDADE)
+    col6.metric(label="Packing Case/hour", value= caixotes_hora, delta= None)
     
     
 
-    col4.metric(label="MAF (t/h)", value= produtividade_atual) 
-    col5.metric(label="Embaladeiras (t/h)", value = ton_horas, delta = round(((ton_horas - produtividade_atual)*100) / 38 ,2))
+    col4.metric(label="Real Time (ton/hour)", value= produtividade_atual) 
+    col5.metric(label="Packers (ton/hour)", value = ton_horas, delta = round(((ton_horas - produtividade_atual)*100) / 38 ,2))
 
 
     tempo_2 = st.session_state_tempo
-    col3.metric(label="Intervalo de tempo (min)", value= round(tempo_2,2))
+    col3.metric(label="Time Interval (min)", value= round(tempo_2,2))
 ###################### DIVISÃO DA TELA EM LINHAS E COLUNAS DE COLUNAS ######################
 
     col11,col22, col33 = st.columns([0.3,0.4,0.4])
@@ -1409,121 +1403,121 @@ elif pagina_selecionada == 'Linhas de embalagem':
     def ritmo(b):
             ########################################### RITMO PALMER ##########################################
 
-            if (b['Calibre'] == 5 and variedade == 'Palmer') and (calibre_4_papel == 'Com' or calibre_4_papel == 'Sem'):
+            if (b['Calibre'] == 5 and variedade == 'Palmer') and (calibre_4_papel == 'With' or calibre_4_papel == 'Not'):
                 return 229
-            elif (b['Calibre'] == 4 and variedade == 'Palmer') and (calibre_5_papel == 'Com' or calibre_5_papel == 'Sem'):
+            elif (b['Calibre'] == 4 and variedade == 'Palmer') and (calibre_5_papel == 'With' or calibre_5_papel == 'Not'):
                 return 229
-            elif (b['Calibre'] == 6 and variedade == 'Palmer') and (calibre_6_papel == 'Com' or calibre_6_papel == 'Sem'):
+            elif (b['Calibre'] == 6 and variedade == 'Palmer') and (calibre_6_papel == 'With' or calibre_6_papel == 'Not'):
                 return 169
-            elif (b['Calibre'] == 7 and variedade == 'Palmer') and (calibre_7_papel == 'Com' or calibre_7_papel == 'Sem'):
+            elif (b['Calibre'] == 7 and variedade == 'Palmer') and (calibre_7_papel == 'With' or calibre_7_papel == 'Not'):
                 return 174
-            elif (b['Calibre'] == 8 and variedade == 'Palmer') and (calibre_8_papel == 'Com' or calibre_8_papel == 'Sem'):
+            elif (b['Calibre'] == 8 and variedade == 'Palmer') and (calibre_8_papel == 'With' or calibre_8_papel == 'Not'):
                 return 191
-            elif (b['Calibre'] == 9 and variedade == 'Palmer') and (calibre_9_papel == 'Com' or calibre_9_papel == 'Sem'):
+            elif (b['Calibre'] == 9 and variedade == 'Palmer') and (calibre_9_papel == 'With' or calibre_9_papel == 'Not'):
                 return 157
-            elif (b['Calibre'] == 10 and variedade == 'Palmer') and (calibre_10_papel == 'Com' or calibre_10_papel == 'Sem'):
+            elif (b['Calibre'] == 10 and variedade == 'Palmer') and (calibre_10_papel == 'With' or calibre_10_papel == 'Not'):
                 return 139
-            elif (b['Calibre'] == 12 and variedade == 'Palmer') and (calibre_12_papel == 'Com' or calibre_12_papel == 'Sem'):
+            elif (b['Calibre'] == 12 and variedade == 'Palmer') and (calibre_12_papel == 'With' or calibre_12_papel == 'Not'):
                 return 149
-            elif (b['Calibre'] == 14 and variedade == 'Palmer') and (calibre_14_papel == 'Com' or calibre_14_papel == 'Sem'):
+            elif (b['Calibre'] == 14 and variedade == 'Palmer') and (calibre_14_papel == 'With' or calibre_14_papel == 'Not'):
                 return 85
 
-            ########################################### RITMO KEITT SEM PAPEL ##########################################
+            ########################################### RITMO KEITT Not PAPEL ##########################################
 
-            elif (b['Calibre'] == 5 and calibre_5_papel == 'Sem') and (variedade == 'Keitt' or variedade == 'Omer'):
+            elif (b['Calibre'] == 5 and calibre_5_papel == 'Not') and (variedade == 'Keitt' or variedade == 'Omer'):
                 return 517
-            elif (b['Calibre'] == 4  and calibre_4_papel == 'Sem') and (variedade == 'Keitt' or variedade == 'Omer'):
+            elif (b['Calibre'] == 4  and calibre_4_papel == 'Not') and (variedade == 'Keitt' or variedade == 'Omer'):
                 return 517
-            elif (b['Calibre'] == 6 and calibre_6_papel == 'Sem') and (variedade == 'Keitt' or variedade == 'Omer'):
+            elif (b['Calibre'] == 6 and calibre_6_papel == 'Not') and (variedade == 'Keitt' or variedade == 'Omer'):
                 return 412
-            elif (b['Calibre'] == 7 and calibre_7_papel == 'Sem') and (variedade == 'Keitt' or variedade == 'Omer') :
+            elif (b['Calibre'] == 7 and calibre_7_papel == 'Not') and (variedade == 'Keitt' or variedade == 'Omer') :
                 return 321
-            elif (b['Calibre'] == 8  and calibre_8_papel == 'Sem') and (variedade == 'Keitt' or variedade == 'Omer'):
+            elif (b['Calibre'] == 8  and calibre_8_papel == 'Not') and (variedade == 'Keitt' or variedade == 'Omer'):
                 return 301
-            elif (b['Calibre'] == 9 and calibre_9_papel == 'Sem') and (variedade == 'Keitt' or variedade == 'Omer'):
+            elif (b['Calibre'] == 9 and calibre_9_papel == 'Not') and (variedade == 'Keitt' or variedade == 'Omer'):
                 return 257
-            elif (b['Calibre'] == 10  and calibre_10_papel == 'Sem') and (variedade == 'Keitt' or variedade == 'Omer'):
+            elif (b['Calibre'] == 10  and calibre_10_papel == 'Not') and (variedade == 'Keitt' or variedade == 'Omer'):
                 return 261
-            elif (b['Calibre'] == 12 and calibre_12_papel == 'Sem') and  (variedade == 'Keitt' or variedade == 'Omer'):
+            elif (b['Calibre'] == 12 and calibre_12_papel == 'Not') and  (variedade == 'Keitt' or variedade == 'Omer'):
                 return 253
-            elif (b['Calibre'] == 14  and calibre_14_papel == 'Sem') and (variedade == 'Keitt' or variedade == 'Omer'):
+            elif (b['Calibre'] == 14  and calibre_14_papel == 'Not') and (variedade == 'Keitt' or variedade == 'Omer'):
                 return 220
 
-            elif (b['Calibre'] == 5 and calibre_5_papel == 'Com') and (variedade == 'Keitt' or variedade == 'Omer'):
+            elif (b['Calibre'] == 5 and calibre_5_papel == 'With') and (variedade == 'Keitt' or variedade == 'Omer'):
                 return 235
-            elif (b['Calibre'] == 4 and calibre_4_papel == 'Com') and (variedade == 'Keitt' or variedade == 'Omer'):
+            elif (b['Calibre'] == 4 and calibre_4_papel == 'With') and (variedade == 'Keitt' or variedade == 'Omer'):
                 return 235
-            elif (b['Calibre'] == 6  and calibre_6_papel == 'Com') and (variedade == 'Keitt' or variedade == 'Omer'):
+            elif (b['Calibre'] == 6  and calibre_6_papel == 'With') and (variedade == 'Keitt' or variedade == 'Omer'):
                 return 178
-            elif (b['Calibre'] == 7 and calibre_7_papel == 'Com') and (variedade == 'Keitt' or variedade == 'Omer'):
+            elif (b['Calibre'] == 7 and calibre_7_papel == 'With') and (variedade == 'Keitt' or variedade == 'Omer'):
                 return 185
-            elif (b['Calibre'] == 8 and calibre_8_papel == 'Com') and (variedade == 'Keitt' or variedade == 'Omer'):
+            elif (b['Calibre'] == 8 and calibre_8_papel == 'With') and (variedade == 'Keitt' or variedade == 'Omer'):
                 return 195
-            elif (b['Calibre'] == 9  and calibre_9_papel == 'Com') and (variedade == 'Keitt' or variedade == 'Omer'):
+            elif (b['Calibre'] == 9  and calibre_9_papel == 'With') and (variedade == 'Keitt' or variedade == 'Omer'):
                 return 154
-            elif (b['Calibre'] == 10 and calibre_10_papel == 'Com') and (variedade == 'Keitt' or variedade == 'Omer'):
+            elif (b['Calibre'] == 10 and calibre_10_papel == 'With') and (variedade == 'Keitt' or variedade == 'Omer'):
                 return 144
-            elif (b['Calibre'] == 12 and calibre_12_papel == 'Com') and (variedade == 'Keitt' or variedade == 'Omer'):
+            elif (b['Calibre'] == 12 and calibre_12_papel == 'With') and (variedade == 'Keitt' or variedade == 'Omer'):
                 return 158
-            elif (b['Calibre'] == 14 and calibre_14_papel == 'Com') and (variedade == 'Keitt' or variedade == 'Omer'):
+            elif (b['Calibre'] == 14 and calibre_14_papel == 'With') and (variedade == 'Keitt' or variedade == 'Omer'):
                 return 90
 
-            ########################################### RITMO KENT SEM PAPEL ##########################################
+            ########################################### RITMO KENT Not PAPEL ##########################################
     
 
-            elif (b['Calibre'] == 5 and variedade == 'Kent') and (calibre_5_papel == 'Sem'):
+            elif (b['Calibre'] == 5 and variedade == 'Kent') and (calibre_5_papel == 'Not'):
                 return 510
-            elif (b['Calibre'] == 6 and variedade == 'Kent') and (calibre_6_papel == 'Sem'):
+            elif (b['Calibre'] == 6 and variedade == 'Kent') and (calibre_6_papel == 'Not'):
                 return 410
-            elif (b['Calibre'] == 7 and variedade == 'Kent') and (calibre_7_papel == 'Sem'):
+            elif (b['Calibre'] == 7 and variedade == 'Kent') and (calibre_7_papel == 'Not'):
                 return 314
-            elif (b['Calibre'] == 8 and variedade == 'Kent') and (calibre_8_papel == 'Sem'):
+            elif (b['Calibre'] == 8 and variedade == 'Kent') and (calibre_8_papel == 'Not'):
                 return 300
-            elif (b['Calibre'] == 9 and variedade == 'Kent') and (calibre_9_papel == 'Sem'):
+            elif (b['Calibre'] == 9 and variedade == 'Kent') and (calibre_9_papel == 'Not'):
                 return 253
-            elif (b['Calibre'] == 10 and variedade == 'Kent') and (calibre_10_papel == 'Sem'):
+            elif (b['Calibre'] == 10 and variedade == 'Kent') and (calibre_10_papel == 'Not'):
                 return 248
-            elif (b['Calibre'] == 12 and variedade == 'Kent') and (calibre_12_papel == 'Sem'):
+            elif (b['Calibre'] == 12 and variedade == 'Kent') and (calibre_12_papel == 'Not'):
                 return 246
-            elif (b['Calibre'] == 14 and variedade == 'Kent') and (calibre_14_papel == 'Sem'):
+            elif (b['Calibre'] == 14 and variedade == 'Kent') and (calibre_14_papel == 'Not'):
                 return 200
 
-            ########################################### RITMO KENT COM PAPEL ##########################################
+            ########################################### RITMO KENT With PAPEL ##########################################
 
-            elif (b['Calibre'] == 5 and variedade == 'Kent') and (calibre_5_papel == 'Com'):
+            elif (b['Calibre'] == 5 and variedade == 'Kent') and (calibre_5_papel == 'With'):
                 return 235
-            elif (b['Calibre'] == 6 and variedade == 'Kent') and (calibre_6_papel == 'Com'):
+            elif (b['Calibre'] == 6 and variedade == 'Kent') and (calibre_6_papel == 'With'):
                 return 178
-            elif (b['Calibre'] == 7 and variedade == 'Kent') and (calibre_7_papel == 'Com'):
+            elif (b['Calibre'] == 7 and variedade == 'Kent') and (calibre_7_papel == 'With'):
                 return 185
-            elif (b['Calibre'] == 8 and variedade == 'Kent') and (calibre_8_papel == 'Com'):
+            elif (b['Calibre'] == 8 and variedade == 'Kent') and (calibre_8_papel == 'With'):
                 return 195
-            elif (b['Calibre'] == 9 and variedade == 'Kent') and (calibre_9_papel == 'Com'):
+            elif (b['Calibre'] == 9 and variedade == 'Kent') and (calibre_9_papel == 'With'):
                 return 154
-            elif (b['Calibre'] == 10 and variedade == 'Kent') and (calibre_10_papel == 'Com'):
+            elif (b['Calibre'] == 10 and variedade == 'Kent') and (calibre_10_papel == 'With'):
                 return 144
-            elif (b['Calibre'] == 12 and variedade == 'Kent') and (calibre_12_papel == 'Com'):
+            elif (b['Calibre'] == 12 and variedade == 'Kent') and (calibre_12_papel == 'With'):
                 return 158
-            elif (b['Calibre'] == 14 and variedade == 'Kent') and (calibre_14_papel == 'Com'):
+            elif (b['Calibre'] == 14 and variedade == 'Kent') and (calibre_14_papel == 'With'):
                 return 90
 
             ########################################### RITMO TOMMY ##########################################
 
-            elif (b['Calibre'] == 5 and variedade == 'Tommy Atkins') and (calibre_5_papel == 'Com' or calibre_5_papel == 'Sem'):
+            elif (b['Calibre'] == 5 and variedade == 'Tommy Atkins') and (calibre_5_papel == 'With' or calibre_5_papel == 'Not'):
                 return 235
-            elif (b['Calibre'] == 6 and variedade == 'Tommy Atkins') and (calibre_6_papel == 'Com' or calibre_6_papel == 'Sem'):
+            elif (b['Calibre'] == 6 and variedade == 'Tommy Atkins') and (calibre_6_papel == 'With' or calibre_6_papel == 'Not'):
                 return 178
-            elif (b['Calibre'] == 7 and variedade == 'Tommy Atkins') and (calibre_7_papel == 'Com' or calibre_7_papel == 'Sem'):
+            elif (b['Calibre'] == 7 and variedade == 'Tommy Atkins') and (calibre_7_papel == 'With' or calibre_7_papel == 'Not'):
                 return 185
-            elif (b['Calibre'] == 8 and variedade == 'Tommy Atkins') and (calibre_8_papel == 'Com' or calibre_8_papel == 'Sem'):
+            elif (b['Calibre'] == 8 and variedade == 'Tommy Atkins') and (calibre_8_papel == 'With' or calibre_8_papel == 'Not'):
                 return 195
-            elif (b['Calibre'] == 9 and variedade == 'Tommy Atkins') and (calibre_9_papel == 'Com' or calibre_9_papel == 'Sem'):
+            elif (b['Calibre'] == 9 and variedade == 'Tommy Atkins') and (calibre_9_papel == 'With' or calibre_9_papel == 'Not'):
                 return 154
-            elif (b['Calibre'] == 10 and variedade == 'Tommy Atkins') and (calibre_10_papel == 'Com' or calibre_10_papel == 'Sem'):
+            elif (b['Calibre'] == 10 and variedade == 'Tommy Atkins') and (calibre_10_papel == 'With' or calibre_10_papel == 'Not'):
                 return 144
-            elif (b['Calibre'] == 12 and variedade == 'Tommy Atkins') and (calibre_12_papel == 'Com' or calibre_12_papel == 'Sem'):
+            elif (b['Calibre'] == 12 and variedade == 'Tommy Atkins') and (calibre_12_papel == 'With' or calibre_12_papel == 'Not'):
                 return 158
-            elif (b['Calibre'] == 14 and variedade == 'Tommy Atkins') and (calibre_14_papel == 'Com' or calibre_14_papel == 'Sem'):
+            elif (b['Calibre'] == 14 and variedade == 'Tommy Atkins') and (calibre_14_papel == 'With' or calibre_14_papel == 'Not'):
                 return 90
             else:
                 return 'NADA'
@@ -2555,24 +2549,29 @@ elif pagina_selecionada == 'Linhas de embalagem':
     quality['Qualidade']= quality['Qualidade'].astype(str)
 
 
+
+
+
+
+
     def rename_b (b):
-        if b['Calibre'] == '4.0':
+        if b['Calibre'] == '4.0' or b['Calibre'] == '4':
             return '4'
-        elif b['Calibre'] == '5.0':
+        elif b['Calibre'] == '5.0' or b['Calibre'] == '5':
             return '5'
-        elif b['Calibre'] == '6.0':
+        elif b['Calibre'] == '6.0' or b['Calibre'] == '6':
             return '6'
-        elif b['Calibre'] == '7.0':
+        elif b['Calibre'] == '7.0' or b['Calibre'] == '7':
             return '7'
-        elif b['Calibre'] == '8.0':
+        elif b['Calibre'] == '8.0' or b['Calibre'] == '8':
             return '8'
-        elif b['Calibre'] == '9.0':
+        elif b['Calibre'] == '9.0' or b['Calibre'] == '9':
             return '9'
-        elif b['Calibre'] == '10.0':
+        elif b['Calibre'] == '10.0' or b['Calibre'] == '10':
             return '10'
-        elif b['Calibre'] == '12.0':
+        elif b['Calibre'] == '12.0' or b['Calibre'] == '12':
             return '12'
-        elif b['Calibre'] == '14.0':
+        elif b['Calibre'] == '14.0' or b['Calibre'] == '14':
             return '14'
     b['Calibre'] = b.apply(rename_b, axis = 1)
         
@@ -2674,7 +2673,7 @@ elif pagina_selecionada == 'Linhas de embalagem':
     with col11:
         ############################## PIZZA DOS PERCENTUAIS ##############################
         st.write("")
-        st.info('##### Percentuais de qualidade:')
+        st.info('##### Quality Percentages:')
 
         fig = go.Figure(data=[go.Pie(labels = quality['Qualidade'], values = quality['Percent'], marker_colors = px.colors.sequential.Emrld ,hole = .35, pull=0.025)])
         fig.update_traces(textinfo='label+percent', textfont_size=15, textposition="inside")
@@ -2686,7 +2685,7 @@ elif pagina_selecionada == 'Linhas de embalagem':
     with col22:
         
         st.write(" ")
-        st.info('##### Quantidade de embaladeiras por setor:')
+        st.info('##### Number of packers per sector:')
 
         df_setores = round(Layout_linha_7.groupby('Setores')['Embaladeiras'].sum(),2)
         df_setores = df_setores.reset_index()
@@ -2702,7 +2701,7 @@ elif pagina_selecionada == 'Linhas de embalagem':
     with col33:
 
         st.write(" ")
-        st.info('##### Quantidade de embaladeiras por linha:')
+        st.info('##### Number of packers per line:')
         
         fig = px.bar(Layout_linha_7, x = 'Linha', y = 'Embaladeiras', color = 'Setores', text = 'Embaladeiras',color_discrete_sequence= px.colors.sequential.Aggrnyl)
         fig.update_layout(height = 450, width = 650, uniformtext_minsize=8, uniformtext_mode='show', font = dict(size = 14))
@@ -2713,7 +2712,7 @@ elif pagina_selecionada == 'Linhas de embalagem':
     ############################## PLANILHA - DETALHES ##############################
     with col2:  
 
-        st.info('##### Informações detalhadas das linhas de embalagem:')
+        st.info('##### Detailed information of packing lines:')
         st.write('_______')
 
         Layout_linha_8 = Layout_linha_7[['Linha','Calibre','Qualidade','Calibre2','Qualidade2','Frutos','Frutos2','Caixas','Caixas2','Embaladeiras','Setores','Embaladeiras_1','Embaladeiras_2']]
@@ -2729,7 +2728,7 @@ elif pagina_selecionada == 'Linhas de embalagem':
         Layout_linha_8.to_excel('Layout_final.xlsx')
         st.download_button( label = 'Baixar Configuração (csv)',data = Layout_linha_8.to_csv(), mime = 'text/csv')
             
-elif pagina_selecionada == 'Distribuição embaladeiras':
+elif pagina_selecionada == 'Packers distribution':
 
     ###################### IMPORT VALORES DAS ABAS PASSADAS ######################
     import plotly.express as px
@@ -2759,17 +2758,17 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
     #col1, col2, col3, col4,col5,col6 = st.columns([1,1,1,1,1,1])
     #col1.write("")
 
-    col1x.metric(label="Controle", value= controle2, delta= VARIEDADE)
-    col6x.metric(label="Caixotes/Hora", value= caixotes_hora, delta= None)
+    col1x.metric(label="Control", value= controle2, delta= VARIEDADE)
+    col6x.metric(label="Packing Case / hour", value= caixotes_hora, delta= None)
     
     
 
-    col3x.metric(label="MAF (t/h)", value= produtividade_atual) 
-    col4x.metric(label="Embaladeiras (t/h)", value = ton_horas, delta = round(((ton_horas - produtividade_atual)*100) / 38 ,2))
+    col3x.metric(label="Real Time (ton/hour)", value= produtividade_atual) 
+    col4x.metric(label="Packers (ton/hour)", value = ton_horas, delta = round(((ton_horas - produtividade_atual)*100) / 38 ,2))
 
 
     tempo_2 = st.session_state_tempo
-    col2x.metric(label="Intervalo de tempo (min)", value= round(tempo_2,2))
+    col2x.metric(label="Time Interval (min)", value= round(tempo_2,2))
 
 
 
@@ -2780,7 +2779,7 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
     colunas1, colunas2 = st.columns([1,0.001])
 
     with colunas1:
-        st.success('### Recomendação de embaladeiras por calibre:')
+        st.success('### Packer recommendation by mango fruit size:')
     colu1, colu2, colu3, colu4  = st.columns(4)
 
     ########################## LAYOUT DAS LIHAS ##########################
@@ -4076,7 +4075,7 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
         Layout_linha_9['Calibre - Qualidade'] = Layout_linha_9['Calibre'] + '-' +Layout_linha_9['Qualidade'] + ' '+ '/' + ' ' + Layout_linha_9['Calibre2'] + '-' + Layout_linha_9['Qualidade2']
         Layout_linha_9['Embaladeiras'] = round(Layout_linha_9['Embaladeiras'],1)
 
-        st.error('##### Embaladeiras por linha de embalagem:')
+        st.error('##### Number of packers per packing line:')
 
         fig4 = px.bar(Layout_linha_9, x = 'Linha', y = 'Embaladeiras', color = 'Calibre - Qualidade', text = 'Embaladeiras',color_discrete_sequence= px.colors.sequential.Oranges, 
         category_orders={"Calibre":['5.0','6.0','7.0','8.0','9.0','10.0','12.0','14.0']}, hover_name = 'Linha')
@@ -4091,30 +4090,30 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
 
         b['Calibre Name'] = b['Calibre'].astype(str)
         def rename_b (b):
-            if b['Calibre Name'] == '4.0':
-                return '4'
-            elif b['Calibre Name'] == '5.0':
-                return '5'
-            elif b['Calibre Name'] == '6.0':
-                return '6'
-            elif b['Calibre Name'] == '7.0':
-                return '7'
-            elif b['Calibre Name'] == '8.0':
-                return '8'
-            elif b['Calibre Name'] == '9.0':
-                return '9'
-            elif b['Calibre Name'] == '10.0':
-                return '10'
-            elif b['Calibre Name'] == '12.0':
-                return '12'
-            elif b['Calibre Name'] == '14.0':
-                return '14'
-        b['Calibre Name'] = b.apply(rename_b, axis = 1)
+                if b['Calibre'] == '4.0' or b['Calibre'] == '4':
+                    return '4'
+                elif b['Calibre'] == '5.0' or b['Calibre'] == '5':
+                    return '5'
+                elif b['Calibre'] == '6.0' or b['Calibre'] == '6':
+                    return '6'
+                elif b['Calibre'] == '7.0' or b['Calibre'] == '7':
+                    return '7'
+                elif b['Calibre'] == '8.0' or b['Calibre'] == '8':
+                    return '8'
+                elif b['Calibre'] == '9.0' or b['Calibre'] == '9':
+                    return '9'
+                elif b['Calibre'] == '10.0' or b['Calibre'] == '10':
+                    return '10'
+                elif b['Calibre'] == '12.0' or b['Calibre'] == '12':
+                    return '12'
+                elif b['Calibre'] == '14.0' or b['Calibre'] == '14':
+                    return '14'
+        b['Calibre'] = b.apply(rename_b, axis = 1)
 ##################################### CALCULO DA QUA
 
 
         c = round(b['Percentual'],2)
-        st.error('##### Concentração de calibres:')
+        st.error('##### Size distribution:')
 
         fig = go.Figure(data=[go.Pie(labels = b['Calibre Name'], values = b['Percentual'], marker_colors = px.colors.sequential.Oranges ,hole = .35, pull=0.01)])
         fig.update_traces(textinfo='label+percent', textfont_size=15, textposition="inside")
@@ -4138,7 +4137,7 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
         ccc2 = ccc.drop(drop_2, inplace = True)
         ccc['Embaladeiras_1'] = round(ccc['Embaladeiras_1'],1)
     
-        st.error('##### Quantidade de embaladeiras por calibre:')
+        st.error('##### Number of packers by mango fruit size:')
 
         fig = px.bar(ccc, y = 'Calibre', x = 'Embaladeiras_1', color = 'Calibre',
         category_orders = {'Calibre':['2.0','5.0','6.0','7.0','8.0','9.0','10.0','12.0','14.0']}, text = 'Embaladeiras_1', color_discrete_sequence= px.colors.sequential.Oranges)
@@ -4150,14 +4149,14 @@ elif pagina_selecionada == 'Distribuição embaladeiras':
 
     conta_delta = round(((100 * ton_horas_embaladeiras) / ton_horas) - 100,1)
 
-    col5x.metric(label="Recomendação (t/h)", value= ton_horas_embaladeiras, delta= conta_delta)
-    st.info('### ER atual vs ER embaladeiras selecionadas')
+    col5x.metric(label="Packers recommendation (ton/hour)", value= ton_horas_embaladeiras, delta= conta_delta)
+    st.info('### Optimization details')
 
-    dataframe = b[['Calibre','Percentual','Caixas_total','Ritmo','Horas_4kg','Ritmo_embaladeira','Horas_4kg_embaladeiras']]
-
+    dataframe = b[['Calibre Name','Percentual','Caixas_total','Ritmo','Horas_4kg','Ritmo_embaladeira','Horas_4kg_embaladeiras']]
+    
     dataframe.rename(columns = {'Ritmo':'Ritmo Atual','Ritmo_embaladeira':'Ritmo Embaladeiras',
                                 'Horas_4kg_embaladeiras':'Horas Embaladeiras','Caixas_total':'Total de caixas',
-                                'Horas_4kg':'Horas Atual'}, inplace = True)
+                                'Horas_4kg':'Horas Atual','Calibre Name':'Calibre'}, inplace = True)
     dataframe['Controle'] = controle2
     dataframe
 
